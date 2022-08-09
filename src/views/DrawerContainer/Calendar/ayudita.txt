@@ -1,0 +1,93 @@
+
+    const sameDate = (a, b) => {
+        return (
+            a instanceof XDate &&
+            b instanceof XDate &&
+            a.getFullYear() === b.getFullYear() &&
+            a.getMonth() === b.getMonth() &&
+            a.getDate() === b.getDate()
+        );
+    }
+            // The list of items that have to be displayed in agenda. If you want to render item as empty date
+            // the value of date key has to be an empty array []. If there exists no value for date key it is
+            // considered that the date in question is not yet loaded
+backgroundColor: '#ffffff',
+    calendarBackground: '#ffffff',
+    textSectionTitleColor: '#b6c1cd',
+    textSectionTitleDisabledColor: '#d9e1e8',
+    selectedDayBackgroundColor: '#00adf5',
+    selectedDayTextColor: '#ffffff',
+    todayTextColor: '#00adf5',
+    dayTextColor: '#2d4150',
+    textDisabledColor: '#d9e1e8',
+    dotColor: '#00adf5',
+    selectedDotColor: '#ffffff',
+    arrowColor: 'orange',
+    disabledArrowColor: '#d9e1e8',
+    monthTextColor: 'blue',
+    indicatorColor: 'blue',
+    textDayFontFamily: 'monospace',
+    textMonthFontFamily: 'monospace',
+    textDayHeaderFontFamily: 'monospace',
+    textDayFontWeight: '300',
+    textMonthFontWeight: 'bold',
+    textDayHeaderFontWeight: '300',
+    textDayFontSize: 16,
+    textMonthFontSize: 16,
+    textDayHeaderFontSize: 16
+-------------------------------------------------------------------------------------------------
+const getMonthData = ()=>{
+    let loadingData = true
+    let dataToReturn = {
+        "2020-06-07":[
+        {name:"Whats up Food Stuff",start:"2020-06-09T13:45:00",end:"2020-06-09 19:45"}
+       ,{name:"Whats up second Stuff",start:"2020-06-09T18:45:00",end:"2020-06-09 21:45"}
+        ],
+
+        "2020-06-08":[
+        {name:"Whats up Food Stuff",start:"2020-06-09T13:45:00",end:"2020-06-09 19:45"}
+       ,{name:"Whats up second Stuff",start:"2020-06-09T18:45:00",end:"2020-06-09 21:45"}
+        ]
+    }
+return [dataToReturn,false]
+}
+
+export default function ThatOneScreen({props, navigation,route}) {
+    const [monthData, loadingData] = getMonthData()
+
+    const renderItem = (item, firstItemInDay) => {
+        console.log('rendering', item)
+        return (
+          <TouchableOpacity>
+            <>
+            <Text style={{color: xtextlink}}>{Moment(item.start).format("hh:mm a")}</Text>
+            <Text style={{color: '#555'}}>{item.name}</Text>
+          </>
+          </TouchableOpacity>
+        );
+      } 
+
+
+if (loadingData || !monthData){
+        return (
+            <View>
+                <Text>Loading</Text>
+            </View>
+        )
+    }
+    return (
+
+        <View style={[styles.bg, theme_bgcolor]}>
+            <Agenda
+                items={monthData}
+                renderItem={(item, firstItemInDay) => { return (renderItem(item, firstItemInDay))}}
+                pastScrollRange={0}
+                futureScrollRange={0}
+                //renderEmptyData={renderEmptyItem}
+                //renderEmptyDate={renderEmptyDate}
+                theme={calendarTheme}
+            />       
+        </View>
+    );
+
+}
