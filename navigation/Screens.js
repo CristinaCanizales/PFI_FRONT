@@ -13,7 +13,6 @@ import CustomDrawerContent from "./Menu";
 import Dashboard from "../screens/Dashboard";
 // screens
 import Home from "../screens/Home";
-import Onboarding from "../screens/Onboarding";
 import Perfil from "../screens/Perfil";
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -172,25 +171,6 @@ function HomeStack(props) {
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />
-    </Stack.Navigator>
-  );
-}
-
-export default function OnboardingStack(props) {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        mode: "card",
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen
-        name="Onboarding"
-        component={Onboarding}
-        option={{
-          headerTransparent: true,
-        }}
-      />
       <Stack.Screen name="App" component={AppStack} />
     </Stack.Navigator>
   );
@@ -277,5 +257,18 @@ function AppStack(props) {
         }}
       />
     </Drawer.Navigator>
+  );
+}
+
+export default function InitialStack(props) {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        mode: "card",
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="App" component={AppStack} />
+    </Stack.Navigator>
   );
 }

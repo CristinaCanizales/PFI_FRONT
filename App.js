@@ -15,13 +15,11 @@ import { Images, articles, argonTheme } from "./constants";
 
 // cache app images
 const assetImages = [
-  Images.Onboarding,
-  Images.LogoOnboarding,
   Images.Logo,
   Images.Pro,
   Images.ArgonLogo,
   Images.iOSLogo,
-  Images.androidLogo
+  Images.androidLogo,
 ];
 
 // cache product images
