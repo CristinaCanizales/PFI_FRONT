@@ -19,7 +19,7 @@ function CustomDrawerContent({
     "Account",
     "Dashboard",
     "Grabaciones",
-    "Presentismo",
+    "CargaDeDatos",
     "Entrenamientos",
   ];
   return (

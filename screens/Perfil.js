@@ -56,13 +56,15 @@ export default function Perfil(props) {
       marginTop: -80,
     },
     avatar: {
-      width: 124,
-      height: 124,
-      borderRadius: 62,
+      width: 150,
+      height: 150,
+      borderRadius: 70,
       borderWidth: 0,
     },
     nameInfo: {
       marginTop: 35,
+      marginLeft: 265,
+      width: 700,
     },
     divider: {
       width: "90%",
@@ -82,42 +84,23 @@ export default function Perfil(props) {
     <Block flex style={styles.profile}>
       <Block flex>
         <ImageBackground
-          source={Images.ProfileBackground}
+          source={require("../assets/imgs/bannerHandball.jpeg")}
           style={styles.profileContainer}
           imageStyle={styles.profileBackground}
         >
           <ScrollView
             showsVerticalScrollIndicator={false}
-            style={{ width, marginTop: "25%" }}
+            style={{ width, marginTop: "20%" }}
           >
             <Block flex style={styles.profileCard}>
               <Block middle style={styles.avatarContainer}>
                 <Image
-                  source={{ uri: Images.ProfilePicture }}
+                  source={require("../assets/icons/agos.jpg")}
                   style={styles.avatar}
                 />
               </Block>
               <Block style={styles.info}>
-                <Block
-                  middle
-                  row
-                  space="evenly"
-                  style={{ marginTop: 20, paddingBottom: 24 }}
-                >
-                  <Button
-                    small
-                    style={{ backgroundColor: argonTheme.COLORS.INFO }}
-                  >
-                    CONNECT
-                  </Button>
-                  <Button
-                    small
-                    style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
-                  >
-                    MESSAGE
-                  </Button>
-                </Block>
-                <Block row space="between">
+                <Block row space="between" style={{ marginTop: 10 }}>
                   <Block middle>
                     <Text
                       bold
@@ -125,103 +108,122 @@ export default function Perfil(props) {
                       color="#525F7F"
                       style={{ marginBottom: 4 }}
                     >
-                      2K
+                      15
                     </Text>
                     <Text size={12} color={argonTheme.COLORS.TEXT}>
-                      Orders
+                      Goles 7m
                     </Text>
                   </Block>
                   <Block middle>
                     <Text
                       bold
-                      color="#525F7F"
                       size={18}
+                      color="#525F7F"
+                      style={{ marginBottom: 4 }}
+                    >
+                      18
+                    </Text>
+                    <Text size={12} color={argonTheme.COLORS.TEXT}>
+                      Goles 6m
+                    </Text>
+                  </Block>
+                  <Block middle>
+                    <Text
+                      bold
+                      size={18}
+                      color="#525F7F"
+                      style={{ marginBottom: 4 }}
+                    >
+                      50
+                    </Text>
+                    <Text size={12} color={argonTheme.COLORS.TEXT}>
+                      Atajadas
+                    </Text>
+                  </Block>
+                  <Block middle>
+                    <Text
+                      bold
+                      size={18}
+                      color="#525F7F"
+                      style={{ marginBottom: 4 }}
+                    >
+                      21
+                    </Text>
+                    <Text size={12} color={argonTheme.COLORS.TEXT}>
+                      Erradas
+                    </Text>
+                  </Block>
+                  <Block middle>
+                    <Text
+                      bold
+                      size={18}
+                      color="#525F7F"
                       style={{ marginBottom: 4 }}
                     >
                       10
                     </Text>
                     <Text size={12} color={argonTheme.COLORS.TEXT}>
-                      Photos
+                      Robadas
                     </Text>
                   </Block>
                   <Block middle>
                     <Text
                       bold
-                      color="#525F7F"
                       size={18}
+                      color="#525F7F"
                       style={{ marginBottom: 4 }}
                     >
-                      89
+                      7
                     </Text>
                     <Text size={12} color={argonTheme.COLORS.TEXT}>
-                      Comments
+                      Paradas
                     </Text>
                   </Block>
                 </Block>
               </Block>
-              <Block flex>
+              <Block row space="between">
                 <Block middle style={styles.nameInfo}>
                   <Text bold size={28} color="#32325D">
-                    Jessica Jones, 27
+                    Agostina Zorzón, 26
                   </Text>
                   <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
-                    San Francisco, USA
+                    Equipo Pakistani Sequelizer
+                  </Text>
+                  <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
+                    Buenos Aires, Argentina
+                  </Text>
+                  <Text
+                    size={16}
+                    color="#525F7F"
+                    style={{ textAlign: "center", marginTop: 10 }}
+                  >
+                    Jugadora #1 de Argentina. Le gusta mucho el gin tonic y ama
+                    a Lola (su perrhija)
                   </Text>
                 </Block>
+                <Block style={{ marginLeft: 10 }}>
+                  <Button
+                    small
+                    style={{
+                      backgroundColor: argonTheme.COLORS.INFO,
+                      marginTop: 40,
+                    }}
+                  >
+                    Editar perfil
+                  </Button>
+                </Block>
+              </Block>
+              <Block>
                 <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
                   <Block style={styles.divider} />
                 </Block>
                 <Block middle>
-                  <Text
-                    size={16}
-                    color="#525F7F"
-                    style={{ textAlign: "center" }}
-                  >
-                    An artist of considerable range, Jessica name taken by
-                    Melbourne …
-                  </Text>
-                  <Button
-                    color="transparent"
-                    textStyle={{
-                      color: "#233DD2",
-                      fontWeight: "500",
-                      fontSize: 16,
-                    }}
-                  >
-                    Show more
-                  </Button>
-                </Block>
-                <Block row space="between">
-                  <Text
-                    bold
-                    size={16}
-                    color="#525F7F"
-                    style={{ marginTop: 12 }}
-                  >
-                    Album
-                  </Text>
-                  <Button
-                    small
-                    color="transparent"
-                    textStyle={{
-                      color: "#5E72E4",
-                      fontSize: 12,
-                      marginLeft: 24,
-                    }}
-                  >
-                    View all
-                  </Button>
-                </Block>
-                <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
-                  <Block row space="between" style={{ flexWrap: "wrap" }}>
-                    {Images.Viewed.map((img, imgIndex) => (
-                      <Image
-                        source={{ uri: img }}
-                        key={`viewed-${img}`}
-                        resizeMode="cover"
-                        style={styles.thumb}
-                      />
-                    ))}
+                  <Block key="qr" style={styles.shadow}>
+                    <Image
+                      resizeMode="cover"
+                      source={require("../assets/imgs/qr.jpeg")}
+                      style={{ height: 300, width: 300 }}
+                    />
                   </Block>
                 </Block>
               </Block>

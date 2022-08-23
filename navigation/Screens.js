@@ -5,7 +5,7 @@ import { argonTheme, tabs } from "../constants";
 
 import Grabaciones from "../screens/Grabaciones";
 import Register from "../screens/Register";
-import Presentismo from "../screens/Presentismo";
+import CargaDeDatos from "../screens/CargaDeDatos";
 import Entrenamientos from "../screens/Entrenamientos";
 import { Block } from "galio-framework";
 // drawer
@@ -60,7 +60,12 @@ function ArticlesStack(props) {
         component={Grabaciones}
         options={{
           header: ({ navigation, scene }) => (
-            <Header title="Grabaciones" navigation={navigation} scene={scene} />
+            <Header
+              title="Grabaciones"
+              search
+              navigation={navigation}
+              scene={scene}
+            />
           ),
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}
@@ -108,11 +113,16 @@ function PresentismoStack(props) {
       }}
     >
       <Stack.Screen
-        name="Presentismo"
-        component={Presentismo}
+        name="CargaDeDatos"
+        component={CargaDeDatos}
         options={{
           header: ({ navigation, scene }) => (
-            <Header title="Presentismo" navigation={navigation} scene={scene} />
+            <Header
+              title="CargaDeDatos"
+              navigation={navigation}
+              scene={scene}
+              showTime
+            />
           ),
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}
@@ -126,7 +136,7 @@ function EntrenamientosStack(props) {
     <Stack.Navigator
       screenOptions={{
         mode: "card",
-        headerShown: false,
+        headerShown: true,
       }}
     >
       <Stack.Screen
@@ -136,6 +146,7 @@ function EntrenamientosStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title="Entrenamientos"
+              search
               navigation={navigation}
               scene={scene}
             />
@@ -243,10 +254,10 @@ function AppStack(props) {
         }}
       />
       <Drawer.Screen
-        name="Presentismo"
+        name="CargaDeDatos"
         component={PresentismoStack}
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
       />
       <Drawer.Screen

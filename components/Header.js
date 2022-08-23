@@ -123,7 +123,7 @@ const Header = (props) => {
         right
         color="black"
         style={styles.search}
-        placeholder="What are you looking for?"
+        placeholder="¿Qué buscas?"
         placeholderTextColor={"#8898AA"}
         onFocus={() => navigation.navigate("Pro")}
         iconContent={

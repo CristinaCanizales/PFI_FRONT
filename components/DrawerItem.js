@@ -75,7 +75,7 @@ export default function DrawerItem(props) {
             color={focused ? "white" : argonTheme.COLORS.INFO}
           />
         );
-      case "Presentismo":
+      case "CargaDeDatos":
         return (
           <Icon
             name="check-bold"
