@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Argon FREE React Native",
+    "name": "My Team Stats",
     "slug": "argon-free-react-native",
     "privacy": "public",
     "platforms": [
@@ -9,10 +9,10 @@
     ],
     "version": "1.7.1",
     "orientation": "landscape",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icons/stats.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "cover",
+      "image": "./assets/icons/stats.png",
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {

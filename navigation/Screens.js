@@ -1,7 +1,7 @@
+import React from "react";
 import { Animated, Dimensions, Easing } from "react-native";
 // header for screens
-import { Header, Icon } from "../components";
-import { argonTheme, tabs } from "../constants";
+import { Header } from "../components";
 
 import Grabaciones from "../screens/Grabaciones";
 import Register from "../screens/Register";
@@ -14,7 +14,6 @@ import Dashboard from "../screens/Dashboard";
 // screens
 import Home from "../screens/Home";
 import Perfil from "../screens/Perfil";
-import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -113,12 +112,12 @@ function PresentismoStack(props) {
       }}
     >
       <Stack.Screen
-        name="CargaDeDatos"
+        name="Carga de Datos"
         component={CargaDeDatos}
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              title="CargaDeDatos"
+              title="Carga de Datos"
               navigation={navigation}
               scene={scene}
               showTime
@@ -194,7 +193,7 @@ function AppStack(props) {
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       drawerStyle={{
         backgroundColor: "white",
-        width: width * 0.8,
+        width: width * 0.4,
       }}
       drawerContentOptions={{
         activeTintcolor: "white",
@@ -233,7 +232,7 @@ function AppStack(props) {
         }}
       />
       <Drawer.Screen
-        name="Account"
+        name="Registro"
         component={Register}
         options={{
           headerShown: false,
@@ -254,7 +253,7 @@ function AppStack(props) {
         }}
       />
       <Drawer.Screen
-        name="CargaDeDatos"
+        name="Carga de Datos"
         component={PresentismoStack}
         options={{
           headerShown: true,

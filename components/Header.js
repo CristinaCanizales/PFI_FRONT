@@ -1,12 +1,17 @@
 import React from 'react';
 import { withNavigation } from '@react-navigation/compat';
-import { TouchableOpacity, StyleSheet, Platform, Dimensions } from 'react-native';
-import { Button, Block, NavBar, Text, theme } from 'galio-framework';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+  Dimensions,
+  Image,
+  Pressable,
+} from "react-native";
+import { Button, Block, NavBar, Text, theme } from "galio-framework";
 
-import Icon from './Icon';
-import Input from './Input';
-import Tabs from './Tabs';
-import argonTheme from '../constants/Theme';
+import Input from "./Input";
+import argonTheme from "../constants/Theme";
 
 const Header = (props) => {
   const { height, width } = Dimensions.get("window");
@@ -80,6 +85,10 @@ const Header = (props) => {
       fontWeight: "400",
       color: argonTheme.COLORS.HEADER,
     },
+    btnIcon: {
+      height: 20,
+      width: 20,
+    },
   });
   const {
     back,
@@ -107,11 +116,9 @@ const Header = (props) => {
         style={[styles.button]}
         onPress={() => navigation.navigate("Pro")}
       >
-        <Icon
-          family="ArgonExtra"
-          size={16}
-          name="bell"
-          color={argonTheme.COLORS[white ? "WHITE" : "ICON"]}
+        <Image
+          source={require("../assets/icons/bell-ring.png")}
+          style={styles.btnIcon}
         />
         <Block middle style={styles.notify} />
       </TouchableOpacity>
@@ -127,11 +134,9 @@ const Header = (props) => {
         placeholderTextColor={"#8898AA"}
         onFocus={() => navigation.navigate("Pro")}
         iconContent={
-          <Icon
-            size={16}
-            color={theme.COLORS.MUTED}
-            name="search-zoom-in"
-            family="ArgonExtra"
+          <Image
+            source={require("../assets/icons/search.png")}
+            style={styles.btnIcon}
           />
         }
       />
@@ -146,14 +151,12 @@ const Header = (props) => {
           onPress={() => navigation.navigate("Pro")}
         >
           <Block row middle>
-            <Icon
-              name="diamond"
-              family="ArgonExtra"
-              style={{ paddingRight: 8 }}
-              color={argonTheme.COLORS.ICON}
+            <Image
+              source={require("../assets/icons/runner.png")}
+              style={[styles.btnIcon, { paddingRight: 8, marginRight: 10 }]}
             />
             <Text size={16} style={styles.tabTitle}>
-              {optionLeft || "Mejor jugador"}
+              {optionLeft || "Mejor partido del año"}
             </Text>
           </Block>
         </Button>
@@ -181,17 +184,16 @@ const Header = (props) => {
         right={renderRight()}
         rightStyle={{ alignItems: "center" }}
         left={
-          <Icon
-            name={back ? "chevron-left" : "menu"}
-            family="entypo"
-            size={20}
-            onPress={handleLeftPress}
-            color={
-              iconColor ||
-              (white ? argonTheme.COLORS.WHITE : argonTheme.COLORS.ICON)
-            }
-            style={{ marginTop: 2 }}
-          />
+          <Pressable onPress={handleLeftPress}>
+            <Image
+              source={
+                back
+                  ? require("../assets/icons/double-chevron.png")
+                  : require("../assets/icons/menu.png")
+              }
+              style={{ height: 30, width: 30, marginTop: 2 }}
+            />
+          </Pressable>
         }
         leftStyle={{ paddingVertical: 12, flex: 0.2 }}
         titleStyle={[

@@ -1,11 +1,11 @@
+import React from "react";
 import { Block, Text, theme } from "galio-framework";
 import { Image, ScrollView, StyleSheet } from "react-native";
 
 import { DrawerItem as DrawerCustomItem } from "../components";
-import Images from "../constants/Images";
-import React from "react";
+import { argonTheme } from "../constants";
 
-function CustomDrawerContent({
+export default function CustomDrawerContent({
   drawerPosition,
   navigation,
   profile,
@@ -13,13 +13,29 @@ function CustomDrawerContent({
   state,
   ...rest
 }) {
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    header: {
+      paddingHorizontal: 28,
+      paddingBottom: theme.SIZES.BASE,
+      paddingTop: theme.SIZES.BASE * 3,
+      justifyContent: "center",
+    },
+    btnIcon: {
+      height: 80,
+      width: 80,
+      marginLeft: 30,
+    },
+  });
   const screens = [
     "Home",
     "Perfil",
-    "Account",
+    "Registro",
     "Dashboard",
     "Grabaciones",
-    "CargaDeDatos",
+    "Carga de Datos",
     "Entrenamientos",
   ];
   return (
@@ -27,8 +43,18 @@ function CustomDrawerContent({
       style={styles.container}
       forceInset={{ top: "always", horizontal: "never" }}
     >
-      <Block flex={0.06} style={styles.header}>
-        <Image styles={styles.logo} source={Images.Logo} />
+      <Block row space="between" flex={0.1} style={styles.header}>
+        <Text
+          h1
+          style={{ marginBottom: theme.SIZES.BASE / 2 }}
+          color={argonTheme.COLORS.DEFAULT}
+        >
+          My Team Stats
+        </Text>
+        <Image
+          source={require("../assets/icons/stats.png")}
+          style={styles.btnIcon}
+        />
       </Block>
       <Block flex style={{ paddingLeft: 8, paddingRight: 14 }}>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
@@ -63,17 +89,3 @@ function CustomDrawerContent({
     </Block>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    paddingHorizontal: 28,
-    paddingBottom: theme.SIZES.BASE,
-    paddingTop: theme.SIZES.BASE * 3,
-    justifyContent: "center",
-  },
-});
-
-export default CustomDrawerContent;

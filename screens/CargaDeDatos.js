@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ModalSelector from "react-native-modal-selector";
 //galio
 import { Block, Text, theme } from "galio-framework";
-import { Button, Header, Icon, Input, Select, Switch } from "../components";
+import { Button, Header, Icon, Input, Switch } from "../components";
 import {
   Dimensions,
   Image,
@@ -17,25 +17,6 @@ import { Images, argonTheme } from "../constants";
 const { width } = Dimensions.get("screen");
 
 const thumbMeasure = (width - 48 - 32) / 3;
-const cardWidth = width - theme.SIZES.BASE * 2;
-const categories = [
-  {
-    title: "Music Album",
-    description:
-      "Rock music is a genre of popular music. It developed during and after the 1960s in the United Kingdom.",
-    image:
-      "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=840&q=80",
-    price: "$125",
-  },
-  {
-    title: "Events",
-    description:
-      "Rock music is a genre of popular music. It developed during and after the 1960s in the United Kingdom.",
-    image:
-      "https://images.unsplash.com/photo-1543747579-795b9c2c3ada?fit=crop&w=840&q=80",
-    price: "$35",
-  },
-];
 
 export default function CargaDeDatos(props) {
   const [time, setTime] = useState(new Date().toLocaleTimeString());
@@ -82,6 +63,10 @@ export default function CargaDeDatos(props) {
       backgroundColor: "skyblue",
       borderRadius: 5,
       borderColor: "blue",
+    },
+    button: {
+      marginBottom: theme.SIZES.BASE,
+      width: 200,
     },
   });
   const { navigation } = props;

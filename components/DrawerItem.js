@@ -1,8 +1,7 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, Linking } from "react-native";
+import { StyleSheet, TouchableOpacity, Linking, Image } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 
-import Icon from "./Icon";
 import argonTheme from "../constants/Theme";
 
 export default function DrawerItem(props) {
@@ -24,6 +23,10 @@ export default function DrawerItem(props) {
       shadowRadius: 8,
       shadowOpacity: 0.1,
     },
+    btnIcon: {
+      height: 25,
+      width: 25,
+    },
   });
 
   const renderIcon = () => {
@@ -32,78 +35,60 @@ export default function DrawerItem(props) {
     switch (title) {
       case "Home":
         return (
-          <Icon
-            name="shop"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : argonTheme.COLORS.PRIMARY}
+          <Image
+            source={require("../assets/icons/home2.png")}
+            style={styles.btnIcon}
           />
         );
       case "Dashboard":
         return (
-          <Icon
-            name="map-big"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : argonTheme.COLORS.ERROR}
+          <Image
+            source={require("../assets/icons/dashboard.png")}
+            style={styles.btnIcon}
           />
         );
       case "Grabaciones":
         return (
-          <Icon
-            name="spaceship"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : argonTheme.COLORS.PRIMARY}
+          <Image
+            source={require("../assets/icons/yoga.png")}
+            style={styles.btnIcon}
           />
         );
       case "Perfil":
         return (
-          <Icon
-            name="chart-pie-35"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : argonTheme.COLORS.WARNING}
+          <Image
+            source={require("../assets/icons/runner.png")}
+            style={styles.btnIcon}
           />
         );
-      case "Account":
+      case "Registro":
         return (
-          <Icon
-            name="calendar-date"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : argonTheme.COLORS.INFO}
+          <Image
+            source={require("../assets/icons/register.png")}
+            style={styles.btnIcon}
           />
         );
-      case "CargaDeDatos":
+      case "Carga de Datos":
         return (
-          <Icon
-            name="check-bold"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : argonTheme.COLORS.INFO}
+          <Image
+            source={require("../assets/icons/upload2.png")}
+            style={styles.btnIcon}
           />
         );
       case "Entrenamientos":
         return (
-          <Icon
-            name="user-run"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : argonTheme.COLORS.INFO}
-          />
-        );
-      case "Dashboard":
-        return (
-          <Icon
-            name="spaceship"
-            family="ArgonExtra"
-            size={14}
-            color={focused ? "white" : "rgba(0,0,0,0.5)"}
+          <Image
+            source={require("../assets/icons/workout.png")}
+            style={styles.btnIcon}
           />
         );
       case "Log out":
-        return <Icon />;
+        return (
+          <Image
+            source={require("../assets/icons/logout.png")}
+            style={styles.btnIcon}
+          />
+        );
       default:
         return null;
     }

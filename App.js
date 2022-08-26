@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { Image } from "react-native";
 import AppLoading from "expo-app-loading";
-import { useFonts } from '@use-expo/font';
+import { useFonts } from "@use-expo/font";
 import { Asset } from "expo-asset";
 import { Block, GalioProvider } from "galio-framework";
 import { NavigationContainer } from "@react-navigation/native";
@@ -23,10 +23,10 @@ const assetImages = [
 ];
 
 // cache product images
-articles.map(article => assetImages.push(article.image));
+articles.map((article) => assetImages.push(article.image));
 
 function cacheImages(images) {
-  return images.map(image => {
+  return images.map((image) => {
     if (typeof image === "string") {
       return Image.prefetch(image);
     } else {
@@ -34,7 +34,6 @@ function cacheImages(images) {
     }
   });
 }
-
 export default props => {
   const [isLoadingComplete, setLoading] = useState(false);
   let [fontsLoaded] = useFonts({

@@ -1,16 +1,18 @@
 // Galio components
 import { Block, Button as GaButton, Text, theme } from "galio-framework";
-import { Button, Header, Icon, Input, Select, Switch } from "../components";
+import { Button, Header, Icon, Input, Switch } from "../components";
 import {
   Dimensions,
   ScrollView,
   StyleSheet,
+  Image,
   TouchableOpacity,
 } from "react-native";
 // Argon themed components
 import { argonTheme, tabs } from "../constants";
 
 import React from "react";
+import TableDemo from "../components/TableDemo.js";
 
 const { width } = Dimensions.get("screen");
 
@@ -22,73 +24,6 @@ class Dashboard extends React.Component {
 
   toggleSwitch = (switchId) =>
     this.setState({ [switchId]: !this.state[switchId] });
-
-  renderButtons = () => {
-    return (
-      <Block flex>
-        <Text bold size={16} style={styles.title}>
-          Buttons
-        </Text>
-        <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-          <Block center>
-            <Button color="default" style={styles.button}>
-              DEFAULT
-            </Button>
-          </Block>
-          <Block center>
-            <Button
-              color="secondary"
-              textStyle={{ color: "black", fontSize: 12, fontWeight: "700" }}
-              style={styles.button}
-            >
-              SECONDARY
-            </Button>
-          </Block>
-          <Block center>
-            <Button style={styles.button}>PRIMARY</Button>
-          </Block>
-          <Block center>
-            <Button color="info" style={styles.button}>
-              INFO
-            </Button>
-          </Block>
-          <Block center>
-            <Button color="success" style={styles.button}>
-              SUCCESS
-            </Button>
-          </Block>
-          <Block center>
-            <Button color="warning" style={styles.button}>
-              WARNING
-            </Button>
-          </Block>
-          <Block center>
-            <Button color="error" style={styles.button}>
-              ERROR
-            </Button>
-          </Block>
-          <Block row space="evenly">
-            <Block flex left style={{ marginTop: 8 }}>
-              <Select
-                defaultIndex={1}
-                options={["01", "02", "03", "04", "05"]}
-              />
-            </Block>
-            <Block flex center>
-              <Button small center color="default" style={styles.optionsButton}>
-                DELETE
-              </Button>
-            </Block>
-            <Block flex={1.25} right>
-              <Button center color="default" style={styles.optionsButton}>
-                SAVE FOR LATER
-              </Button>
-            </Block>
-          </Block>
-        </Block>
-      </Block>
-    );
-  };
 
   renderText = () => {
     return (
@@ -103,34 +38,6 @@ class Dashboard extends React.Component {
             color={argonTheme.COLORS.DEFAULT}
           >
             Heading 1
-          </Text>
-          <Text
-            h2
-            style={{ marginBottom: theme.SIZES.BASE / 2 }}
-            color={argonTheme.COLORS.DEFAULT}
-          >
-            Heading 2
-          </Text>
-          <Text
-            h3
-            style={{ marginBottom: theme.SIZES.BASE / 2 }}
-            color={argonTheme.COLORS.DEFAULT}
-          >
-            Heading 3
-          </Text>
-          <Text
-            h4
-            style={{ marginBottom: theme.SIZES.BASE / 2 }}
-            color={argonTheme.COLORS.DEFAULT}
-          >
-            Heading 4
-          </Text>
-          <Text
-            h5
-            style={{ marginBottom: theme.SIZES.BASE / 2 }}
-            color={argonTheme.COLORS.DEFAULT}
-          >
-            Heading 5
           </Text>
           <Text
             p
@@ -279,84 +186,6 @@ class Dashboard extends React.Component {
     );
   };
 
-  renderTableCell = () => {
-    const { navigation } = this.props;
-    return (
-      <Block flex style={styles.group}>
-        <Text bold size={16} style={styles.title}>
-          Table Cell
-        </Text>
-        <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-          <Block style={styles.rows}>
-            <TouchableOpacity onPress={() => navigation.navigate("Pro")}>
-              <Block row middle space="between" style={{ paddingTop: 7 }}>
-                <Text size={14}>Manage Options</Text>
-                <Icon
-                  name="chevron-right"
-                  family="entypo"
-                  style={{ paddingRight: 5 }}
-                />
-              </Block>
-            </TouchableOpacity>
-          </Block>
-        </Block>
-      </Block>
-    );
-  };
-
-  renderSocial = () => {
-    return (
-      <Block flex style={styles.group}>
-        <Text bold size={16} style={styles.title}>
-          Social
-        </Text>
-        <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
-          <Block row center space="between">
-            <Block flex middle right>
-              <GaButton
-                round
-                onlyIcon
-                shadowless
-                icon="facebook"
-                iconFamily="Font-Awesome"
-                iconColor={theme.COLORS.WHITE}
-                iconSize={theme.SIZES.BASE * 1.625}
-                color={theme.COLORS.FACEBOOK}
-                style={[styles.social, styles.shadow]}
-              />
-            </Block>
-            <Block flex middle center>
-              <GaButton
-                round
-                onlyIcon
-                shadowless
-                icon="twitter"
-                iconFamily="Font-Awesome"
-                iconColor={theme.COLORS.WHITE}
-                iconSize={theme.SIZES.BASE * 1.625}
-                color={theme.COLORS.TWITTER}
-                style={[styles.social, styles.shadow]}
-              />
-            </Block>
-            <Block flex middle left>
-              <GaButton
-                round
-                onlyIcon
-                shadowless
-                icon="dribbble"
-                iconFamily="Font-Awesome"
-                iconColor={theme.COLORS.WHITE}
-                iconSize={theme.SIZES.BASE * 1.625}
-                color={theme.COLORS.DRIBBBLE}
-                style={[styles.social, styles.shadow]}
-              />
-            </Block>
-          </Block>
-        </Block>
-      </Block>
-    );
-  };
-
   renderNavigation = () => {
     return (
       <Block flex style={styles.group}>
@@ -415,13 +244,12 @@ class Dashboard extends React.Component {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 30, width }}
         >
-          {this.renderButtons()}
           {this.renderText()}
           {this.renderInputs()}
-          {this.renderSocial()}
           {this.renderSwitches()}
           {this.renderNavigation()}
-          {this.renderTableCell()}
+          <Image source={require("../assets/Chart.jpeg")} />
+          <TableDemo></TableDemo>
         </ScrollView>
       </Block>
     );
