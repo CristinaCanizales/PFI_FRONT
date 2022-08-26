@@ -12,7 +12,7 @@ import {
 import { argonTheme, tabs } from "../constants";
 
 import React from "react";
-import TableDemo from "../components/TableDemo.js";
+// import TableDemo from "../components/TableDemo.js";
 
 const { width } = Dimensions.get("screen");
 
@@ -249,7 +249,7 @@ class Dashboard extends React.Component {
           {this.renderSwitches()}
           {this.renderNavigation()}
           <Image source={require("../assets/Chart.jpeg")} />
-          <TableDemo></TableDemo>
+          {/* <TableDemo></TableDemo> */}
         </ScrollView>
       </Block>
     );
