@@ -75,6 +75,21 @@ export default function DrawerItem(props) {
             style={styles.btnIcon}
           />
         );
+      case "Presentismo":
+        return (
+          <Image
+            source={require("../assets/icons/attendance.png")}
+            style={styles.btnIcon}
+          />
+        );
+
+      case "Tests físicos":
+        return (
+          <Image
+            source={require("../assets/icons/dumbbell.png")}
+            style={styles.btnIcon}
+          />
+        );
       case "Entrenamientos":
         return (
           <Image

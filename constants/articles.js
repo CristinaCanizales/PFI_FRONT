@@ -1,69 +1,39 @@
 export default [
   {
-    title: "Ice cream is made with carrageenan …",
+    title: "Entrenamientos",
     image:
-      "https://images.unsplash.com/photo-1516559828984-fb3b99548b21?ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
-    cta: "View article",
+      "https://res.cloudinary.com/guariqueteo/image/upload/v1661573240/PFI/workout_lrfsb6.png",
+    cta: "Acceso rápido",
     horizontal: true,
   },
   {
-    title: "Is makeup one of your daily esse …",
+    title: "Dashboard",
     image:
-      "https://images.unsplash.com/photo-1519368358672-25b03afee3bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2004&q=80",
-    cta: "View article",
+      "https://res.cloudinary.com/guariqueteo/image/upload/v1661573254/PFI/dashboard_dvash8.png",
+    cta: "Acceso rápido",
   },
   {
-    title: "Coffee is more than just a drink: Its …",
+    title: "Grabaciones",
     image:
-      "https://images.unsplash.com/photo-1500522144261-ea64433bbe27?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80",
-    cta: "View article",
+      "https://res.cloudinary.com/guariqueteo/image/upload/v1661573743/PFI/yoga_pgzlpz.png",
+    cta: "Acceso rápido",
   },
   {
-    title: "Fashion is a popular style, especially in …",
+    title: "Tests físicos",
     image:
-      "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1326&q=80",
-    cta: "View article",
+      "https://res.cloudinary.com/guariqueteo/image/upload/v1661573250/PFI/dumbbell_dmydx4.png",
+    cta: "Acceso rápido",
   },
   {
-    title: "Argon is a great free UI packag …",
+    title: "Carga de Datos",
     image:
-      "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=1947&q=80",
-    cta: "View article",
-    horizontal: true,
+      "https://res.cloudinary.com/guariqueteo/image/upload/v1661574021/PFI/upload2_axgeui.png",
+    cta: "Acceso rápido",
   },
   {
-    title: "Argon is a great free UI packag …",
+    title: "Presentismo",
     image:
-      "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=1947&q=80",
-    cta: "View article",
-    horizontal: true,
-  },
-  {
-    title: "Argon is a great free UI packag …",
-    image:
-      "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=1947&q=80",
-    cta: "View article",
-    horizontal: true,
-  },
-  {
-    title: "Argon is a great free UI packag …",
-    image:
-      "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=1947&q=80",
-    cta: "View article",
-    horizontal: true,
-  },
-  {
-    title: "Argon is a great free UI packag …",
-    image:
-      "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=1947&q=80",
-    cta: "View article",
-    horizontal: true,
-  },
-  {
-    title: "Argon is a great free UI packag …",
-    image:
-      "https://images.unsplash.com/photo-1482686115713-0fbcaced6e28?fit=crop&w=1947&q=80",
-    cta: "View article",
-    horizontal: true,
+      "https://res.cloudinary.com/guariqueteo/image/upload/v1661575255/PFI/attendance_uzmkpm.png",
+    cta: "Acceso rápido",
   },
 ];

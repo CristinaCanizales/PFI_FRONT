@@ -1,12 +1,18 @@
 import React, { useState } from "react";
-import { StyleSheet, Dimensions, ScrollView } from "react-native";
+import {
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+} from "react-native";
 import { Block, theme } from "galio-framework";
 
 import CardVideo from "../components/CardVideo.js";
 import videos from "../constants/videos";
 const { width } = Dimensions.get("screen");
 
-export default function Home(props) {
+export default function Entrenamientos(props) {
+  const { navigation } = props;
   const [status, setStatus] = useState(0);
   const video = React.useRef(null);
   const styles = StyleSheet.create({
@@ -35,12 +41,22 @@ export default function Home(props) {
         >
           {videos.map((item, index) => {
             return (
-              <Block key={index} style={{ borderRadius: 50 }}>
-                <CardVideo
-                  item={item}
-                  style={{ marginRight: theme.SIZES.BASE }}
-                />
-              </Block>
+              <TouchableOpacity
+                key={index}
+                style={[styles.button]}
+                onPress={() =>
+                  navigation.navigate("Detalle del entrenamiento", {
+                    item: item,
+                  })
+                }
+              >
+                <Block style={{ borderRadius: 50 }}>
+                  <CardVideo
+                    item={item}
+                    style={{ marginRight: theme.SIZES.BASE }}
+                  />
+                </Block>
+              </TouchableOpacity>
             );
           })}
         </Block>

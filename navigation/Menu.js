@@ -36,6 +36,8 @@ export default function CustomDrawerContent({
     "Dashboard",
     "Grabaciones",
     "Carga de Datos",
+    "Presentismo",
+    "Tests físicos",
     "Entrenamientos",
   ];
   return (
@@ -79,11 +81,11 @@ export default function CustomDrawerContent({
                 borderWidth: StyleSheet.hairlineWidth,
               }}
             />
-            <Text color="#8898AA" style={{ marginTop: 16, marginLeft: 8 }}>
+            {/* <Text color="#8898AA" style={{ marginTop: 16, marginLeft: 8 }}>
               Ayuda
-            </Text>
+            </Text> */}
           </Block>
-          <DrawerCustomItem title="Getting Started" navigation={navigation} />
+          <DrawerCustomItem title="Log out" navigation={navigation} />
         </ScrollView>
       </Block>
     </Block>

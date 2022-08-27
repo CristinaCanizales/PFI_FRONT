@@ -244,10 +244,10 @@ class Dashboard extends React.Component {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 30, width }}
         >
-          {this.renderText()}
+          {/* {this.renderText()}
           {this.renderInputs()}
           {this.renderSwitches()}
-          {this.renderNavigation()}
+          {this.renderNavigation()} */}
           <Image source={require("../assets/Chart.jpeg")} />
           {/* <TableDemo></TableDemo> */}
         </ScrollView>

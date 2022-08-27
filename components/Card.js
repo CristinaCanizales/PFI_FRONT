@@ -9,31 +9,40 @@ import { argonTheme } from '../constants';
 
 class Card extends React.Component {
   render() {
-    const { navigation, item, horizontal, full, style, ctaColor, imageStyle } = this.props;
-    
+    const { navigation, item, horizontal, full, style, ctaColor, imageStyle } =
+      this.props;
+
     const imageStyles = [
       full ? styles.fullImage : styles.horizontalImage,
-      imageStyle
+      imageStyle,
     ];
     const cardContainer = [styles.card, styles.shadow, style];
-    const imgContainer = [styles.imageContainer,
+    const imgContainer = [
+      styles.imageContainer,
       horizontal ? styles.horizontalStyles : styles.verticalStyles,
-      styles.shadow
+      styles.shadow,
     ];
 
     return (
       <Block row={horizontal} card flex style={cardContainer}>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+        <Block>
           <Block flex style={imgContainer}>
-            <Image source={{uri: item.image}} style={imageStyles} />
+            <Image source={{ uri: item.image }} style={imageStyles} />
           </Block>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
           <Block flex space="between" style={styles.cardDescription}>
-            <Text size={14} style={styles.cardTitle}>{item.title}</Text>
-            <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold>{item.cta}</Text>
+            <Text h4 style={styles.cardTitle}>
+              {item.title}
+            </Text>
+            <Text
+              size={12}
+              muted={!ctaColor}
+              color={ctaColor || argonTheme.COLORS.ACTIVE}
+              bold
+            >
+              {item.cta}
+            </Text>
           </Block>
-        </TouchableWithoutFeedback>
+        </Block>
       </Block>
     );
   }
@@ -45,35 +54,38 @@ Card.propTypes = {
   full: PropTypes.bool,
   ctaColor: PropTypes.string,
   imageStyle: PropTypes.any,
-}
+};
 
 const styles = StyleSheet.create({
   card: {
     backgroundColor: theme.COLORS.WHITE,
     marginVertical: theme.SIZES.BASE,
     borderWidth: 0,
-    minHeight: 114,
-    marginBottom: 16
+    minHeight: 250,
+    minWidth: 250,
+    marginBottom: 16,
   },
   cardTitle: {
     flex: 1,
-    flexWrap: 'wrap',
-    paddingBottom: 6
+    flexWrap: "wrap",
+    paddingBottom: 6,
+    textAlign: "center",
   },
   cardDescription: {
-    padding: theme.SIZES.BASE / 2
+    padding: theme.SIZES.BASE / 2,
   },
   imageContainer: {
     borderRadius: 3,
     elevation: 1,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   image: {
-    // borderRadius: 3,
+    // height: 250,
+    // width: 250,
   },
   horizontalImage: {
-    height: 122,
-    width: 'auto',
+    height: 250,
+    width: 250,
   },
   horizontalStyles: {
     borderTopRightRadius: 0,
@@ -81,10 +93,10 @@ const styles = StyleSheet.create({
   },
   verticalStyles: {
     borderBottomRightRadius: 0,
-    borderBottomLeftRadius: 0
+    borderBottomLeftRadius: 0,
   },
   fullImage: {
-    height: 215
+    height: 215,
   },
   shadow: {
     shadowColor: theme.COLORS.BLACK,
@@ -92,6 +104,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     shadowOpacity: 0.1,
     elevation: 2,
+    borderRadius: 15,
   },
 });
 

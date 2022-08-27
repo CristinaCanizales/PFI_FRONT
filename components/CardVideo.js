@@ -34,9 +34,6 @@ function CardVideo(props) {
       elevation: 1,
       overflow: "hidden",
     },
-    image: {
-      // borderRadius: 3,
-    },
     horizontalImage: {
       height: 122,
       width: "auto",
@@ -82,36 +79,32 @@ function CardVideo(props) {
 
   return (
     <Block row={horizontal} card flex style={cardContainer}>
-      <TouchableWithoutFeedback onPress={() => navigation.navigate("Pro")}>
-        <Block flex style={imgContainer}>
-          <Video
-            ref={video}
-            style={styles.video}
-            source={{
-              uri: item.video,
-            }}
-            useNativeControls
-            resizeMode="contain"
-            isLooping
-            onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-          />
-        </Block>
-      </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={() => navigation.navigate("Pro")}>
-        <Block flex space="between" style={styles.cardDescription}>
-          <Text size={14} style={styles.cardTitle}>
-            {item.title}
-          </Text>
-          <Text
-            size={12}
-            muted={!ctaColor}
-            color={ctaColor || argonTheme.COLORS.ACTIVE}
-            bold
-          >
-            {item.cta}
-          </Text>
-        </Block>
-      </TouchableWithoutFeedback>
+      <Block flex style={imgContainer}>
+        <Video
+          ref={video}
+          style={styles.video}
+          source={{
+            uri: item.video,
+          }}
+          useNativeControls
+          resizeMode="contain"
+          isLooping
+          onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+        />
+      </Block>
+      <Block flex space="between" style={styles.cardDescription}>
+        <Text size={14} style={styles.cardTitle}>
+          {item.title}
+        </Text>
+        <Text
+          size={12}
+          muted={!ctaColor}
+          color={ctaColor || argonTheme.COLORS.ACTIVE}
+          bold
+        >
+          {item.cta}
+        </Text>
+      </Block>
     </Block>
   );
 }

@@ -160,6 +160,36 @@ const Header = (props) => {
             </Text>
           </Block>
         </Button>
+        <Button
+          shadowless
+          style={[styles.tab, styles.divider]}
+          onPress={() => navigation.navigate("Pro")}
+        >
+          <Block row middle>
+            <Image
+              source={require("../assets/icons/runner.png")}
+              style={[styles.btnIcon, { paddingRight: 8, marginRight: 10 }]}
+            />
+            <Text size={16} style={styles.tabTitle}>
+              {optionLeft || "Último partido ganado"}
+            </Text>
+          </Block>
+        </Button>
+        <Button
+          shadowless
+          style={[styles.tab, styles.divider]}
+          onPress={() => navigation.navigate("Pro")}
+        >
+          <Block row middle>
+            <Image
+              source={require("../assets/icons/runner.png")}
+              style={[styles.btnIcon, { paddingRight: 8, marginRight: 10 }]}
+            />
+            <Text size={16} style={styles.tabTitle}>
+              {optionLeft || "Errores frecuentes en último partido"}
+            </Text>
+          </Block>
+        </Button>
       </Block>
     );
   };

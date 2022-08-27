@@ -1,20 +1,20 @@
 import React from "react";
-import { Animated, Dimensions, Easing } from "react-native";
+import { Dimensions } from "react-native";
 // header for screens
 import { Header } from "../components";
-
-import Grabaciones from "../screens/Grabaciones";
-import Register from "../screens/Register";
-import CargaDeDatos from "../screens/CargaDeDatos";
-import Entrenamientos from "../screens/Entrenamientos";
-import { Block } from "galio-framework";
 // drawer
 import CustomDrawerContent from "./Menu";
-import Dashboard from "../screens/Dashboard";
 // screens
 import Home from "../screens/Home";
 import Perfil from "../screens/Perfil";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Dashboard from "../screens/Dashboard";
+import Grabaciones from "../screens/Grabaciones";
+import Register from "../screens/Register";
+import CargaDeDatos from "../screens/CargaDeDatos";
+import DetalleEntrenamiento from "../screens/DetalleEntrenamiento";
+import Presentismo from "../screens/Presentismo";
+import TestsFisicos from "../screens/TestsFisicos";
+import Entrenamientos from "../screens/Entrenamientos";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -22,9 +22,8 @@ const { width } = Dimensions.get("screen");
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-const Tab = createBottomTabNavigator();
 
-function ElementsStack(props) {
+function DashboardStack(props) {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -46,7 +45,7 @@ function ElementsStack(props) {
   );
 }
 
-function ArticlesStack(props) {
+function GrabacionesStack(props) {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -103,7 +102,7 @@ function ProfileStack(props) {
   );
 }
 
-function PresentismoStack(props) {
+function CargaDeDatosStack(props) {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -157,6 +156,87 @@ function EntrenamientosStack(props) {
   );
 }
 
+function DetalleEntrenamientoStack(props) {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        mode: "card",
+        headerShown: true,
+      }}
+    >
+      <Stack.Screen
+        name="Detalle del entrenamiento"
+        component={DetalleEntrenamiento}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Detalle del entrenamiento"
+              search
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function PresentismoStack(props) {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        mode: "card",
+        headerShown: "screen",
+      }}
+    >
+      <Stack.Screen
+        name="Presentismo"
+        component={Presentismo}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Presentismo"
+              search
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function TestsFisicosStack(props) {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        mode: "card",
+        headerShown: "screen",
+      }}
+    >
+      <Stack.Screen
+        name="Tests físicos"
+        component={TestsFisicos}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Tests físicos"
+              search
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function HomeStack(props) {
   return (
     <Stack.Navigator
@@ -181,7 +261,6 @@ function HomeStack(props) {
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}
       />
-      <Stack.Screen name="App" component={AppStack} />
     </Stack.Navigator>
   );
 }
@@ -240,21 +319,21 @@ function AppStack(props) {
       />
       <Drawer.Screen
         name="Dashboard"
-        component={ElementsStack}
+        component={DashboardStack}
         options={{
           headerShown: false,
         }}
       />
       <Drawer.Screen
         name="Grabaciones"
-        component={ArticlesStack}
+        component={GrabacionesStack}
         options={{
           headerShown: false,
         }}
       />
       <Drawer.Screen
         name="Carga de Datos"
-        component={PresentismoStack}
+        component={CargaDeDatosStack}
         options={{
           headerShown: true,
         }}
@@ -262,6 +341,27 @@ function AppStack(props) {
       <Drawer.Screen
         name="Entrenamientos"
         component={EntrenamientosStack}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Drawer.Screen
+        name="Detalle del entrenamiento"
+        component={DetalleEntrenamientoStack}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Drawer.Screen
+        name="Presentismo"
+        component={PresentismoStack}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Drawer.Screen
+        name="Tests físicos"
+        component={TestsFisicosStack}
         options={{
           headerShown: false,
         }}
