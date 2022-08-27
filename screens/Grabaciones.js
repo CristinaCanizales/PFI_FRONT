@@ -8,7 +8,7 @@ import {
 import { Block, theme } from "galio-framework";
 
 import CardVideo from "../components/CardVideo.js";
-import videos from "../constants/videos";
+import videos from "../constants/grabacionesVideos";
 const { width } = Dimensions.get("screen");
 
 export default function Grabaciones(props) {

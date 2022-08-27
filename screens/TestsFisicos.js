@@ -25,20 +25,35 @@ export default function TestsFisicos({ route }) {
     cardTitle: {
       flex: 1,
       flexWrap: "wrap",
+      marginBottom: 15,
     },
     video: {
       height: 500,
       width: 600,
     },
+    divider: {
+      width: "90%",
+      borderWidth: 2,
+      borderColor: "#E9ECEF",
+    },
   });
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Block flex center style={styles.cardDescription}>
-        <Text h1 style={styles.cardTitle}>
-          {item.title}
-        </Text>
         <Text h4 style={styles.cardTitle}>
-          Triceps con polea
+          Resultados resistencia
+        </Text>
+        <Block style={styles.divider} />
+        <Text h4 style={styles.cardTitle}>
+          Resultados salto en alto
+        </Text>
+        <Block style={styles.divider} />
+        <Text h4 style={styles.cardTitle}>
+          Resultados salto en largo
+        </Text>
+        <Block style={styles.divider} />
+        <Text h4 style={styles.cardTitle}>
+          Resultados velocidad
         </Text>
       </Block>
     </ScrollView>
