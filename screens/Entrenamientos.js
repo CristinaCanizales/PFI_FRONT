@@ -46,7 +46,8 @@ export default function Entrenamientos(props) {
                 style={[styles.button]}
                 onPress={() =>
                   navigation.navigate("Detalle del entrenamiento", {
-                    item: item,
+                    screen: "Detalle del entrenamiento",
+                    params: { item: item },
                   })
                 }
               >

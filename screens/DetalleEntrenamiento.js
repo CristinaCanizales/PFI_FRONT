@@ -9,8 +9,7 @@ const { width } = Dimensions.get("screen");
 import { argonTheme } from "../constants";
 
 export default function DetalleEntrenamiento({ route }) {
-  // const { item } = route.params;
-  const item = videos[0];
+  const { item } = route.params;
   const [status, setStatus] = useState(0);
   const video = React.useRef(null);
   const styles = StyleSheet.create({

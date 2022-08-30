@@ -134,7 +134,7 @@ function EntrenamientosStack(props) {
     <Stack.Navigator
       screenOptions={{
         mode: "card",
-        headerShown: true,
+        headerShown: false,
       }}
     >
       <Stack.Screen
@@ -161,7 +161,7 @@ function DetalleEntrenamientoStack(props) {
     <Stack.Navigator
       screenOptions={{
         mode: "card",
-        headerShown: true,
+        headerShown: false,
       }}
     >
       <Stack.Screen
@@ -335,7 +335,7 @@ function AppStack(props) {
         name="Carga de Datos"
         component={CargaDeDatosStack}
         options={{
-          headerShown: true,
+          headerShown: false,
         }}
       />
       <Drawer.Screen
