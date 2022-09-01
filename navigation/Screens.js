@@ -28,7 +28,7 @@ function DashboardStack(props) {
     <Stack.Navigator
       screenOptions={{
         mode: "card",
-        headerShown: false,
+        headerShown: true,
       }}
     >
       <Stack.Screen
@@ -36,7 +36,12 @@ function DashboardStack(props) {
         component={Dashboard}
         options={{
           header: ({ navigation, scene }) => (
-            <Header title="Dashboard" navigation={navigation} scene={scene} />
+            <Header
+              title="Dashboard"
+              back
+              navigation={navigation}
+              scene={scene}
+            />
           ),
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}
@@ -59,6 +64,7 @@ function GrabacionesStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
+              back
               title="Grabaciones"
               search
               navigation={navigation}
@@ -87,6 +93,7 @@ function ProfileStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
+              back
               transparent
               white
               title="Perfil"
@@ -107,7 +114,7 @@ function CargaDeDatosStack(props) {
     <Stack.Navigator
       screenOptions={{
         mode: "card",
-        headerShown: false,
+        headerShown: true,
       }}
     >
       <Stack.Screen
@@ -116,10 +123,10 @@ function CargaDeDatosStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
+              back
               title="Carga de Datos"
               navigation={navigation}
               scene={scene}
-              showTime
             />
           ),
           cardStyle: { backgroundColor: "#F8F9FE" },
@@ -134,7 +141,7 @@ function EntrenamientosStack(props) {
     <Stack.Navigator
       screenOptions={{
         mode: "card",
-        headerShown: false,
+        headerShown: true,
       }}
     >
       <Stack.Screen
@@ -143,6 +150,7 @@ function EntrenamientosStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
+              back
               title="Entrenamientos"
               search
               navigation={navigation}
@@ -161,7 +169,7 @@ function DetalleEntrenamientoStack(props) {
     <Stack.Navigator
       screenOptions={{
         mode: "card",
-        headerShown: false,
+        headerShown: true,
       }}
     >
       <Stack.Screen
@@ -170,8 +178,8 @@ function DetalleEntrenamientoStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
+              back
               title="Detalle del entrenamiento"
-              search
               navigation={navigation}
               scene={scene}
             />
@@ -197,6 +205,7 @@ function PresentismoStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
+              back
               title="Presentismo"
               search
               navigation={navigation}
@@ -224,6 +233,7 @@ function TestsFisicosStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
+              back
               title="Tests físicos"
               search
               navigation={navigation}

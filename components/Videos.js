@@ -1,33 +1,51 @@
 import React, { useContext, useState } from "react";
 
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View, StyleSheet, Image } from "react-native";
 import { Button, Input } from "../components";
 import ModalSelector from "react-native-modal-selector";
 import * as ImagePicker from "expo-image-picker";
-import styles from "./styles";
 import mime from "mime";
+//galio
+import { Block, Text } from "galio-framework";
+// Argon themed components
+import { argonTheme } from "../constants";
 
 export default function Videos(props) {
-  const [nombre, setNombre] = useState("");
+  const [titulo, setTitulo] = useState("");
   const [tipo, setTipo] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [imagenes, setImagenes] = useState([]);
-  const [artista, setArtista] = useState("");
+  const [detalleRutina, setDetalleRutina] = useState("");
   const [fecha, setFecha] = useState("");
-  const [contexto, setContexto] = useState("");
-  const [duenio, setDuenio] = useState("");
-  const [curiosidades, setCuriosidades] = useState("");
-  const [disenador, setDisenador] = useState("");
-  const [currentUser, setCurrentUser] = useState({});
+  const [categoria, setCategoria] = useState("");
+  const [videos, setVideos] = useState([]);
   const [url, setUrl] = useState("");
-
+  const styles = StyleSheet.create({
+    modalSelector: {
+      justifyContent: "space-around",
+      alignSelf: "center",
+      width: 300,
+      height: 40,
+      backgroundColor: "#9bdcfa",
+      borderRadius: 5,
+    },
+    buttonVideo: {
+      borderRadius: 10,
+      alignSelf: "center",
+      width: 200,
+      height: 200,
+    },
+    button: {
+      borderRadius: 20,
+      backgroundColor: "#9bdcfa",
+      textAlign: "center",
+      width: 180,
+      alignSelf: "center",
+      margin: 10,
+    },
+  });
   const checkTextInput = (e) => {
-    if (!nombre.trim()) {
-      alert("Por favor, ingrese nombre del producto");
-      return;
-    }
-    if (!descripcion.trim()) {
-      alert("Por favor, ingrese descripcion del producto");
+    if (!titulo.trim()) {
+      alert("Por favor, ingrese el titulo del video");
       return;
     }
     handleButtonClick();
@@ -55,22 +73,19 @@ export default function Videos(props) {
       .then((response) => response.json())
       .then((data) => {
         console.log("===>" + JSON.stringify(data));
-        setImagenes(data.url);
+        setVideos(data.url);
       });
   }
 
   function handleButtonClick() {
-    console.log(imagenes);
-    const descr =
-      tipo != "Arte" && tipo != "Objetos de diseñador"
-        ? descripcion
-        : artista + disenador + fecha + contexto + duenio + curiosidades;
+    console.log(videos);
     const nuevoProducto = {
-      descripcionCatalogo: nombre,
+      tituloVideo: titulo,
       tipo: tipo,
-      descripcionCompleta: descr,
-      foto: imagenes,
-      duenio: currentUser?.idCliente,
+      categoria: categoria,
+      detalleRutina: detalleRutina,
+      fecha: fecha,
+      video: videos,
     };
     fetch(url + "productos", {
       method: "POST",
@@ -85,7 +100,7 @@ export default function Videos(props) {
         return response.json();
       })
       .then((data) => {
-        console.log("cargue el producto!" + JSON.stringify(data));
+        console.log("cargue el video!" + JSON.stringify(data));
       });
   }
 
@@ -105,75 +120,142 @@ export default function Videos(props) {
     }
   };
   return (
-    <ScrollView style={styles.mainContainer}>
-      <View style={{ flex: 1, justifyContent: "space-around" }}>
-        <Text style={styles.title}>Título:</Text>
-        <Input borderless placeholder="Título" iconContent={<></>} />
-        <Text style={styles.title}>Tipo de video:</Text>
-        <ModalSelector
-          data={[
-            { key: 0, label: "Entrenamiento" },
-            { key: 1, label: "Grabación" },
-          ]}
-          overlayStyle={{ backgroundColor: "transparent" }}
-          initValue="Seleccionar tipo de video"
-          margin="50"
-          style={styles.modalSelector}
-          type="solid"
-          key={tipo}
-          onChange={(texto) => {
-            setTipo(texto.label);
-          }}
-          initValueTextStyle={{
-            fontWeight: "bold",
-            color: "black",
-          }}
-          optionTextStyle={{ color: "black" }}
-          optionContainerStyle={{
-            width: 400,
-            alignSelf: "center",
-          }}
-          cancelContainerStyle={{ width: 400, alignSelf: "center" }}
-          backdropPressToClose={true}
-          cancelText="Cancelar"
-        />
+    <ScrollView>
+      <View style={{ marginTop: 20 }}>
+        <Block center row style={{ marginBottom: 10 }}>
+          <Text h5 style={{ marginRight: 20 }}>
+            Título:
+          </Text>
+          <Input
+            placeholder="..."
+            style={{
+              borderColor: argonTheme.COLORS.INFO,
+              borderRadius: 5,
+              backgroundColor: "#fff",
+              width: 400,
+              alignSelf: "center",
+            }}
+            iconContent={<Block />}
+            onChangeText={(text) => setTitulo(text)}
+            value={titulo}
+          />
+        </Block>
+        <Block center row style={{ marginBottom: 10 }}>
+          <Text h5 style={{ marginRight: 20 }}>
+            Tipo de video:
+          </Text>
+          <ModalSelector
+            data={[
+              { key: 0, label: "Entrenamiento" },
+              { key: 1, label: "Grabación" },
+            ]}
+            overlayStyle={{ backgroundColor: "transparent" }}
+            initValue="Seleccionar tipo de video"
+            margin="50"
+            style={styles.modalSelector}
+            type="solid"
+            key={tipo}
+            onChange={(texto) => {
+              setTipo(texto.label);
+            }}
+            initValueTextStyle={{
+              fontWeight: "500",
+              color: "black",
+            }}
+            optionTextStyle={{ color: "black" }}
+            optionContainerStyle={{
+              backgroundColor: "white",
+              width: 400,
+              alignSelf: "center",
+              borderColor: "#9bdcfa",
+            }}
+            cancelContainerStyle={{
+              backgroundColor: "#9bdcfa",
+              width: 400,
+              alignSelf: "center",
+            }}
+            backdropPressToClose={true}
+            cancelText="Cancelar"
+          />
+        </Block>
 
-        <Text style={styles.title}>Descripción:</Text>
-        <Input borderless placeholder="Descripción" iconContent={<></>} />
+        <Block center row style={{ marginBottom: 10 }}>
+          <Text h5 style={{ marginRight: 20 }}>
+            Categoría:
+          </Text>
+          <Input
+            placeholder="..."
+            style={{
+              borderColor: argonTheme.COLORS.INFO,
+              borderRadius: 5,
+              backgroundColor: "#fff",
+              width: 400,
+              alignSelf: "center",
+            }}
+            iconContent={<></>}
+            onChangeText={(text) => setCategoria(text)}
+            value={categoria}
+          />
+        </Block>
 
-        <Text style={styles.title}>Fecha:</Text>
-        <Input borderless placeholder="Nombre" iconContent={<></>} />
+        <Block center row style={{ marginBottom: 10 }}>
+          <Text h5 style={{ marginRight: 20 }}>
+            Fecha:
+          </Text>
+          <Input
+            placeholder="..."
+            style={{
+              borderColor: argonTheme.COLORS.INFO,
+              borderRadius: 5,
+              backgroundColor: "#fff",
+              width: 400,
+              alignSelf: "center",
+            }}
+            iconContent={<></>}
+            onChangeText={(text) => setFecha(text)}
+            value={fecha}
+          />
+        </Block>
 
         {tipo === "Entrenamiento" && (
           <>
-            {/* <TextInput
-              style={styles.input}
-              onChangeText={(text) => setArtista(text)}
-              value={artista}
-            /> */}
-
-            <Text style={styles.title}>Detalle rutina:</Text>
-            <Input
-              borderless
-              placeholder="Detalle rutina"
-              iconContent={<></>}
-            />
+            <Block center style={{ marginBottom: 10 }}>
+              <Text h5>Detalle rutina:</Text>
+              <Input
+                placeholder="..."
+                style={{ width: 600, minHeight: 150 }}
+                multiline={true}
+                borderless
+                iconContent={<></>}
+                onChangeText={(text) => setDetalleRutina(text)}
+                value={detalleRutina}
+              />
+            </Block>
           </>
         )}
 
-        <Text style={styles.title}>Video:</Text>
+        <Text center h4>
+          Video:
+        </Text>
         <Button
           title="+"
-          style={styles.btnimage}
+          style={styles.buttonVideo}
           onPress={pickImage}
           color="#9FCAF5"
-        />
+        >
+          <Image
+            source={require("../assets/icons/yoga.png")}
+            style={styles.buttonVideo}
+          />
+        </Button>
 
         <Button
-          title="Aceptar"
-          style={styles.buttonLogin}
+          style={styles.button}
+          textStyle={{ fontSize: 25, fontWeight: "500", color: "black" }}
           onPress={checkTextInput}
-        />
+        >
+          Subir video
+        </Button>
       </View>
     </ScrollView>
   );

@@ -1,59 +1,17 @@
 import React, { useState } from "react";
-import ModalSelector from "react-native-modal-selector";
 //galio
-import { Block, theme } from "galio-framework";
-import { Button, Datos, Videos } from "../components";
-import { Dimensions, ScrollView, StyleSheet } from "react-native";
+import { theme } from "galio-framework";
+import { Datos, TestsFisicos, Videos } from "../components";
+import { Dimensions, StyleSheet } from "react-native";
 //argon
-import { argonTheme } from "../constants";
 import { Tab, Text, TabView } from "@rneui/themed";
 
 const { width } = Dimensions.get("screen");
 
-const thumbMeasure = (width - 48 - 32) / 3;
-
 export default function CargaDeDatos(props) {
-  const [seleccionado, setSeleccionado] = useState("");
   const [index, setIndex] = useState(0);
 
-  const styles = StyleSheet.create({
-    group: {
-      paddingTop: 10,
-    },
-    divider: {
-      width: "90%",
-      borderWidth: 1,
-      borderColor: "#E9ECEF",
-    },
-    modalSelector: {
-      justifyContent: "space-around",
-      padding: 5,
-      alignSelf: "center",
-      width: 300,
-      height: 50,
-      backgroundColor: "skyblue",
-      borderRadius: 5,
-      borderColor: "blue",
-    },
-    button: {
-      marginBottom: theme.SIZES.BASE,
-      width: 200,
-    },
-  });
   const { navigation } = props;
-  let indexDeporte = 0;
-  const deportes = [
-    { key: indexDeporte++, label: "Balonmano" },
-    { key: indexDeporte++, label: "Vóleibol" },
-    { key: indexDeporte++, label: "Fútbol 5" },
-  ];
-  let indexJugadores = 0;
-  const jugadores = [
-    { key: indexJugadores++, label: "Agostina Zorzón" },
-    { key: indexJugadores++, label: "Cristina Cañizales" },
-    { key: indexJugadores++, label: "Nicolás Dominguez" },
-    { key: indexJugadores++, label: "Pierina Tufillaro" },
-  ];
   return (
     <>
       <Tab
@@ -67,22 +25,25 @@ export default function CargaDeDatos(props) {
       >
         <Tab.Item
           title="Datos"
-          titleStyle={{ fontSize: 15 }}
+          titleStyle={{ fontSize: 15, color: "black" }}
+          buttonStyle={{ backgroundColor: "#9bdcfa" }}
           icon={{
-            name: "stats-chart-outline",
+            name: "stats-chart",
             type: "ionicon",
-            color: "white",
+            color: "black",
           }}
         />
         <Tab.Item
           title="Videos"
-          titleStyle={{ fontSize: 15 }}
-          icon={{ name: "videocam-outline", type: "ionicon", color: "white" }}
+          titleStyle={{ fontSize: 15, color: "black" }}
+          buttonStyle={{ backgroundColor: "#9bdcfa" }}
+          icon={{ name: "videocam", type: "ionicon", color: "black" }}
         />
         <Tab.Item
           title="Tests físicos"
-          titleStyle={{ fontSize: 15 }}
-          icon={{ name: "barbell-outline", type: "ionicon", color: "white" }}
+          titleStyle={{ fontSize: 15, color: "black" }}
+          buttonStyle={{ backgroundColor: "#9bdcfa" }}
+          icon={{ name: "barbell", type: "ionicon", color: "black" }}
         />
       </Tab>
 
@@ -93,8 +54,8 @@ export default function CargaDeDatos(props) {
         <TabView.Item style={{ width: "100%" }}>
           <Videos />
         </TabView.Item>
-        <TabView.Item style={{ backgroundColor: "green", width: "100%" }}>
-          <Text h1>Cart</Text>
+        <TabView.Item style={{ width: "100%" }}>
+          <TestsFisicos />
         </TabView.Item>
       </TabView>
     </>

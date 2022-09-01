@@ -1,61 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Dimensions, ScrollView } from "react-native";
-import { Block, Text, theme } from "galio-framework";
-import { Video, AVPlaybackStatus } from "expo-av";
-
-import CardVideo from "../components/CardVideo.js";
-import videos from "../constants/videos";
+import resultadosTests from "../constants/resultadosTests";
 const { width } = Dimensions.get("screen");
-import { argonTheme } from "../constants";
+import { DataTable } from "react-native-paper";
 
 export default function TestsFisicos({ route }) {
-  // const { item } = route.params;
-  const item = videos[0];
-  const [status, setStatus] = useState(0);
-  const video = React.useRef(null);
   const styles = StyleSheet.create({
     home: {
       width: width,
     },
-    card: {
-      backgroundColor: theme.COLORS.WHITE,
-      borderWidth: 0,
-      minHeight: 114,
-    },
-    cardTitle: {
-      flex: 1,
-      flexWrap: "wrap",
-      marginBottom: 15,
-    },
-    video: {
-      height: 500,
-      width: 600,
-    },
-    divider: {
-      width: "90%",
-      borderWidth: 2,
-      borderColor: "#E9ECEF",
-    },
   });
+
+  const optionsPerPage = [2, 3, 4];
+
+  const [page, setPage] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [itemsPerPage]);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <Block flex center style={styles.cardDescription}>
-        <Text h4 style={styles.cardTitle}>
-          Resultados resistencia
-        </Text>
-        <Block style={styles.divider} />
-        <Text h4 style={styles.cardTitle}>
-          Resultados salto en alto
-        </Text>
-        <Block style={styles.divider} />
-        <Text h4 style={styles.cardTitle}>
-          Resultados salto en largo
-        </Text>
-        <Block style={styles.divider} />
-        <Text h4 style={styles.cardTitle}>
-          Resultados velocidad
-        </Text>
-      </Block>
+      <DataTable>
+        <DataTable.Header>
+          <DataTable.Title>Jugador</DataTable.Title>
+          <DataTable.Title numeric>Resistencia</DataTable.Title>
+          <DataTable.Title numeric>Velocidad</DataTable.Title>
+          <DataTable.Title numeric>Salto en alto</DataTable.Title>
+          <DataTable.Title numeric>Salto en largo</DataTable.Title>
+        </DataTable.Header>
+
+        {resultadosTests.map((item, index) => {
+          return (
+            <DataTable.Row key={index}>
+              <DataTable.Cell>{item.jugador}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.resistencia}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.velocidad}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.saltoAlto}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.saltoLargo}</DataTable.Cell>
+            </DataTable.Row>
+          );
+        })}
+
+        <DataTable.Pagination
+          page={page}
+          numberOfPages={2}
+          onPageChange={(page) => setPage(page)}
+          label="1-2 de 6"
+          optionsPerPage={optionsPerPage}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          showFastPagination
+          optionsLabel={"Filas por página"}
+        />
+      </DataTable>
     </ScrollView>
   );
 }

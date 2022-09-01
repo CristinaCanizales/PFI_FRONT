@@ -24,13 +24,11 @@ export default function Datos(props) {
     },
     modalSelector: {
       justifyContent: "space-around",
-      padding: 5,
       alignSelf: "center",
       width: 300,
-      height: 50,
-      backgroundColor: "skyblue",
+      height: 40,
+      backgroundColor: "#9bdcfa",
       borderRadius: 5,
-      borderColor: "blue",
     },
     button: {
       marginBottom: theme.SIZES.BASE,
@@ -61,7 +59,7 @@ export default function Datos(props) {
     { color: "error", label: "Robada" },
     { color: "success", label: "Parada" },
     { color: "warning", label: "Expulsión" },
-    { color: "error", label: "Pérdida" },
+    { color: "error", label: "Perdida" },
   ];
   return (
     <>
@@ -76,26 +74,32 @@ export default function Datos(props) {
         <Block>
           <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
             <ModalSelector
-              overlayStyle={{ backgroundColor: "transparent" }}
               data={deportes}
+              overlayStyle={{ backgroundColor: "transparent" }}
               initValue="Seleccionar deporte"
               margin="50"
               style={styles.modalSelector}
               type="solid"
               // key={tipo}
               onChange={(texto) => {
-                setSeleccionado(texto.label);
+                setTipo(texto.label);
               }}
               initValueTextStyle={{
-                fontWeight: "bold",
+                fontWeight: "500",
                 color: "black",
               }}
               optionTextStyle={{ color: "black" }}
               optionContainerStyle={{
+                backgroundColor: "white",
+                width: 400,
+                alignSelf: "center",
+                borderColor: "#9bdcfa",
+              }}
+              cancelContainerStyle={{
+                backgroundColor: "#9bdcfa",
                 width: 400,
                 alignSelf: "center",
               }}
-              cancelContainerStyle={{ width: 400, alignSelf: "center" }}
               backdropPressToClose={true}
               cancelText="Cancelar"
             />
@@ -104,26 +108,32 @@ export default function Datos(props) {
             </Block>
             <Block style={{ marginTop: 16, marginBottom: 16 }}>
               <ModalSelector
-                overlayStyle={{ backgroundColor: "transparent" }}
                 data={jugadores}
+                overlayStyle={{ backgroundColor: "transparent" }}
                 initValue="Seleccionar jugador"
                 margin="50"
                 style={styles.modalSelector}
                 type="solid"
                 // key={tipo}
-                // onChange={(texto) => {
-                //   setTipo(texto.label);
-                // }}
+                onChange={(texto) => {
+                  setTipo(texto.label);
+                }}
                 initValueTextStyle={{
-                  fontWeight: "bold",
+                  fontWeight: "500",
                   color: "black",
                 }}
                 optionTextStyle={{ color: "black" }}
                 optionContainerStyle={{
+                  backgroundColor: "white",
+                  width: 400,
+                  alignSelf: "center",
+                  borderColor: "#9bdcfa",
+                }}
+                cancelContainerStyle={{
+                  backgroundColor: "#9bdcfa",
                   width: 400,
                   alignSelf: "center",
                 }}
-                cancelContainerStyle={{ width: 400, alignSelf: "center" }}
                 backdropPressToClose={true}
                 cancelText="Cancelar"
               />
