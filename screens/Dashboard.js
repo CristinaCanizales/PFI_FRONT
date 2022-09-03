@@ -3,6 +3,8 @@ import { StyleSheet, Dimensions, ScrollView, Image } from "react-native";
 import estadisticas from "../constants/estadisticas";
 const { width } = Dimensions.get("screen");
 import { DataTable } from "react-native-paper";
+import PowerBIEmbed from "react-native-powerbi";
+import WebView from "react-native-webview";
 
 export default function TestsFisicos({ route }) {
   const styles = StyleSheet.create({
@@ -21,7 +23,19 @@ export default function TestsFisicos({ route }) {
   }, [itemsPerPage]);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <DataTable>
+      <WebView
+        source={{
+          html: '<iframe title="TP_SSD_Final" width="1000" src="https://app.powerbi.com/reportEmbed?reportId=89af8413-5eb8-4f1a-9a5c-5fb7044fb3fc&autoAuth=true&ctid=344979d0-d31d-4c57-8ba0-491aff4acaed" frameborder="0" allowFullScreen="true" ></iframe>',
+        }}
+        style={{ marginTop: 20, height: 1000 }}
+      />
+      {/* <PowerBIEmbed
+        // accessToken="H4sIAAAAAAAEACVW...NH8v_8HNiWyTi4LAAA="
+        embedUrl="https://app.powerbi.com/reportEmbed?reportId=89af8413-5eb8-4f1a-9a5c-5fb7044fb3fc&autoAuth=true&ctid=344979d0-d31d-4c57-8ba0-491aff4acaed"
+        id="89af8413-5eb8-4f1a-9a5c-5fb7044fb3fc"
+        style={{ marginTop: 100, height: 200 }}
+      /> */}
+      {/* <DataTable>
         <DataTable.Header>
           <DataTable.Title>Jugador</DataTable.Title>
           <DataTable.Title numeric>Goles</DataTable.Title>
@@ -66,7 +80,7 @@ export default function TestsFisicos({ route }) {
           optionsLabel={"Filas por página"}
         />
       </DataTable>
-      <Image source={require("../assets/Chart.jpeg")} />
+      <Image source={require("../assets/Chart.jpeg")} /> */}
     </ScrollView>
   );
 }

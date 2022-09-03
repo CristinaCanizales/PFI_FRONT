@@ -9,39 +9,21 @@ import { argonTheme } from '../constants';
 
 class Card extends React.Component {
   render() {
-    const { navigation, item, horizontal, full, style, ctaColor, imageStyle } =
+    const { navigation, item, horizontal, full, style, imageStyle } =
       this.props;
 
-    const imageStyles = [
-      full ? styles.fullImage : styles.horizontalImage,
-      imageStyle,
-    ];
+    const imageStyles = [styles.image, imageStyle];
     const cardContainer = [styles.card, styles.shadow, style];
-    const imgContainer = [
-      styles.imageContainer,
-      horizontal ? styles.horizontalStyles : styles.verticalStyles,
-      styles.shadow,
-    ];
 
     return (
       <Block row={horizontal} card flex style={cardContainer}>
-        <Block>
-          <Block flex style={imgContainer}>
-            <Image source={{ uri: item.image }} style={imageStyles} />
-          </Block>
-          <Block flex space="between" style={styles.cardDescription}>
-            <Text h4 style={styles.cardTitle}>
-              {item.title}
-            </Text>
-            <Text
-              size={12}
-              muted={!ctaColor}
-              color={ctaColor || argonTheme.COLORS.ACTIVE}
-              bold
-            >
-              {item.cta}
-            </Text>
-          </Block>
+        <Block center style={styles.imageContainer}>
+          <Image source={{ uri: item.image }} style={imageStyles} />
+        </Block>
+        <Block flex space="between" style={styles.cardDescription}>
+          <Text h4 style={styles.cardTitle}>
+            {item.title}
+          </Text>
         </Block>
       </Block>
     );
@@ -60,7 +42,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: theme.COLORS.WHITE,
     marginVertical: theme.SIZES.BASE,
-    borderWidth: 0,
+    borderWidth: 2,
     minHeight: 250,
     minWidth: 250,
     marginBottom: 16,
@@ -75,35 +57,21 @@ const styles = StyleSheet.create({
     padding: theme.SIZES.BASE / 2,
   },
   imageContainer: {
-    borderRadius: 3,
-    elevation: 1,
-    overflow: "hidden",
+    borderBottomWidth: 0.5,
+    borderColor: "gray",
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
   },
   image: {
-    // height: 250,
-    // width: 250,
-  },
-  horizontalImage: {
-    height: 250,
-    width: 250,
-  },
-  horizontalStyles: {
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
-  },
-  verticalStyles: {
-    borderBottomRightRadius: 0,
-    borderBottomLeftRadius: 0,
-  },
-  fullImage: {
-    height: 215,
+    height: 230,
+    width: 230,
+    margin: 5,
   },
   shadow: {
     shadowColor: theme.COLORS.BLACK,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     shadowOpacity: 0.1,
-    elevation: 2,
     borderRadius: 15,
   },
 });

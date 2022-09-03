@@ -17,9 +17,10 @@ function CardVideo(props) {
     card: {
       backgroundColor: theme.COLORS.WHITE,
       marginVertical: theme.SIZES.BASE,
-      borderWidth: 0,
-      minHeight: 114,
+      borderWidth: 2,
+      minHeight: 100,
       marginBottom: 16,
+      borderRadius: 15,
     },
     cardTitle: {
       flex: 1,
@@ -29,57 +30,29 @@ function CardVideo(props) {
     cardDescription: {
       padding: theme.SIZES.BASE / 2,
     },
-    imageContainer: {
-      borderRadius: 3,
-      elevation: 1,
-      overflow: "hidden",
-    },
-    horizontalImage: {
-      height: 122,
-      width: "auto",
-    },
-    horizontalStyles: {
-      borderTopRightRadius: 0,
-      borderBottomRightRadius: 0,
-    },
-    verticalStyles: {
-      borderBottomRightRadius: 0,
-      borderBottomLeftRadius: 0,
-    },
-    fullImage: {
-      height: 215,
-    },
-    shadow: {
-      shadowColor: theme.COLORS.BLACK,
-      shadowOffset: { width: 0, height: 2 },
-      shadowRadius: 4,
-      shadowOpacity: 0.1,
-      elevation: 2,
-    },
     video: {
-      height: 250,
-      width: 250,
+      height: 200,
+      width: 240,
+      margin: 5,
     },
   });
   const video = React.useRef(null);
   const [status, setStatus] = useState(0);
-  const { navigation, item, horizontal, full, style, ctaColor, imageStyle } =
-    props;
+  const { navigation, item, style, ctaColor } = props;
 
-  const imageStyles = [
-    full ? styles.fullImage : styles.horizontalImage,
-    imageStyle,
-  ];
-  const cardContainer = [styles.card, styles.shadow, style];
-  const imgContainer = [
-    styles.imageContainer,
-    horizontal ? styles.horizontalStyles : styles.verticalStyles,
-    styles.shadow,
-  ];
+  const cardContainer = [styles.card, style];
 
   return (
-    <Block row={horizontal} card flex style={cardContainer}>
-      <Block flex style={imgContainer}>
+    <Block card flex style={cardContainer}>
+      <Block
+        flex
+        style={{
+          borderWidth: 0.5,
+          borderColor: "gray",
+          borderTopRightRadius: 15,
+          borderTopLeftRadius: 15,
+        }}
+      >
         <Video
           ref={video}
           style={styles.video}

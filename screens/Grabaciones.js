@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Block, theme } from "galio-framework";
 
 import CardVideo from "../components/CardVideo.js";
@@ -13,8 +8,6 @@ const { width } = Dimensions.get("screen");
 
 export default function Grabaciones(props) {
   const { navigation } = props;
-  const [status, setStatus] = useState(0);
-  const video = React.useRef(null);
   const styles = StyleSheet.create({
     home: {
       width: width,
@@ -41,22 +34,12 @@ export default function Grabaciones(props) {
         >
           {videos.map((item, index) => {
             return (
-              <TouchableOpacity
-                key={index}
-                style={[styles.button]}
-                onPress={() =>
-                  navigation.navigate("Detalle del entrenamiento", {
-                    item: item,
-                  })
-                }
-              >
-                <Block style={{ borderRadius: 50 }}>
-                  <CardVideo
-                    item={item}
-                    style={{ marginRight: theme.SIZES.BASE }}
-                  />
-                </Block>
-              </TouchableOpacity>
+              <Block key={index} style={{ borderRadius: 50 }}>
+                <CardVideo
+                  item={item}
+                  style={{ marginRight: theme.SIZES.BASE }}
+                />
+              </Block>
             );
           })}
         </Block>
