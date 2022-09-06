@@ -9,13 +9,13 @@ import { Block, Text } from "galio-framework";
 import { argonTheme } from "../constants";
 
 export default function TestsFisicos(props) {
-  const [saltoLargo, setSaltoLargo] = useState("");
-  const [tipo, setTipo] = useState("");
-  const [resistencia, setResistencia] = useState("");
-  const [velocidad, setVelocidad] = useState("");
+  const [deporte, setDeporte] = useState("");
+  const [jugador, setJugador] = useState("");
   const [fecha, setFecha] = useState("");
+  const [velocidad, setVelocidad] = useState("");
+  const [resistencia, setResistencia] = useState("");
   const [saltoAlto, setSaltoAlto] = useState("");
-  const [videos, setVideos] = useState([]);
+  const [saltoLargo, setSaltoLargo] = useState("");
   const [url, setUrl] = useState("");
   const styles = StyleSheet.create({
     modalSelector: {
@@ -54,38 +54,40 @@ export default function TestsFisicos(props) {
     { key: indexJugadores++, label: "Nicolás Dominguez" },
     { key: indexJugadores++, label: "Pierina Tufillaro" },
   ];
-  const checkTextInput = (e) => {
-    if (!saltoLargo.trim()) {
-      alert("Por favor, ingrese el saltoLargo del video");
+  const checkInput = (e) => {
+    if (!deporte.trim() || !jugador.trim()) {
+      alert("Por favor, ingrese mínimo jugador y deporte");
       return;
     }
     handleButtonClick();
   };
 
   function handleButtonClick() {
-    console.log(videos);
-    const nuevoProducto = {
-      tituloVideo: saltoLargo,
-      tipo: tipo,
-      saltoAlto: saltoAlto,
-      velocidad: velocidad,
+    const test = {
+      deporte: deporte,
+      jugador: jugador,
       fecha: fecha,
-      video: videos,
+      velocidad: velocidad,
+      resistencia: resistencia,
+      saltoAlto: saltoAlto,
+      saltoLargo: saltoLargo,
     };
-    fetch(url + "productos", {
+    fetch(url + "testsFisicos", {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
       },
 
-      body: JSON.stringify({ ...nuevoProducto }),
+      body: JSON.stringify({ ...test }),
     })
       .then((response) => {
-        //console.log(response.status+": "+JSON.stringify(response))
+        console.log(response.status + ": " + JSON.stringify(response));
         return response.json();
       })
       .then((data) => {
-        console.log("cargue el video!" + JSON.stringify(data));
+        console.log(
+          "resultados tests físicos cargados!" + JSON.stringify(data)
+        );
       });
   }
 
@@ -103,9 +105,9 @@ export default function TestsFisicos(props) {
             margin="50"
             style={styles.modalSelector}
             type="solid"
-            key={tipo}
+            key={deporte}
             onChange={(texto) => {
-              setTipo(texto.label);
+              setDeporte(texto.label);
             }}
             initValueTextStyle={{
               fontWeight: "500",
@@ -138,9 +140,9 @@ export default function TestsFisicos(props) {
             margin="50"
             style={styles.modalSelector}
             type="solid"
-            key={tipo}
+            key={jugador}
             onChange={(texto) => {
-              setTipo(texto.label);
+              setJugador(texto.label);
             }}
             initValueTextStyle={{
               fontWeight: "500",
@@ -261,7 +263,7 @@ export default function TestsFisicos(props) {
         <Button
           style={styles.button}
           textStyle={{ fontSize: 25, fontWeight: "500", color: "black" }}
-          onPress={checkTextInput}
+          onPress={checkInput}
         >
           Subir resultados
         </Button>

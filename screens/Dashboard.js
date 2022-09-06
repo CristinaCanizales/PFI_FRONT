@@ -25,7 +25,8 @@ export default function TestsFisicos({ route }) {
     <ScrollView showsVerticalScrollIndicator={false}>
       <WebView
         source={{
-          html: '<iframe title="TP_SSD_Final" width="1000" src="https://app.powerbi.com/reportEmbed?reportId=89af8413-5eb8-4f1a-9a5c-5fb7044fb3fc&autoAuth=true&ctid=344979d0-d31d-4c57-8ba0-491aff4acaed" frameborder="0" allowFullScreen="true" ></iframe>',
+          // html: '<iframe title="TP_SSD_Final" width="1000" src="https://app.powerbi.com/reportEmbed?reportId=89af8413-5eb8-4f1a-9a5c-5fb7044fb3fc&autoAuth=true&ctid=344979d0-d31d-4c57-8ba0-491aff4acaed" frameborder="0" allowFullScreen="true" ></iframe>',
+          html: '<iframe width="1000" height="762" src="https://datastudio.google.com/embed/reporting/11ef993e-f6b6-4a44-888e-ba4b4f13aaf4/page/N7kqC" frameborder="0" style="border:0" allowfullscreen></iframe>',
         }}
         style={{ marginTop: 20, height: 1000 }}
       />

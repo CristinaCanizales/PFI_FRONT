@@ -206,7 +206,7 @@ function PresentismoStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               back
-              title="Presentismo"
+              title={"Presentismo día: " + new Date().toLocaleDateString()}
               search
               navigation={navigation}
               scene={scene}

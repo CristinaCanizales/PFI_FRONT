@@ -3,6 +3,7 @@ import articles from './articles';
 import Images from './Images';
 import tabs from './tabs';
 import videos from "./videos";
+import jugadores from "./jugadores";
 import grabacionesVideos from "./grabacionesVideos";
 import resultadosTests from "./resultadosTests";
 import estadisticas from "./estadisticas";
@@ -13,6 +14,7 @@ export {
   Images,
   tabs,
   videos,
+  jugadores,
   grabacionesVideos,
   resultadosTests,
   estadisticas,
