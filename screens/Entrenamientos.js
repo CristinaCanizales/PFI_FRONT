@@ -53,6 +53,7 @@ export default function Entrenamientos(props) {
               >
                 <Block style={{ borderRadius: 50 }}>
                   <CardVideo
+                    youtube={true}
                     item={item}
                     style={{ marginRight: theme.SIZES.BASE }}
                   />

@@ -1,22 +1,26 @@
 export default [
   {
     title: "Brazos",
-    video: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+    video: "ZIm_qrJSOds",
+    detalle: "biceps, triceps",
     horizontal: true,
   },
   {
     title: "Piernas",
-    video: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+    video: "HNosAVcpsz4",
+    detalle: "cuadriceps, abductores, aductores, sentadillas",
     horizontal: true,
   },
   {
     title: "Abdomen",
-    video: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+    video: "Pvxj-1dgVk0",
+    detalle: "huola don pepito, huola don jose",
     horizontal: true,
   },
   {
     title: "Hombros",
-    video: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+    video: "rzM6qoSAuVg",
+    detalle: "huola don pepito, huola don jose",
     horizontal: true,
   },
 ];

@@ -36,6 +36,7 @@ export default function Grabaciones(props) {
             return (
               <Block key={index} style={{ borderRadius: 50 }}>
                 <CardVideo
+                  youtube={false}
                   item={item}
                   style={{ marginRight: theme.SIZES.BASE }}
                 />
