@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ModalSelector from "react-native-modal-selector";
+import jugadores from "../constants/jugadores";
 //galio
 import { Block, theme } from "galio-framework";
 import { Button, Reloj } from "../components";
@@ -41,13 +42,6 @@ export default function Datos(props) {
     { key: indexDeporte++, label: "Balonmano" },
     { key: indexDeporte++, label: "Vóleibol" },
     { key: indexDeporte++, label: "Fútbol 5" },
-  ];
-  let indexJugadores = 0;
-  const jugadores = [
-    { key: indexJugadores++, label: "Agostina Zorzón" },
-    { key: indexJugadores++, label: "Cristina Cañizales" },
-    { key: indexJugadores++, label: "Nicolás Dominguez" },
-    { key: indexJugadores++, label: "Pierina Tufillaro" },
   ];
   const botones = [
     { color: "default", label: "Gol 7m" },

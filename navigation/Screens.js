@@ -92,14 +92,7 @@ function ProfileStack(props) {
         component={Perfil}
         options={{
           header: ({ navigation, scene }) => (
-            <Header
-              back
-              transparent
-              white
-              title="Perfil"
-              navigation={navigation}
-              scene={scene}
-            />
+            <Header back title="Perfil" navigation={navigation} scene={scene} />
           ),
           cardStyle: { backgroundColor: "#FFFFFF" },
           headerTransparent: true,
@@ -317,7 +310,7 @@ function AppStack(props) {
         name="Perfil"
         component={ProfileStack}
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
       />
       <Drawer.Screen
