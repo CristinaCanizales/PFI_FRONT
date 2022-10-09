@@ -66,7 +66,6 @@ function GrabacionesStack(props) {
             <Header
               back
               title="Grabaciones"
-              search
               navigation={navigation}
               scene={scene}
             />
@@ -145,7 +144,6 @@ function EntrenamientosStack(props) {
             <Header
               back
               title="Entrenamientos"
-              search
               navigation={navigation}
               scene={scene}
             />
@@ -200,7 +198,6 @@ function PresentismoStack(props) {
             <Header
               back
               title={"Presentismo día: " + new Date().toLocaleDateString()}
-              search
               navigation={navigation}
               scene={scene}
             />
@@ -228,7 +225,6 @@ function TestsFisicosStack(props) {
             <Header
               back
               title="Tests físicos"
-              search
               navigation={navigation}
               scene={scene}
             />
@@ -255,7 +251,6 @@ function HomeStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title="Home"
-              search
               options
               navigation={navigation}
               scene={scene}

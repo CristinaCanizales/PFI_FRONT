@@ -30,12 +30,6 @@ export default function TestsFisicos({ route }) {
         }}
         style={{ marginTop: 20, height: 1000 }}
       />
-      {/* <PowerBIEmbed
-        // accessToken="H4sIAAAAAAAEACVW...NH8v_8HNiWyTi4LAAA="
-        embedUrl="https://app.powerbi.com/reportEmbed?reportId=89af8413-5eb8-4f1a-9a5c-5fb7044fb3fc&autoAuth=true&ctid=344979d0-d31d-4c57-8ba0-491aff4acaed"
-        id="89af8413-5eb8-4f1a-9a5c-5fb7044fb3fc"
-        style={{ marginTop: 100, height: 200 }}
-      /> */}
       {/* <DataTable>
         <DataTable.Header>
           <DataTable.Title>Jugador</DataTable.Title>

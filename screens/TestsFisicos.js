@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { StyleSheet, Dimensions, ScrollView } from "react-native";
 import resultadosTests from "../constants/resultadosTests";
 const { width } = Dimensions.get("screen");
 import { DataTable } from "react-native-paper";
+import { DataContext } from "../context";
 
 export default function TestsFisicos({ route }) {
-  const styles = StyleSheet.create({
-    home: {
-      width: width,
-    },
-  });
+  const { testsFisicos, jugadores } = useContext(DataContext);
 
   const optionsPerPage = [2, 3, 4];
-
   const [page, setPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
 
@@ -30,14 +26,18 @@ export default function TestsFisicos({ route }) {
           <DataTable.Title numeric>Salto en largo</DataTable.Title>
         </DataTable.Header>
 
-        {resultadosTests.map((item, index) => {
+        {jugadores.map((item, index) => {
           return (
             <DataTable.Row key={index}>
-              <DataTable.Cell>{item.jugador}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.resistencia}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.velocidad}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.saltoAlto}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.saltoLargo}</DataTable.Cell>
+              <DataTable.Cell>
+                {item.usuario.nombre} {item.usuario.apellido}
+              </DataTable.Cell>
+              <DataTable.Cell numeric>
+                {item.test[0].resistencia}
+              </DataTable.Cell>
+              <DataTable.Cell numeric>{item.test[0].velocidad}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.test[0].saltoAlto}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.test[0].saltoLargo}</DataTable.Cell>
             </DataTable.Row>
           );
         })}

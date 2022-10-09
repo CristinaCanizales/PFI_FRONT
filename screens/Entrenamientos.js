@@ -40,16 +40,18 @@ export default function Entrenamientos(props) {
           }}
         >
           {videos.map((item, index) => {
+        
             return (
               <TouchableOpacity
                 key={index}
                 style={[styles.button]}
-                onPress={() =>
+                onPress={() => {
+                  console.log("video", item);
                   navigation.navigate("Detalle del entrenamiento", {
                     screen: "Detalle del entrenamiento",
                     params: { item: item },
-                  })
-                }
+                  });
+                }}
               >
                 <Block style={{ borderRadius: 50 }}>
                   <CardVideo

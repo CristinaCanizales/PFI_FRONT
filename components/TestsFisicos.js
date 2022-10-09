@@ -3,20 +3,23 @@ import React, { useContext, useState } from "react";
 import { ScrollView, View, StyleSheet, Image } from "react-native";
 import { Button, Input } from "../components";
 import ModalSelector from "react-native-modal-selector";
+import DatePicker from "@dietime/react-native-date-picker";
 //galio
 import { Block, Text } from "galio-framework";
 // Argon themed components
 import { argonTheme } from "../constants";
+import { DataContext } from "../context";
 
 export default function TestsFisicos(props) {
-  const [deporte, setDeporte] = useState("");
-  const [jugador, setJugador] = useState("");
-  const [fecha, setFecha] = useState("");
-  const [velocidad, setVelocidad] = useState("");
-  const [resistencia, setResistencia] = useState("");
-  const [saltoAlto, setSaltoAlto] = useState("");
-  const [saltoLargo, setSaltoLargo] = useState("");
-  const [url, setUrl] = useState("");
+  const { deportes, jugadores, url } = useContext(DataContext);
+  const [jugadorSeleccionado, setJugadorSeleccionado] = useState({});
+  const [deporteSeleccionado, setDeporteSeleccionado] = useState({});
+  const [date, setDate] = useState(new Date());
+  const [fecha, setFecha] = useState(new Date());
+  const [velocidad, setVelocidad] = useState(0);
+  const [resistencia, setResistencia] = useState(0);
+  const [saltoAlto, setSaltoAlto] = useState(0);
+  const [saltoLargo, setSaltoLargo] = useState(0);
   const styles = StyleSheet.create({
     modalSelector: {
       justifyContent: "space-around",
@@ -41,55 +44,49 @@ export default function TestsFisicos(props) {
       margin: 10,
     },
   });
-  let indexDeporte = 0;
-  const deportes = [
-    { key: indexDeporte++, label: "Balonmano" },
-    { key: indexDeporte++, label: "Vóleibol" },
-    { key: indexDeporte++, label: "Fútbol 5" },
-  ];
-  let indexJugadores = 0;
-  const jugadores = [
-    { key: indexJugadores++, label: "Agostina Zorzón" },
-    { key: indexJugadores++, label: "Cristina Cañizales" },
-    { key: indexJugadores++, label: "Nicolás Dominguez" },
-    { key: indexJugadores++, label: "Pierina Tufillaro" },
-  ];
-  const checkInput = (e) => {
-    if (!deporte.trim() || !jugador.trim()) {
-      alert("Por favor, ingrese mínimo jugador y deporte");
-      return;
-    }
-    handleButtonClick();
-  };
+  const jugadoresMap = jugadores.map((item, index) => {
+    return {
+      key: index + 1,
+      label: `${item.usuario.nombre} ${item.usuario.apellido}`,
+    };
+  });
+  const deportesMap = deportes.map((item, index) => {
+    return { key: index + 1, label: item.nombre };
+  });
+  // const checkInput = (e) => {
+  //   if (!deporte.trim() || !jugador.trim()) {
+  //     alert("Por favor, ingrese mínimo jugador y deporte");
+  //     return;
+  //   }
+  //   handleButtonClick();
+  // };
 
-  function handleButtonClick() {
+  const handleButtonClick = () => {
     const test = {
-      deporte: deporte,
-      jugador: jugador,
-      fecha: fecha,
+      // deporteId: deporteSeleccionado.key,
+      jugadorId: jugadorSeleccionado.key,
+      fechaTest: fecha.toISOString().slice(0, 10),
       velocidad: velocidad,
       resistencia: resistencia,
       saltoAlto: saltoAlto,
       saltoLargo: saltoLargo,
     };
-    fetch(url + "testsFisicos", {
+    console.log(test);
+    fetch(url + "testsFisicos/nuevo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
       },
 
-      body: JSON.stringify({ ...test }),
+      body: JSON.stringify(test),
     })
-      .then((response) => {
-        console.log(response.status + ": " + JSON.stringify(response));
-        return response.json();
-      })
       .then((data) => {
-        console.log(
-          "resultados tests físicos cargados!" + JSON.stringify(data)
-        );
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
-  }
+  };
 
   return (
     <ScrollView>
@@ -99,15 +96,15 @@ export default function TestsFisicos(props) {
             Deporte:
           </Text>
           <ModalSelector
-            data={deportes}
+            data={deportesMap}
             overlayStyle={{ backgroundColor: "transparent" }}
-            initValue="Seleccionar deporte"
+            initValue={deporteSeleccionado.label || "Seleccionar deporte"}
             margin="50"
             style={styles.modalSelector}
             type="solid"
-            key={deporte}
-            onChange={(texto) => {
-              setDeporte(texto.label);
+            key={deporteSeleccionado}
+            onChange={(deporte) => {
+              setDeporteSeleccionado(deporte);
             }}
             initValueTextStyle={{
               fontWeight: "500",
@@ -134,15 +131,15 @@ export default function TestsFisicos(props) {
             Jugador:
           </Text>
           <ModalSelector
-            data={jugadores}
+            data={jugadoresMap}
             overlayStyle={{ backgroundColor: "transparent" }}
-            initValue="Seleccionar jugador"
+            initValue={jugadorSeleccionado.label || "Seleccionar jugador"}
             margin="50"
             style={styles.modalSelector}
             type="solid"
-            key={jugador}
-            onChange={(texto) => {
-              setJugador(texto.label);
+            key={jugadorSeleccionado.label}
+            onChange={(jugador) => {
+              setJugadorSeleccionado(jugador);
             }}
             initValueTextStyle={{
               fontWeight: "500",
@@ -169,7 +166,18 @@ export default function TestsFisicos(props) {
           <Text h5 style={{ marginRight: 20 }}>
             Fecha test:
           </Text>
-          <Input
+          <Block style={{ height: 80 }}>
+            <DatePicker
+              height={90}
+              width={300}
+              value={fecha}
+              startYear={2000}
+              endYear={2100}
+              onChange={(value) => setFecha(value)}
+              format="dd-mm-yyyy"
+            />
+          </Block>
+          {/* <Input
             placeholder="..."
             style={{
               borderColor: argonTheme.COLORS.INFO,
@@ -180,8 +188,7 @@ export default function TestsFisicos(props) {
             }}
             iconContent={<></>}
             onChangeText={(text) => setFecha(text)}
-            value={fecha}
-          />
+          /> */}
         </Block>
 
         <Block center row style={{ marginBottom: 10 }}>
@@ -198,8 +205,8 @@ export default function TestsFisicos(props) {
               alignSelf: "center",
             }}
             iconContent={<></>}
-            onChangeText={(text) => setVelocidad(text)}
-            value={velocidad}
+            onChangeText={(text) => setVelocidad(parseInt(text))}
+            // value={velocidad}
           />
         </Block>
 
@@ -217,8 +224,8 @@ export default function TestsFisicos(props) {
               alignSelf: "center",
             }}
             iconContent={<Block />}
-            onChangeText={(text) => setResistencia(text)}
-            value={resistencia}
+            onChangeText={(text) => setResistencia(parseInt(text))}
+            // value={resistencia}
           />
         </Block>
 
@@ -236,8 +243,8 @@ export default function TestsFisicos(props) {
               alignSelf: "center",
             }}
             iconContent={<></>}
-            onChangeText={(text) => setSaltoAlto(text)}
-            value={saltoAlto}
+            onChangeText={(text) => setSaltoAlto(parseInt(text))}
+            // value={saltoAlto}
           />
         </Block>
 
@@ -255,15 +262,15 @@ export default function TestsFisicos(props) {
               alignSelf: "center",
             }}
             iconContent={<></>}
-            onChangeText={(text) => setSaltoLargo(text)}
-            value={saltoLargo}
+            onChangeText={(text) => setSaltoLargo(parseInt(text))}
+            // value={saltoLargo}
           />
         </Block>
 
         <Button
           style={styles.button}
           textStyle={{ fontSize: 25, fontWeight: "500", color: "black" }}
-          onPress={checkInput}
+          onPress={handleButtonClick}
         >
           Subir resultados
         </Button>
