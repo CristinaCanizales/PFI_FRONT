@@ -11,6 +11,8 @@ import { Button, Icon } from "../components";
 import { argonTheme } from "../constants";
 import DatePicker from "@dietime/react-native-date-picker";
 
+import FilaPresentismo from "../components/FilaPresentismo";
+
 const { width } = Dimensions.get("screen");
 export default function Presentismo({ route }) {
   const styles = StyleSheet.create({
@@ -117,61 +119,7 @@ export default function Presentismo({ route }) {
         </DataTable.Header>
 
         {jugadores.map((item, index) => {
-          return (
-            <DataTable.Row key={index}>
-              <DataTable.Cell>{item.jugador}</DataTable.Cell>
-              <DataTable.Cell>
-                <Block
-                  middle
-                  style={{
-                    width: 20,
-                    height: 20,
-                    borderRadius: 10,
-                    backgroundColor:
-                      presente === true
-                        ? argonTheme.COLORS.INPUT_SUCCESS
-                        : argonTheme.COLORS.INPUT_ERROR,
-                  }}
-                >
-                  {presente === true ? (
-                    <Icon
-                      size={11}
-                      color={argonTheme.COLORS.ICON}
-                      name="g-check"
-                      family="ArgonExtra"
-                    />
-                  ) : (
-                    <Icon
-                      size={11}
-                      color={argonTheme.COLORS.ICON}
-                      name="close"
-                      family="AntDesign"
-                    />
-                  )}
-                </Block>
-              </DataTable.Cell>
-              <DataTable.Cell>
-                {/* <CheckBox
-                  center
-                  checked={item.presente}
-                  onPress={() => setCheck1(!check1)}
-                /> */}
-                <Button
-                  style={styles.button}
-                  textStyle={{
-                    fontSize: 12,
-                    fontWeight: "500",
-                    color: "black",
-                  }}
-                  onPress={() =>
-                    presente === false ? setPresente(true) : setPresente(false)
-                  }
-                >
-                  Cambiar estado
-                </Button>
-              </DataTable.Cell>
-            </DataTable.Row>
-          );
+          return <FilaPresentismo key={index} item={item}></FilaPresentismo>;
         })}
 
         <DataTable.Pagination

@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ModalSelector from "react-native-modal-selector";
-import jugadores from "../constants/jugadores";
 //galio
 import { Block, theme } from "galio-framework";
 import { Button, Reloj } from "../components";
-import { Dimensions, ScrollView, StyleSheet } from "react-native";
-
-const { width } = Dimensions.get("screen");
-
-const thumbMeasure = (width - 48 - 32) / 3;
+import { ScrollView, StyleSheet } from "react-native";
+import { DataContext } from "../context";
 
 export default function Datos(props) {
-  const [seleccionado, setSeleccionado] = useState("");
-  const [index, setIndex] = useState(0);
-
+  const { navigation } = props;
+  const {
+    accionesHandball,
+    accionesFutbol,
+    accionesVolleyball,
+    deportes,
+    jugadores,
+    url,
+  } = useContext(DataContext);
+  const [jugadorSeleccionado, setJugadorSeleccionado] = useState({});
+  const [deporteSeleccionado, setDeporteSeleccionado] = useState({});
   const styles = StyleSheet.create({
     group: {
       paddingTop: 10,
@@ -36,25 +40,69 @@ export default function Datos(props) {
       width: 200,
     },
   });
-  const { navigation } = props;
-  let indexDeporte = 0;
-  const deportes = [
-    { key: indexDeporte++, label: "Balonmano" },
-    { key: indexDeporte++, label: "Vóleibol" },
-    { key: indexDeporte++, label: "Fútbol 5" },
+  const colores = [
+    "DEFAULT",
+    "PRIMARY",
+    "INFO",
+    "DEFAULT",
+    "PRIMARY",
+    "INFO",
+    "DEFAULT",
+    "PRIMARY",
+    "INFO",
+    "DEFAULT",
+    "PRIMARY",
+    "INFO",
+    "DEFAULT",
+    "PRIMARY",
+    "INFO",
   ];
-  const botones = [
-    { color: "default", label: "Gol 7m" },
-    { color: "error", label: "Gol 6m" },
-    { color: "info", label: "Gol penal" },
-    { color: "default", label: "Gol contra" },
-    { color: "success", label: "Atajada" },
-    { color: "warning", label: "Errada" },
-    { color: "error", label: "Robada" },
-    { color: "success", label: "Parada" },
-    { color: "warning", label: "Expulsión" },
-    { color: "error", label: "Perdida" },
-  ];
+  const deportesMap = deportes.map((item, index) => {
+    return { key: index + 1, label: item.nombre };
+  });
+  const accionesHandballMap = accionesHandball.map((item, index) => {
+    return { color: colores[index], label: item.nombre };
+  });
+  const accionesFutbolMap = accionesFutbol.map((item, index) => {
+    return { color: colores[index], label: item.nombre };
+  });
+  const accionesVolleyballMap = accionesVolleyball.map((item, index) => {
+    return { color: colores[index], label: item.nombre };
+  });
+  const jugadoresMap = jugadores.map((item, index) => {
+    return {
+      key: index + 1,
+      label: `${item.usuario.nombre} ${item.usuario.apellido}`,
+    };
+  });
+  function handleAccion(index) {
+    const accion = {
+      accionId: index,
+      jugadorId: jugadorSeleccionado.key,
+      deporteId: deporteSeleccionado.key,
+    };
+    let pathAccion;
+    if (deporteSeleccionado.label === "Handball") {
+      pathAccion = "handball/nuevo";
+    } else if (deporteSeleccionado.label === "Futbol") {
+      pathAccion = "futbol/nuevo";
+    } else if (deporteSeleccionado.label === "Volleyball") {
+      pathAccion = "volleyball/nuevo";
+    }
+    fetch(url + pathAccion, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(accion),
+    })
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
   return (
     <>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -68,15 +116,15 @@ export default function Datos(props) {
         <Block>
           <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
             <ModalSelector
-              data={deportes}
+              data={deportesMap}
               overlayStyle={{ backgroundColor: "transparent" }}
-              initValue="Seleccionar deporte"
+              initValue={deporteSeleccionado.label || "Seleccionar deporte"}
               margin="50"
               style={styles.modalSelector}
               type="solid"
-              // key={tipo}
-              onChange={(texto) => {
-                setTipo(texto.label);
+              key={deporteSeleccionado}
+              onChange={(deporte) => {
+                setDeporteSeleccionado(deporte);
               }}
               initValueTextStyle={{
                 fontWeight: "500",
@@ -102,15 +150,15 @@ export default function Datos(props) {
             </Block>
             <Block style={{ marginTop: 16, marginBottom: 16 }}>
               <ModalSelector
-                data={jugadores}
+                data={jugadoresMap}
                 overlayStyle={{ backgroundColor: "transparent" }}
-                initValue="Seleccionar jugador"
+                initValue={jugadorSeleccionado.label || "Seleccionar jugador"}
                 margin="50"
                 style={styles.modalSelector}
                 type="solid"
-                // key={tipo}
-                onChange={(texto) => {
-                  setTipo(texto.label);
+                key={jugadorSeleccionado.label}
+                onChange={(jugador) => {
+                  setJugadorSeleccionado(jugador);
                 }}
                 initValueTextStyle={{
                   fontWeight: "500",
@@ -137,15 +185,54 @@ export default function Datos(props) {
               space="between"
               style={{ marginTop: theme.SIZES.BASE, flexWrap: "wrap" }}
             >
-              {botones.map((item, index) => {
-                return (
-                  <Block key={index} center>
-                    <Button color={item.color} style={styles.button}>
-                      {item.label}
-                    </Button>
-                  </Block>
-                );
-              })}
+              {deporteSeleccionado.label === "Handball" &&
+                accionesHandballMap.map((item, index) => {
+                  return (
+                    <Block key={index} center>
+                      <Button
+                        color={item.color}
+                        style={styles.button}
+                        onPress={(key) => {
+                          handleAccion(index + 1);
+                        }}
+                      >
+                        {item.label}
+                      </Button>
+                    </Block>
+                  );
+                })}
+              {deporteSeleccionado.label === "Futbol" &&
+                accionesFutbolMap.map((item, index) => {
+                  return (
+                    <Block key={index} center>
+                      <Button
+                        color={item.color}
+                        style={styles.button}
+                        onPress={(key) => {
+                          handleAccion(index + 1);
+                        }}
+                      >
+                        {item.label}
+                      </Button>
+                    </Block>
+                  );
+                })}
+              {deporteSeleccionado.label === "Volleyball" &&
+                accionesVolleyballMap.map((item, index) => {
+                  return (
+                    <Block key={index} center>
+                      <Button
+                        color={item.color}
+                        style={styles.button}
+                        onPress={(key) => {
+                          handleAccion(index + 1);
+                        }}
+                      >
+                        {item.label}
+                      </Button>
+                    </Block>
+                  );
+                })}
             </Block>
           </Block>
         </Block>

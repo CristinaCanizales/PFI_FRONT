@@ -5,6 +5,7 @@ import { useFonts } from "@use-expo/font";
 import { Asset } from "expo-asset";
 import { Block, GalioProvider } from "galio-framework";
 import { NavigationContainer } from "@react-navigation/native";
+import { ContextProvider } from "./context/providerCompose";
 
 // Before rendering any navigation stack
 import { enableScreens } from "react-native-screens";
@@ -34,7 +35,7 @@ function cacheImages(images) {
     }
   });
 }
-export default props => {
+export default (props) => {
   const [isLoadingComplete, setLoading] = useState(false);
   let [fontsLoaded] = useFonts({
     ArgonExtra: require("./assets/font/argon.ttf"),
@@ -64,15 +65,17 @@ export default props => {
     );
   } else if (fontsLoaded) {
     return (
-      <NavigationContainer>
-        <GalioProvider theme={argonTheme}>
-          <Block flex>
-            <Screens />
-          </Block>
-        </GalioProvider>
-      </NavigationContainer>
+      <ContextProvider>
+        <NavigationContainer>
+          <GalioProvider theme={argonTheme}>
+            <Block flex>
+              <Screens />
+            </Block>
+          </GalioProvider>
+        </NavigationContainer>
+      </ContextProvider>
     );
   } else {
     return null;
   }
-}
+};

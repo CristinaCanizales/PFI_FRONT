@@ -5,7 +5,9 @@ const { width } = Dimensions.get("screen");
 import YoutubePlayer from "react-native-youtube-iframe";
 
 export default function DetalleEntrenamiento({ route }) {
-  const { item } = route.params;
+  // console.log("route", route.params.video);
+
+  const [item, setItem] = useState(route.params.item);
   const [playing, setPlaying] = useState(false);
   const [video, setVideo] = useState(item.video);
 
@@ -15,6 +17,12 @@ export default function DetalleEntrenamiento({ route }) {
 
   const onStateChange = useCallback((state) => {
     if (state === "ended") {
+      setPlaying(false);
+    }
+    if (state === "playing") {
+      setPlaying(true);
+    }
+    if (state === "paused") {
       setPlaying(false);
     }
   }, []);
@@ -31,20 +39,23 @@ export default function DetalleEntrenamiento({ route }) {
   });
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
+      {console.log("route", route.params.item)}
       <Block flex center>
+        {console.log("video detalle", route.params.item.video)}
         <YoutubePlayer
+          cacheEnabled={false}
           webViewStyle={styles.video}
           play={playing}
-          videoId={video}
+          videoId={`${route.params.item.video}`}
           onChangeState={onStateChange}
         />
       </Block>
       <Block flex center style={styles.cardDescription}>
         <Text h1 style={styles.cardTitle}>
-          {item.title}
+          {route.params.item.title}
         </Text>
         <Text h4 style={styles.cardTitle}>
-          {item.detalle}
+          {route.params.item.detalle}
         </Text>
       </Block>
     </ScrollView>
