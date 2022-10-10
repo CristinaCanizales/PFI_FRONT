@@ -26,18 +26,16 @@ export default function TestsFisicos({ route }) {
           <DataTable.Title numeric>Salto en largo</DataTable.Title>
         </DataTable.Header>
 
-        {jugadores.map((item, index) => {
+        {testsFisicos.map((item, index) => {
           return (
             <DataTable.Row key={index}>
               <DataTable.Cell>
-                {item.usuario.nombre} {item.usuario.apellido}
+                {item.jugador.usuario.nombre} {item.jugador.usuario.apellido}
               </DataTable.Cell>
-              <DataTable.Cell numeric>
-                {item.test[0].resistencia}
-              </DataTable.Cell>
-              <DataTable.Cell numeric>{item.test[0].velocidad}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.test[0].saltoAlto}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.test[0].saltoLargo}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.resistencia}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.velocidad}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.saltoAlto}</DataTable.Cell>
+              <DataTable.Cell numeric>{item.saltoLargo}</DataTable.Cell>
             </DataTable.Row>
           );
         })}

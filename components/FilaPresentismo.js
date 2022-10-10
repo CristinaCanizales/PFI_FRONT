@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, Dimensions, ScrollView } from "react-native";
 import jugadores from "../constants/jugadores";
 import { DataTable } from "react-native-paper";
@@ -7,8 +7,10 @@ import { Block, theme } from "galio-framework";
 import { Button, Icon } from "../components";
 // Argon themed components
 import { argonTheme } from "../constants";
+import { DataContext } from "../context";
 
 export default function FilaPresentismo({ item }) {
+  const { url } = useContext(DataContext);
   const styles = StyleSheet.create({
     button: {
       borderRadius: 20,
@@ -20,15 +22,37 @@ export default function FilaPresentismo({ item }) {
       margin: 10,
     },
   });
-  const [presente, setPresente] = useState(true);
+  const [presente, setPresente] = useState(false);
 
-  const cargarPresentismoAtrasado = () => {
-    //TO DO:
-    //FETCH PUT
-  };
+  function cargarPresentismo() {
+    const presentismo = {
+      fecha: new Date(),
+      presente: true,
+      usuarioId: item.usuarioId,
+      equipoId: item.equipoId,
+    };
+    if (presente === false) {
+      fetch(url + "presentismos/nuevo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(presentismo),
+      })
+        .then((data) => {
+          console.log("Success:", data);
+          setPresente(true);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  }
   return (
     <DataTable.Row>
-      <DataTable.Cell>{item.jugador}</DataTable.Cell>
+      <DataTable.Cell>
+        {item.usuario.nombre} {item.usuario.apellido}
+      </DataTable.Cell>
       <DataTable.Cell>
         <Block
           middle
@@ -67,9 +91,7 @@ export default function FilaPresentismo({ item }) {
             fontWeight: "500",
             color: "black",
           }}
-          onPress={() =>
-            presente === false ? setPresente(true) : setPresente(false)
-          }
+          onPress={() => cargarPresentismo()}
         >
           Cambiar estado
         </Button>

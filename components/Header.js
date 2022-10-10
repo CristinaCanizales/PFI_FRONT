@@ -114,7 +114,7 @@ const Header = (props) => {
     return (
       <TouchableOpacity
         style={[styles.button]}
-        onPress={() => navigation.navigate("Pro")}
+        onPress={() => navigation.navigate("Home")}
       >
         <Image
           source={require("../assets/icons/bell-ring.png")}
@@ -132,7 +132,7 @@ const Header = (props) => {
         style={styles.search}
         placeholder="¿Qué buscas?"
         placeholderTextColor={"#8898AA"}
-        onFocus={() => navigation.navigate("Pro")}
+        onFocus={() => navigation.navigate("Home")}
         iconContent={
           <Image
             source={require("../assets/icons/search.png")}
@@ -148,7 +148,7 @@ const Header = (props) => {
         <Button
           shadowless
           style={[styles.tab, styles.divider]}
-          onPress={() => navigation.navigate("Pro")}
+          onPress={() => navigation.navigate("Home")}
         >
           <Block row middle>
             <Image
@@ -163,7 +163,7 @@ const Header = (props) => {
         <Button
           shadowless
           style={[styles.tab, styles.divider]}
-          onPress={() => navigation.navigate("Pro")}
+          onPress={() => navigation.navigate("Home")}
         >
           <Block row middle>
             <Image
@@ -178,7 +178,7 @@ const Header = (props) => {
         <Button
           shadowless
           style={[styles.tab, styles.divider]}
-          onPress={() => navigation.navigate("Pro")}
+          onPress={() => navigation.navigate("Home")}
         >
           <Block row middle>
             <Image
@@ -194,9 +194,7 @@ const Header = (props) => {
     );
   };
 
-  const noShadow = ["Search", "Categories", "Deals", "Pro", "Perfil"].includes(
-    title
-  );
+  const noShadow = ["Search", "Categories", "Deals", "Perfil"].includes(title);
   const headerStyles = [
     !noShadow ? styles.shadow : null,
     transparent ? { backgroundColor: "rgba(0,0,0,0)" } : null,

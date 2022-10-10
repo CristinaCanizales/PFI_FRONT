@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   Image,
@@ -11,10 +11,14 @@ import { Block, Checkbox, Text, theme } from "galio-framework";
 
 import { Button, Input } from "../components";
 import { Images, argonTheme } from "../constants";
+import DatePicker from "@dietime/react-native-date-picker";
+import { DataContext } from "../context";
 
 const { width, height } = Dimensions.get("screen");
 
 export default function Register(props) {
+  const { navigation } = props;
+  const { deportes, jugadores, url } = useContext(DataContext);
   const styles = StyleSheet.create({
     registerContainer: {
       width: width * 0.9,
@@ -31,28 +35,11 @@ export default function Register(props) {
       elevation: 1,
       overflow: "hidden",
     },
-    socialConnect: {
-      backgroundColor: argonTheme.COLORS.WHITE,
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderColor: "#8898AA",
-    },
-    socialButtons: {
-      width: 120,
-      height: 40,
-      backgroundColor: "#fff",
-      shadowColor: argonTheme.COLORS.BLACK,
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      shadowRadius: 8,
-      shadowOpacity: 0.1,
-      elevation: 1,
-    },
-    socialTextButtons: {
-      color: argonTheme.COLORS.PRIMARY,
-      fontWeight: "800",
-      fontSize: 14,
+    buttonVideo: {
+      borderRadius: 10,
+      alignSelf: "center",
+      width: 150,
+      height: 150,
     },
     inputIcons: {
       marginRight: 12,
@@ -63,7 +50,7 @@ export default function Register(props) {
       paddingBottom: 30,
     },
     createButton: {
-      width: width * 0.5,
+      width: width * 0.3,
       marginTop: 25,
     },
     btnIcon: {
@@ -72,6 +59,64 @@ export default function Register(props) {
       marginRight: 10,
     },
   });
+  const [date, setDate] = useState(new Date());
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [contrasena, setContrasena] = useState("");
+  const [contrasena2, setContrasena2] = useState("");
+  const [direccion, setDireccion] = useState("");
+  const [telefono, setTelefono] = useState("");
+
+  function calcularEdad() {
+    var hoy = new Date();
+    var cumpleanos = date;
+    var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+    var mes = hoy.getMonth() - cumpleanos.getMonth();
+
+    if (mes < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+      edad--;
+    }
+
+    return edad;
+  }
+
+  function handleRegister() {
+    const usuario = {
+      nombre: nombre,
+      apellido: apellido,
+      correo: correo,
+      contrasena: contrasena,
+      direccion: direccion,
+      telefono: telefono,
+      edad: calcularEdad(),
+      // foto: foto
+    };
+    fetch(url + "usuarios/nuevo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(usuario),
+    })
+      .then((response) => {
+        if (response.status != 404) {
+          return response.json();
+        }
+        return;
+      })
+      .then((res) => {
+        if (res) {
+          setCurrentUser(res);
+          navigation.navigate("Home");
+        } else {
+          setUsuario({ invalid: true });
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
   return (
     <Block flex middle>
       <StatusBar hidden />
@@ -81,35 +126,10 @@ export default function Register(props) {
       >
         <Block safe flex middle>
           <Block style={styles.registerContainer}>
-            <Block flex={0.25} middle style={styles.socialConnect}>
-              <Text color="#8898AA" size={16}>
-                Regístrate con
-              </Text>
-              <Block row style={{ marginTop: theme.SIZES.BASE }}>
-                <Button style={{ ...styles.socialButtons, marginRight: 30 }}>
-                  <Block row>
-                    <Image
-                      source={require("../assets/icons/facebook.png")}
-                      style={styles.btnIcon}
-                    />
-                    <Text style={styles.socialTextButtons}>FACEBOOK</Text>
-                  </Block>
-                </Button>
-                <Button style={styles.socialButtons}>
-                  <Block row>
-                    <Image
-                      source={require("../assets/icons/google.png")}
-                      style={styles.btnIcon}
-                    />
-                    <Text style={styles.socialTextButtons}>GOOGLE</Text>
-                  </Block>
-                </Button>
-              </Block>
-            </Block>
             <Block flex>
               <Block flex={0.17} middle>
-                <Text color="#8898AA" size={16}>
-                  o de la manera clásica
+                <Text bold color="#8898AA" size={30}>
+                  Registrate
                 </Text>
               </Block>
               <Block flex center>
@@ -118,36 +138,168 @@ export default function Register(props) {
                   behavior="padding"
                   enabled
                 >
-                  <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                    <Input
-                      borderless
-                      placeholder="Nombre"
-                      iconContent={<></>}
-                    />
+                  <Block row width={width * 0.8} style={{ marginBottom: 5 }}>
+                    <Block>
+                      <Input
+                        style={{
+                          width: 450,
+                          marginRight: 125,
+                          shadowColor: argonTheme.COLORS.BLACK,
+                          shadowOffset: { width: 0, height: 1 },
+                          shadowRadius: 2,
+                          shadowOpacity: 0.05,
+                          elevation: 2,
+                        }}
+                        placeholder="Nombre"
+                        iconContent={<></>}
+                        value={nombre}
+                        onChangeText={(nombre) => setNombre(nombre)}
+                      />
+                      {nombre === "" && (
+                        <Block>
+                          <Text bold size={14} color={argonTheme.COLORS.ERROR}>
+                            Campo requerido
+                          </Text>
+                        </Block>
+                      )}
+                    </Block>
+                    <Block>
+                      <Input
+                        style={{
+                          width: 450,
+                          shadowColor: argonTheme.COLORS.BLACK,
+                          shadowOffset: { width: 0, height: 1 },
+                          shadowRadius: 2,
+                          shadowOpacity: 0.05,
+                          elevation: 2,
+                        }}
+                        placeholder="Apellido"
+                        iconContent={<></>}
+                        value={apellido}
+                        onChangeText={(apellido) => setApellido(apellido)}
+                      />
+                      {apellido === "" && (
+                        <Block>
+                          <Text bold size={14} color={argonTheme.COLORS.ERROR}>
+                            Campo requerido
+                          </Text>
+                        </Block>
+                      )}
+                    </Block>
                   </Block>
-                  <Block width={width * 0.8} style={{ marginBottom: 15 }}>
+                  <Block width={width * 0.8} style={{ marginBottom: 5 }}>
                     <Input
-                      borderless
                       placeholder="Correo"
                       iconContent={<></>}
+                      value={correo}
+                      onChangeText={(correo) => setCorreo(correo)}
                     />
+                    {correo === "" && (
+                      <Block>
+                        <Text bold size={14} color={argonTheme.COLORS.ERROR}>
+                          Campo requerido
+                        </Text>
+                      </Block>
+                    )}
                   </Block>
-                  <Block width={width * 0.8}>
+                  <Block row width={width * 0.8}>
                     <Input
+                      style={{
+                        width: 450,
+                        marginRight: 125,
+                        shadowColor: argonTheme.COLORS.BLACK,
+                        shadowOffset: { width: 0, height: 1 },
+                        shadowRadius: 2,
+                        shadowOpacity: 0.05,
+                        elevation: 2,
+                      }}
                       password
-                      borderless
+                      viewPass
                       placeholder="Contraseña"
                       iconContent={<></>}
+                      value={contrasena}
+                      onChangeText={(contrasena) => setContrasena(contrasena)}
                     />
-                    <Block row style={styles.passwordCheck}>
-                      <Text size={12} color={argonTheme.COLORS.MUTED}>
-                        fuerza de la contraseña:
-                      </Text>
-                      <Text bold size={12} color={argonTheme.COLORS.SUCCESS}>
-                        {" "}
-                        fuerte
+                    <Input
+                      style={{
+                        width: 450,
+                        shadowColor: argonTheme.COLORS.BLACK,
+                        shadowOffset: { width: 0, height: 1 },
+                        shadowRadius: 2,
+                        shadowOpacity: 0.05,
+                        elevation: 2,
+                      }}
+                      password
+                      viewPass
+                      placeholder="Repetir contraseña"
+                      iconContent={<></>}
+                      value={contrasena2}
+                      onChangeText={(contrasena) => setContrasena2(contrasena)}
+                    />
+                  </Block>
+                  {(contrasena === "" || contrasena !== contrasena2) && (
+                    <Block>
+                      <Text bold size={14} color={argonTheme.COLORS.ERROR}>
+                        Las contraseñas deben ser iguales
                       </Text>
                     </Block>
+                  )}
+                  <Block width={width * 0.8}>
+                    <Input
+                      placeholder="Dirección"
+                      iconContent={<></>}
+                      value={direccion}
+                      onChangeText={(direccion) => setDireccion(direccion)}
+                    />
+                  </Block>
+                  <Block row width={width * 0.8}>
+                    <Text size={20} style={{ marginRight: 20, marginTop: 20 }}>
+                      Fecha de nacimiento:
+                    </Text>
+                    <Block style={{ height: 80, marginRight: 65 }}>
+                      <DatePicker
+                        height={80}
+                        width={300}
+                        fontSize={20}
+                        value={date}
+                        startYear={new Date().getFullYear() - 100}
+                        endYear={new Date().getFullYear()}
+                        onChange={(value) => setDate(value)}
+                        format="dd-mm-yyyy"
+                      />
+                    </Block>
+                    <Input
+                      style={{
+                        width: 450,
+                        marginRight: 125,
+                        shadowColor: argonTheme.COLORS.BLACK,
+                        shadowOffset: { width: 0, height: 1 },
+                        shadowRadius: 2,
+                        shadowOpacity: 0.05,
+                        elevation: 2,
+                      }}
+                      placeholder="Teléfono"
+                      iconContent={<></>}
+                      value={telefono}
+                      onChangeText={(telefono) => setTelefono(telefono)}
+                    />
+                  </Block>
+                  <Block width={width * 0.8}></Block>
+                  <Block width={width * 0.8}>
+                    <Text center size={20}>
+                      Foto:
+                    </Text>
+                    <Button
+                      title="+"
+                      style={styles.buttonVideo}
+                      // onPress={pickImage}
+                      color="#9FCAF5"
+                    >
+                      <Image
+                        source={require("../assets/icons/yoga.png")}
+                        style={styles.buttonVideo}
+                      />
+                    </Button>
                   </Block>
                   <Block row width={width * 0.75}>
                     <Checkbox
@@ -155,21 +307,30 @@ export default function Register(props) {
                         borderWidth: 3,
                       }}
                       color={argonTheme.COLORS.PRIMARY}
-                      label="Acepto la"
+                      label="Acepto los"
                     />
                     <Button
-                      style={{ width: 100 }}
+                      style={{ width: 100, marginRight: 110 }}
                       color="transparent"
                       textStyle={{
                         color: argonTheme.COLORS.PRIMARY,
                         fontSize: 14,
                       }}
                     >
-                      Política de privacidad
+                      Términos y condiciones
                     </Button>
-                  </Block>
-                  <Block middle>
-                    <Button color="primary" style={styles.createButton}>
+                    <Button
+                      color="primary"
+                      disabled={
+                        contrasena === "" ||
+                        contrasena !== contrasena2 ||
+                        correo === "" ||
+                        nombre === "" ||
+                        apellido === ""
+                      }
+                      style={styles.createButton}
+                      onPress={() => handleRegister()}
+                    >
                       <Text bold size={14} color={argonTheme.COLORS.WHITE}>
                         Crear cuenta
                       </Text>

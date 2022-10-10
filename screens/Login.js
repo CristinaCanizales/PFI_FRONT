@@ -1,0 +1,148 @@
+import React, { useState, useContext } from "react";
+import {
+  StyleSheet,
+  Image,
+  ImageBackground,
+  Dimensions,
+  StatusBar,
+  KeyboardAvoidingView,
+} from "react-native";
+import { Block, Checkbox, Text, theme } from "galio-framework";
+
+import { Button, Input } from "../components";
+import { Images, argonTheme } from "../constants";
+import { DataContext } from "../context";
+
+const { width, height } = Dimensions.get("screen");
+
+export default function Login(props) {
+  const { navigation } = props;
+  const { setCurrentUser, url } = useContext(DataContext);
+  const [correo, setCorreo] = useState("");
+  const [contrasena, setContrasena] = useState("");
+  const styles = StyleSheet.create({
+    loginContainer: {
+      width: width * 0.8,
+      height: height * 0.8,
+      backgroundColor: "#F4F5F7",
+      borderRadius: 10,
+      shadowColor: argonTheme.COLORS.BLACK,
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowRadius: 8,
+      shadowOpacity: 0.1,
+      elevation: 1,
+      overflow: "hidden",
+      paddingTop: 200,
+    },
+    inputIcons: {
+      marginRight: 12,
+    },
+    createButton: {
+      width: width * 0.3,
+      marginTop: 25,
+    },
+    passButton: {
+      width: width * 0.15,
+      height: 20,
+    },
+  });
+  function handleLogin() {
+    const usuario = {
+      correo: correo,
+      contrasena: contrasena,
+    };
+    fetch(url + "usuarios/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(usuario),
+    })
+      .then((response) => {
+        if (response.status != 404) {
+          return response.json();
+        }
+        return;
+      })
+      .then((res) => {
+        if (res) {
+          setCurrentUser(res);
+          navigation.navigate("Home");
+        } else {
+          setUsuario({ invalid: true });
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+  return (
+    <Block flex middle>
+      <StatusBar hidden />
+      <ImageBackground
+        source={Images.RegisterBackground}
+        style={{ width, height, zIndex: 1 }}
+      >
+        <Block safe flex middle>
+          <Block style={styles.loginContainer}>
+            <Block flex={0.17} middle>
+              <Text bold color="#8898AA" size={30}>
+                Iniciá sesión
+              </Text>
+            </Block>
+            <Block flex center>
+              <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior="padding"
+                enabled
+              >
+                <Block width={width * 0.5} style={{ marginBottom: 15 }}>
+                  <Input
+                    borderless
+                    placeholder="Correo"
+                    type="email-address"
+                    iconContent={<></>}
+                    value={correo}
+                    onChangeText={(correo) => setCorreo(correo)}
+                  />
+                </Block>
+                <Block width={width * 0.5}>
+                  <Input
+                    password
+                    viewPass
+                    borderless
+                    placeholder="Contraseña"
+                    iconContent={<></>}
+                    value={contrasena}
+                    onChangeText={(pass) => setContrasena(pass)}
+                  />
+                  <Block row style={styles.passwordCheck}>
+                    <Button color="input" style={styles.passButton}>
+                      <Text bold size={15} color={argonTheme.COLORS.PRIMARY}>
+                        Recuperar Contraseña
+                      </Text>
+                    </Button>
+                  </Block>
+                </Block>
+                <Block middle>
+                  <Button
+                    color="primary"
+                    style={styles.createButton}
+                    onPress={() => handleLogin()}
+                  >
+                    <Text bold size={20} color={argonTheme.COLORS.WHITE}>
+                      Iniciar sesión
+                    </Text>
+                  </Button>
+                </Block>
+              </KeyboardAvoidingView>
+            </Block>
+          </Block>
+        </Block>
+      </ImageBackground>
+    </Block>
+  );
+}

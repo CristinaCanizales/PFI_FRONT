@@ -85,6 +85,7 @@ export default function CustomDrawerContent({
               Ayuda
             </Text> */}
           </Block>
+          <DrawerCustomItem title="Login" navigation={navigation} />
           <DrawerCustomItem title="Log out" navigation={navigation} />
         </ScrollView>
       </Block>

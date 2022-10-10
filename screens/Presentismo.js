@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { StyleSheet, Dimensions, ScrollView } from "react-native";
-import jugadores from "../constants/jugadores";
-import { CheckBox } from "@rneui/themed";
 import { DataTable } from "react-native-paper";
 import ModalSelector from "react-native-modal-selector";
 // Galio components
 import { Block, theme } from "galio-framework";
-import { Button, Icon } from "../components";
+import { Button } from "../components";
 // Argon themed components
-import { argonTheme } from "../constants";
 import DatePicker from "@dietime/react-native-date-picker";
+import { DataContext } from "../context";
 
 import FilaPresentismo from "../components/FilaPresentismo";
 
-const { width } = Dimensions.get("screen");
 export default function Presentismo({ route }) {
+  const { jugadores, url } = useContext(DataContext);
   const styles = StyleSheet.create({
     button: {
       borderRadius: 20,
@@ -28,7 +26,7 @@ export default function Presentismo({ route }) {
     modalSelector: {
       justifyContent: "space-around",
       alignSelf: "center",
-      width: 300,
+      width: 200,
       height: 40,
       backgroundColor: "#9bdcfa",
       borderRadius: 5,
@@ -43,34 +41,55 @@ export default function Presentismo({ route }) {
     },
   });
   const [date, setDate] = useState(new Date());
-  const [presente, setPresente] = useState(true);
-  const [tipo, setTipo] = useState("");
+  const [jugadorSeleccionado, setJugadorSeleccionado] = useState({});
   const optionsPerPage = [2, 3, 4];
-  const [check1, setCheck1] = useState(false);
   const [page, setPage] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
 
-  const cargarPresentismoAtrasado = () => {
-    //TO DO:
-    //FETCH POST
-  };
+  const jugadoresMap = jugadores.map((item, index) => {
+    return {
+      key: index + 1,
+      label: `${item.usuario.nombre} ${item.usuario.apellido}`,
+    };
+  });
+  function cargarPresentismoAtrasado() {
+    const presentismo = {
+      fecha: date,
+      presente: true,
+      usuarioId: jugadorSeleccionado.key,
+      // equipoId: jugadorSeleccionado.equipoId,
+    };
+    fetch(url + "presentismos/nuevo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(presentismo),
+    })
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
   useEffect(() => {
     setPage(0);
-  }, [itemsPerPage, check1]);
+  }, [itemsPerPage]);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Block row center>
         <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
           <ModalSelector
-            data={jugadores}
+            data={jugadoresMap}
             overlayStyle={{ backgroundColor: "transparent" }}
-            initValue="Seleccionar jugador"
+            initValue={jugadorSeleccionado.label || "Seleccionar jugador"}
             margin="50"
             style={styles.modalSelector}
             type="solid"
-            // key={tipo}
-            onChange={(texto) => {
-              setTipo(texto.label);
+            key={jugadorSeleccionado}
+            onChange={(jugador) => {
+              setJugadorSeleccionado(jugador);
             }}
             initValueTextStyle={{
               fontWeight: "500",
@@ -106,7 +125,7 @@ export default function Presentismo({ route }) {
         <Button
           style={styles.buttonModal}
           textStyle={{ fontSize: 18, color: "black", fontWeight: "500" }}
-          onClick={cargarPresentismoAtrasado}
+          onPress={() => cargarPresentismoAtrasado()}
         >
           Presentismo atrasado
         </Button>

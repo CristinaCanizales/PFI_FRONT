@@ -54,6 +54,13 @@ export default function DrawerItem(props) {
             style={styles.btnIcon}
           />
         );
+      case "Login":
+        return (
+          <Image
+            source={require("../assets/icons/enter.png")}
+            style={styles.btnIcon}
+          />
+        );
       case "Perfil":
         return (
           <Image

@@ -14,9 +14,11 @@ export default function Datos(props) {
     accionesVolleyball,
     deportes,
     jugadores,
+    partidos,
     url,
   } = useContext(DataContext);
   const [jugadorSeleccionado, setJugadorSeleccionado] = useState({});
+  const [partidoSeleccionado, setPartidoSeleccionado] = useState({});
   const [deporteSeleccionado, setDeporteSeleccionado] = useState({});
   const styles = StyleSheet.create({
     group: {
@@ -60,6 +62,9 @@ export default function Datos(props) {
   const deportesMap = deportes.map((item, index) => {
     return { key: index + 1, label: item.nombre };
   });
+  const partidosMap = partidos.map((item, index) => {
+    return { key: index + 1, label: item.fechaPartido };
+  });
   const accionesHandballMap = accionesHandball.map((item, index) => {
     return { color: colores[index], label: item.nombre };
   });
@@ -80,6 +85,7 @@ export default function Datos(props) {
       accionId: index,
       jugadorId: jugadorSeleccionado.key,
       deporteId: deporteSeleccionado.key,
+      partidoId: partidoSeleccionado.key,
     };
     let pathAccion;
     if (deporteSeleccionado.label === "Handball") {
@@ -145,10 +151,45 @@ export default function Datos(props) {
               backdropPressToClose={true}
               cancelText="Cancelar"
             />
-            <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
+            <Block middle style={{ marginTop: 20, marginBottom: 10 }}>
               <Block style={styles.divider} />
             </Block>
-            <Block style={{ marginTop: 16, marginBottom: 16 }}>
+            <Block style={{ marginTop: 20, marginBottom: 10 }}>
+              <ModalSelector
+                data={partidosMap}
+                overlayStyle={{ backgroundColor: "transparent" }}
+                initValue={partidoSeleccionado.label || "Seleccionar partido"}
+                margin="50"
+                style={styles.modalSelector}
+                type="solid"
+                key={partidoSeleccionado.label}
+                onChange={(partido) => {
+                  setPartidoSeleccionado(partido);
+                }}
+                initValueTextStyle={{
+                  fontWeight: "500",
+                  color: "black",
+                }}
+                optionTextStyle={{ color: "black" }}
+                optionContainerStyle={{
+                  backgroundColor: "white",
+                  width: 400,
+                  alignSelf: "center",
+                  borderColor: "#9bdcfa",
+                }}
+                cancelContainerStyle={{
+                  backgroundColor: "#9bdcfa",
+                  width: 400,
+                  alignSelf: "center",
+                }}
+                backdropPressToClose={true}
+                cancelText="Cancelar"
+              />
+            </Block>
+            <Block middle style={{ marginTop: 20, marginBottom: 10 }}>
+              <Block style={styles.divider} />
+            </Block>
+            <Block style={{ marginTop: 20, marginBottom: 10 }}>
               <ModalSelector
                 data={jugadoresMap}
                 overlayStyle={{ backgroundColor: "transparent" }}
@@ -156,7 +197,7 @@ export default function Datos(props) {
                 margin="50"
                 style={styles.modalSelector}
                 type="solid"
-                key={jugadorSeleccionado.label}
+                key={jugadorSeleccionado}
                 onChange={(jugador) => {
                   setJugadorSeleccionado(jugador);
                 }}

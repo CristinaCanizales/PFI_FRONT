@@ -14,7 +14,6 @@ export default function TestsFisicos(props) {
   const { deportes, jugadores, url } = useContext(DataContext);
   const [jugadorSeleccionado, setJugadorSeleccionado] = useState({});
   const [deporteSeleccionado, setDeporteSeleccionado] = useState({});
-  const [date, setDate] = useState(new Date());
   const [fecha, setFecha] = useState(new Date());
   const [velocidad, setVelocidad] = useState(0);
   const [resistencia, setResistencia] = useState(0);
@@ -177,18 +176,6 @@ export default function TestsFisicos(props) {
               format="dd-mm-yyyy"
             />
           </Block>
-          {/* <Input
-            placeholder="..."
-            style={{
-              borderColor: argonTheme.COLORS.INFO,
-              borderRadius: 5,
-              backgroundColor: "#fff",
-              width: 400,
-              alignSelf: "center",
-            }}
-            iconContent={<></>}
-            onChangeText={(text) => setFecha(text)}
-          /> */}
         </Block>
 
         <Block center row style={{ marginBottom: 10 }}>
@@ -206,7 +193,7 @@ export default function TestsFisicos(props) {
             }}
             iconContent={<></>}
             onChangeText={(text) => setVelocidad(parseInt(text))}
-            // value={velocidad}
+            value={velocidad}
           />
         </Block>
 
@@ -225,7 +212,7 @@ export default function TestsFisicos(props) {
             }}
             iconContent={<Block />}
             onChangeText={(text) => setResistencia(parseInt(text))}
-            // value={resistencia}
+            value={resistencia}
           />
         </Block>
 
@@ -244,7 +231,7 @@ export default function TestsFisicos(props) {
             }}
             iconContent={<></>}
             onChangeText={(text) => setSaltoAlto(parseInt(text))}
-            // value={saltoAlto}
+            value={saltoAlto}
           />
         </Block>
 
@@ -263,7 +250,7 @@ export default function TestsFisicos(props) {
             }}
             iconContent={<></>}
             onChangeText={(text) => setSaltoLargo(parseInt(text))}
-            // value={saltoLargo}
+            value={saltoLargo}
           />
         </Block>
 

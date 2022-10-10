@@ -1,23 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   StyleSheet,
   Dimensions,
   ScrollView,
   Image,
   ImageBackground,
-  Platform
+  Platform,
 } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 
 import { Button } from "../components";
 import { Images, argonTheme } from "../constants";
 import { HeaderHeight } from "../constants/utils";
+import { DataContext } from "../context";
 
 const { width, height } = Dimensions.get("screen");
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
 export default function Perfil(props) {
+  const { jugadores, url } = useContext(DataContext);
   const styles = StyleSheet.create({
     profile: {
       marginTop: Platform.OS === "android" ? -HeaderHeight : 0,
@@ -90,7 +92,7 @@ export default function Perfil(props) {
         >
           <ScrollView
             showsVerticalScrollIndicator={false}
-            style={{ width, marginTop: "20%" }}
+            style={{ width, marginTop: "15%" }}
           >
             <Block flex style={styles.profileCard}>
               <Block middle style={styles.avatarContainer}>
@@ -184,21 +186,14 @@ export default function Perfil(props) {
               <Block row space="between">
                 <Block middle style={styles.nameInfo}>
                   <Text bold size={28} color="#32325D">
-                    Agostina Zorzón, 26
+                    {jugadores[0].usuario.nombre}{" "}
+                    {jugadores[0].usuario.apellido}, {jugadores[0].usuario.edad}
                   </Text>
                   <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
-                    Equipo Pakistani Sequelizer
+                    {jugadores[0].equipo.nombre}, {jugadores[0].equipo.genero}
                   </Text>
                   <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
-                    Buenos Aires, Argentina
-                  </Text>
-                  <Text
-                    size={16}
-                    color="#525F7F"
-                    style={{ textAlign: "center", marginTop: 10 }}
-                  >
-                    Jugadora #1 de Argentina. Le gusta mucho el gin tonic y ama
-                    a Lola (su perrhija)
+                    {jugadores[0].usuario.direccion}
                   </Text>
                 </Block>
                 <Block style={{ marginLeft: 10 }}>
@@ -234,4 +229,3 @@ export default function Perfil(props) {
     </Block>
   );
 }
-

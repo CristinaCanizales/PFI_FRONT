@@ -9,6 +9,7 @@ import Home from "../screens/Home";
 import Perfil from "../screens/Perfil";
 import Dashboard from "../screens/Dashboard";
 import Grabaciones from "../screens/Grabaciones";
+import Login from "../screens/Login";
 import Register from "../screens/Register";
 import CargaDeDatos from "../screens/CargaDeDatos";
 import DetalleEntrenamiento from "../screens/DetalleEntrenamiento";
@@ -311,6 +312,13 @@ function AppStack(props) {
       <Drawer.Screen
         name="Registro"
         component={Register}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Drawer.Screen
+        name="Login"
+        component={Login}
         options={{
           headerShown: false,
         }}

@@ -8,6 +8,7 @@ export function DataProvider(props) {
   const [usuarios, setUsuarios] = useState([]);
   const [jugadores, setJugadores] = useState([]);
   const [deportes, setDeportes] = useState({});
+  const [partidos, setPartidos] = useState({});
   const [accionesHandball, setAccionesHandball] = useState([]);
   const [accionesFutbol, setAccionesFutbol] = useState([]);
   const [accionesVolleyball, setAccionesVolleyball] = useState([]);
@@ -21,6 +22,7 @@ export function DataProvider(props) {
     fetchAccionesFutbol();
     fetchAccionesVolleyball();
     fetchTestsFisicos();
+    fetchPartidos();
     console.log("Bienvenidos a My Team Stats! :)))))");
   }, []);
 
@@ -38,6 +40,8 @@ export function DataProvider(props) {
         setUrl,
         testsFisicos,
         setTestsFisicos,
+        partidos,
+        setPartidos,
         usuarios,
         setUsuarios,
         jugadores,
@@ -89,6 +93,15 @@ export function DataProvider(props) {
       .then((response) => response.json())
       .then((res) => {
         setTestsFisicos(res);
+      })
+      .catch((e) => console.log("Error", e));
+  }
+
+  function fetchPartidos() {
+    fetch(url + "partidos")
+      .then((response) => response.json())
+      .then((res) => {
+        setPartidos(res);
       })
       .catch((e) => console.log("Error", e));
   }

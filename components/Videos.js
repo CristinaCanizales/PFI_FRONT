@@ -53,17 +53,17 @@ export default function Videos(props) {
   async function imageUploader(files) {
     const newUri = "file://" + files.split("file:/").join("");
     console.log(newUri, mime.getType(newUri));
-    let photo = {
+    let video = {
       uri: newUri,
       type: mime.getType(newUri),
       name: newUri.split("/").pop(),
     };
     const formData = new FormData();
-    formData.append("file", photo);
-    formData.append("upload_preset", "dhnd6bdt");
-    formData.append("resource_type", "image");
+    formData.append("file", video);
+    formData.append("upload_preset", "pfi_cloudinary");
+    formData.append("resource_type", "video");
     console.log(formData);
-    fetch("https://api.cloudinary.com/v1_1/subastapp/image/upload", {
+    fetch("https://api.cloudinary.com/guariqueteo/home/pfi/video/upload", {
       headers: {
         "content-type": "application/form-data",
       },
@@ -79,7 +79,7 @@ export default function Videos(props) {
 
   function handleButtonClick() {
     console.log(videos);
-    const nuevoProducto = {
+    const nuevoVideo = {
       tituloVideo: titulo,
       tipo: tipo,
       categoria: categoria,
@@ -87,13 +87,13 @@ export default function Videos(props) {
       fecha: fecha,
       video: videos,
     };
-    fetch(url + "productos", {
+    fetch(url + "grabaciones", {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
       },
 
-      body: JSON.stringify({ ...nuevoProducto }),
+      body: JSON.stringify({ ...nuevoVideo }),
     })
       .then((response) => {
         //console.log(response.status+": "+JSON.stringify(response))
@@ -150,13 +150,13 @@ export default function Videos(props) {
               { key: 1, label: "Grabación" },
             ]}
             overlayStyle={{ backgroundColor: "transparent" }}
-            initValue="Seleccionar tipo de video"
+            initValue={tipo.label || "Seleccionar tipo de video"}
             margin="50"
             style={styles.modalSelector}
             type="solid"
             key={tipo}
             onChange={(texto) => {
-              setTipo(texto.label);
+              setTipo(texto);
             }}
             initValueTextStyle={{
               fontWeight: "500",
