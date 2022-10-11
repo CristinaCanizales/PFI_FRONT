@@ -33,6 +33,13 @@ export default function DrawerItem(props) {
     const { title, focused } = props;
 
     switch (title) {
+      case "Admin":
+        return (
+          <Image
+            source={require("../assets/icons/admin.png")}
+            style={styles.btnIcon}
+          />
+        );
       case "Home":
         return (
           <Image

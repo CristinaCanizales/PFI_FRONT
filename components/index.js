@@ -13,13 +13,13 @@ import TestsFisicos from "./TestsFisicos";
 export {
   Button,
   Card,
+  Datos,
   DrawerItem,
+  Header,
   Icon,
   Input,
-  Header,
-  Switch,
   Reloj,
-  Datos,
-  Videos,
+  Switch,
   TestsFisicos,
+  Videos,
 };

@@ -1,18 +1,10 @@
 import React, { useState, useCallback } from "react";
 import { withNavigation } from "@react-navigation/compat";
 import PropTypes from "prop-types";
-import {
-  StyleSheet,
-  Dimensions,
-  Alert,
-  Image,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 import { Video, AVPlaybackStatus } from "expo-av";
 import YoutubePlayer from "react-native-youtube-iframe";
-
-import { argonTheme } from "../constants";
 
 function CardVideo(props) {
   const [playing, setPlaying] = useState(false);
@@ -39,6 +31,11 @@ function CardVideo(props) {
     },
     cardDescription: {
       padding: theme.SIZES.BASE / 2,
+    },
+    divider: {
+      width: 500,
+      borderWidth: 1,
+      borderColor: "#E9ECEF",
     },
     video: {
       height: 310,
@@ -86,9 +83,17 @@ function CardVideo(props) {
         )}
       </Block>
       <Block flex space="between" style={styles.cardDescription}>
-        <Text size={14} style={styles.cardTitle}>
-          {item.title}
+        <Text center h4 style={styles.cardTitle}>
+          {item.titulo}
         </Text>
+        {youtube && (
+          <>
+            <Block style={styles.divider} />
+            <Text size={20} style={styles.cardTitle}>
+              {item.categoria}: {item.detalleRutina}
+            </Text>
+          </>
+        )}
       </Block>
     </Block>
   );

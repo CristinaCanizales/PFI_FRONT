@@ -1,20 +1,14 @@
-import React, { useState } from "react";
-import {
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-  ScrollView,
-} from "react-native";
+import React, { useState, useContext } from "react";
+import { StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Block, theme } from "galio-framework";
 
 import CardVideo from "../components/CardVideo.js";
-import videos from "../constants/videos";
+import { DataContext } from "../context";
 const { width } = Dimensions.get("screen");
 
 export default function Entrenamientos(props) {
+  const { entrenamientos } = useContext(DataContext);
   const { navigation } = props;
-  const [status, setStatus] = useState(0);
-  const video = React.useRef(null);
   const styles = StyleSheet.create({
     home: {
       width: width,
@@ -39,28 +33,15 @@ export default function Entrenamientos(props) {
             flexWrap: "wrap",
           }}
         >
-          {videos.map((item, index) => {
-        
+          {entrenamientos.map((item, index) => {
             return (
-              <TouchableOpacity
-                key={index}
-                style={[styles.button]}
-                onPress={() => {
-                  console.log("video", item);
-                  navigation.navigate("Detalle del entrenamiento", {
-                    screen: "Detalle del entrenamiento",
-                    params: { item: item },
-                  });
-                }}
-              >
-                <Block style={{ borderRadius: 50 }}>
-                  <CardVideo
-                    youtube={true}
-                    item={item}
-                    style={{ marginRight: theme.SIZES.BASE }}
-                  />
-                </Block>
-              </TouchableOpacity>
+              <Block key={index} style={{ borderRadius: 50 }}>
+                <CardVideo
+                  youtube={true}
+                  item={item}
+                  style={{ marginRight: theme.SIZES.BASE }}
+                />
+              </Block>
             );
           })}
         </Block>

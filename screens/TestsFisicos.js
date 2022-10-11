@@ -19,23 +19,53 @@ export default function TestsFisicos({ route }) {
     <ScrollView showsVerticalScrollIndicator={false}>
       <DataTable>
         <DataTable.Header>
-          <DataTable.Title>Jugador</DataTable.Title>
-          <DataTable.Title numeric>Resistencia</DataTable.Title>
-          <DataTable.Title numeric>Velocidad</DataTable.Title>
-          <DataTable.Title numeric>Salto en alto</DataTable.Title>
-          <DataTable.Title numeric>Salto en largo</DataTable.Title>
+          <DataTable.Title textStyle={{ fontSize: 20, fontWeight: "bold" }}>
+            Jugador
+          </DataTable.Title>
+          <DataTable.Title
+            numeric
+            textStyle={{ fontSize: 20, fontWeight: "bold" }}
+          >
+            Resistencia
+          </DataTable.Title>
+          <DataTable.Title
+            numeric
+            textStyle={{ fontSize: 20, fontWeight: "bold" }}
+          >
+            Velocidad
+          </DataTable.Title>
+          <DataTable.Title
+            numeric
+            textStyle={{ fontSize: 20, fontWeight: "bold" }}
+          >
+            Salto en alto
+          </DataTable.Title>
+          <DataTable.Title
+            numeric
+            textStyle={{ fontSize: 20, fontWeight: "bold" }}
+          >
+            Salto en largo
+          </DataTable.Title>
         </DataTable.Header>
 
         {testsFisicos.map((item, index) => {
           return (
             <DataTable.Row key={index}>
-              <DataTable.Cell>
+              <DataTable.Cell textStyle={{ fontSize: 18 }}>
                 {item.jugador.usuario.nombre} {item.jugador.usuario.apellido}
               </DataTable.Cell>
-              <DataTable.Cell numeric>{item.resistencia}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.velocidad}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.saltoAlto}</DataTable.Cell>
-              <DataTable.Cell numeric>{item.saltoLargo}</DataTable.Cell>
+              <DataTable.Cell textStyle={{ fontSize: 18 }} numeric>
+                {item.resistencia}
+              </DataTable.Cell>
+              <DataTable.Cell textStyle={{ fontSize: 18 }} numeric>
+                {item.velocidad}
+              </DataTable.Cell>
+              <DataTable.Cell textStyle={{ fontSize: 18 }} numeric>
+                {item.saltoAlto}
+              </DataTable.Cell>
+              <DataTable.Cell textStyle={{ fontSize: 18 }} numeric>
+                {item.saltoLargo}
+              </DataTable.Cell>
             </DataTable.Row>
           );
         })}

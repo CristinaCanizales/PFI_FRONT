@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Block, theme } from "galio-framework";
 
 import CardVideo from "../components/CardVideo.js";
-import videos from "../constants/grabacionesVideos";
+import { DataContext } from "../context";
 const { width } = Dimensions.get("screen");
 
 export default function Grabaciones(props) {
+  const { grabaciones } = useContext(DataContext);
   const { navigation } = props;
   const styles = StyleSheet.create({
     home: {
@@ -32,7 +33,7 @@ export default function Grabaciones(props) {
             flexWrap: "wrap",
           }}
         >
-          {videos.map((item, index) => {
+          {grabaciones.map((item, index) => {
             return (
               <Block key={index} style={{ borderRadius: 50 }}>
                 <CardVideo

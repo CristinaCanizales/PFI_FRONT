@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   StyleSheet,
   Dimensions,
@@ -9,9 +9,10 @@ import {
 } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 
-import { Button } from "../components";
+import { Button, Icon } from "../components";
 import { Images, argonTheme } from "../constants";
 import { HeaderHeight } from "../constants/utils";
+import { DataTable } from "react-native-paper";
 import { DataContext } from "../context";
 
 const { width, height } = Dimensions.get("screen");
@@ -19,7 +20,17 @@ const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
 
 export default function Perfil(props) {
-  const { jugadores, url } = useContext(DataContext);
+  const { jugadores, jugadorRutinasMap, entrenamientos, url } =
+    useContext(DataContext);
+  const [presente, setPresente] = useState(false);
+  const [items, setItems] = useState([]);
+  const optionsPerPage = [2, 3, 4];
+  const [page, setPage] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [itemsPerPage]);
   const styles = StyleSheet.create({
     profile: {
       marginTop: Platform.OS === "android" ? -HeaderHeight : 0,
@@ -72,6 +83,7 @@ export default function Perfil(props) {
       width: "90%",
       borderWidth: 1,
       borderColor: "#E9ECEF",
+      marginTop: 20,
     },
     thumb: {
       borderRadius: 4,
@@ -97,11 +109,11 @@ export default function Perfil(props) {
             <Block flex style={styles.profileCard}>
               <Block middle style={styles.avatarContainer}>
                 <Image
-                  source={require("../assets/icons/agos.jpg")}
+                  source={require("../assets/icons/cristi.jpeg")}
                   style={styles.avatar}
                 />
               </Block>
-              <Block style={styles.info}>
+              {/* <Block style={styles.info}>
                 <Block row space="between" style={{ marginTop: 10 }}>
                   <Block middle>
                     <Text
@@ -182,7 +194,7 @@ export default function Perfil(props) {
                     </Text>
                   </Block>
                 </Block>
-              </Block>
+              </Block> */}
               <Block row space="between">
                 <Block middle style={styles.nameInfo}>
                   <Text bold size={28} color="#32325D">
@@ -208,18 +220,103 @@ export default function Perfil(props) {
                   </Button>
                 </Block>
               </Block>
-              <Block>
-                <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
-                  <Block style={styles.divider} />
-                </Block>
-                <Block middle>
-                  <Block key="qr" style={styles.shadow}>
-                    <Image
-                      resizeMode="cover"
-                      source={require("../assets/imgs/qr.jpeg")}
-                      style={{ height: 300, width: 300 }}
-                    />
+              <Block style={styles.divider} />
+              <Block center row>
+                <Block
+                  style={{
+                    marginRight: 80,
+                    width: 500,
+                  }}
+                >
+                  <Block
+                    middle
+                    style={{ marginTop: 20, marginBottom: 16 }}
+                  ></Block>
+                  <Block middle>
+                    <Block key="qr" style={styles.shadow}>
+                      <Image
+                        resizeMode="cover"
+                        source={require("../assets/imgs/qr.jpeg")}
+                        style={{ height: 300, width: 300 }}
+                      />
+                    </Block>
                   </Block>
+                </Block>
+                <Block
+                  style={{
+                    marginTop: 20,
+                    marginBottom: 16,
+                    marginLeft: 80,
+                    width: 400,
+                  }}
+                >
+                  <DataTable>
+                    <DataTable.Header>
+                      <DataTable.Title
+                        textStyle={{ fontSize: 20, fontWeight: "bold" }}
+                      >
+                        Entrenamiento
+                      </DataTable.Title>
+                      <DataTable.Title
+                        textStyle={{ fontSize: 20, fontWeight: "bold" }}
+                      >
+                        Asignado
+                      </DataTable.Title>
+                    </DataTable.Header>
+
+                    {entrenamientos.map((item, index) => {
+                      return (
+                        <DataTable.Row key={index}>
+                          <DataTable.Cell textStyle={{ fontSize: 18 }}>
+                            {item.titulo}
+                          </DataTable.Cell>
+                          <DataTable.Cell>
+                            <Block
+                              middle
+                              style={{
+                                width: 20,
+                                height: 20,
+                                borderRadius: 10,
+                                backgroundColor: jugadorRutinasMap.includes(
+                                  index + 1
+                                )
+                                  ? argonTheme.COLORS.INPUT_SUCCESS
+                                  : argonTheme.COLORS.INPUT_ERROR,
+                              }}
+                            >
+                              {jugadorRutinasMap.includes(index + 1) ? (
+                                <Icon
+                                  size={11}
+                                  color={argonTheme.COLORS.ICON}
+                                  name="g-check"
+                                  family="ArgonExtra"
+                                />
+                              ) : (
+                                <Icon
+                                  size={11}
+                                  color={argonTheme.COLORS.ICON}
+                                  name="close"
+                                  family="AntDesign"
+                                />
+                              )}
+                            </Block>
+                          </DataTable.Cell>
+                        </DataTable.Row>
+                      );
+                    })}
+
+                    <DataTable.Pagination
+                      page={page}
+                      numberOfPages={3}
+                      onPageChange={(page) => setPage(page)}
+                      label="1-2 de 6"
+                      optionsPerPage={optionsPerPage}
+                      itemsPerPage={itemsPerPage}
+                      setItemsPerPage={setItemsPerPage}
+                      showFastPagination
+                      optionsLabel={"Filas por página"}
+                    />
+                  </DataTable>
                 </Block>
               </Block>
             </Block>

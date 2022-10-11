@@ -66,13 +66,13 @@ export default function Datos(props) {
     return { key: index + 1, label: item.fechaPartido };
   });
   const accionesHandballMap = accionesHandball.map((item, index) => {
-    return { color: colores[index], label: item.nombre };
+    return { color: colores[index], label: item.nombre, id: item.id };
   });
   const accionesFutbolMap = accionesFutbol.map((item, index) => {
-    return { color: colores[index], label: item.nombre };
+    return { color: colores[index], label: item.nombre, id: item.id };
   });
   const accionesVolleyballMap = accionesVolleyball.map((item, index) => {
-    return { color: colores[index], label: item.nombre };
+    return { color: colores[index], label: item.nombre, id: item.id };
   });
   const jugadoresMap = jugadores.map((item, index) => {
     return {
@@ -80,9 +80,9 @@ export default function Datos(props) {
       label: `${item.usuario.nombre} ${item.usuario.apellido}`,
     };
   });
-  function handleAccion(index) {
+  function handleAccion(accionId) {
     const accion = {
-      accionId: index,
+      accionId: accionId,
       jugadorId: jugadorSeleccionado.key,
       deporteId: deporteSeleccionado.key,
       partidoId: partidoSeleccionado.key,
@@ -234,7 +234,7 @@ export default function Datos(props) {
                         color={item.color}
                         style={styles.button}
                         onPress={(key) => {
-                          handleAccion(index + 1);
+                          handleAccion(item.id);
                         }}
                       >
                         {item.label}
@@ -250,7 +250,7 @@ export default function Datos(props) {
                         color={item.color}
                         style={styles.button}
                         onPress={(key) => {
-                          handleAccion(index + 1);
+                          handleAccion(item.id);
                         }}
                       >
                         {item.label}
@@ -266,7 +266,7 @@ export default function Datos(props) {
                         color={item.color}
                         style={styles.button}
                         onPress={(key) => {
-                          handleAccion(index + 1);
+                          handleAccion(item.id);
                         }}
                       >
                         {item.label}

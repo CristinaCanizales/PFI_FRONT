@@ -26,13 +26,13 @@ const Header = (props) => {
     },
     title: {
       width: "100%",
-      fontSize: 16,
+      fontSize: 25,
       fontWeight: "bold",
     },
     navbar: {
       paddingVertical: 0,
       paddingBottom: theme.SIZES.BASE * 1.5,
-      paddingTop: iPhoneX ? theme.SIZES.BASE * 4 : theme.SIZES.BASE,
+      paddingTop: 35,
       zIndex: 5,
     },
     shadow: {
@@ -67,11 +67,6 @@ const Header = (props) => {
       borderRadius: 3,
       borderColor: argonTheme.COLORS.BORDER,
     },
-    options: {
-      marginBottom: 24,
-      marginTop: 10,
-      elevation: 4,
-    },
     tab: {
       backgroundColor: theme.COLORS.TRANSPARENT,
       width: width * 0.35,
@@ -99,8 +94,6 @@ const Header = (props) => {
     iconColor,
     titleColor,
     navigation,
-    search,
-    options,
     optionLeft,
     optionRight,
     tabs,
@@ -109,20 +102,6 @@ const Header = (props) => {
   } = props;
   const handleLeftPress = () => {
     return back ? navigation.goBack() : navigation.openDrawer();
-  };
-  const renderRight = () => {
-    return (
-      <TouchableOpacity
-        style={[styles.button]}
-        onPress={() => navigation.navigate("Home")}
-      >
-        <Image
-          source={require("../assets/icons/bell-ring.png")}
-          style={styles.btnIcon}
-        />
-        <Block middle style={styles.notify} />
-      </TouchableOpacity>
-    );
   };
   const renderSearch = () => {
     return (
@@ -142,57 +121,6 @@ const Header = (props) => {
       />
     );
   };
-  const renderOptions = () => {
-    return (
-      <Block row style={styles.options}>
-        <Button
-          shadowless
-          style={[styles.tab, styles.divider]}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Block row middle>
-            <Image
-              source={require("../assets/icons/runner.png")}
-              style={[styles.btnIcon, { paddingRight: 8, marginRight: 10 }]}
-            />
-            <Text size={16} style={styles.tabTitle}>
-              {optionLeft || "Mejor partido del año"}
-            </Text>
-          </Block>
-        </Button>
-        <Button
-          shadowless
-          style={[styles.tab, styles.divider]}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Block row middle>
-            <Image
-              source={require("../assets/icons/runner.png")}
-              style={[styles.btnIcon, { paddingRight: 8, marginRight: 10 }]}
-            />
-            <Text size={16} style={styles.tabTitle}>
-              {optionLeft || "Último partido ganado"}
-            </Text>
-          </Block>
-        </Button>
-        <Button
-          shadowless
-          style={[styles.tab, styles.divider]}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Block row middle>
-            <Image
-              source={require("../assets/icons/runner.png")}
-              style={[styles.btnIcon, { paddingRight: 8, marginRight: 10 }]}
-            />
-            <Text size={16} style={styles.tabTitle}>
-              {optionLeft || "Errores frecuentes en último partido"}
-            </Text>
-          </Block>
-        </Button>
-      </Block>
-    );
-  };
 
   const noShadow = ["Search", "Categories", "Deals", "Perfil"].includes(title);
   const headerStyles = [
@@ -209,7 +137,6 @@ const Header = (props) => {
         title={title}
         style={navbarStyles}
         transparent={transparent}
-        right={renderRight()}
         rightStyle={{ alignItems: "center" }}
         left={
           <Pressable onPress={handleLeftPress}>
@@ -231,12 +158,6 @@ const Header = (props) => {
         ]}
         {...props}
       />
-      {(search || options) && (
-        <Block center>
-          {search ? renderSearch() : null}
-          {options ? renderOptions() : null}
-        </Block>
-      )}
     </Block>
   );
 };

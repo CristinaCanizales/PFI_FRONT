@@ -29,4 +29,9 @@ export default [
     image:
       "https://res.cloudinary.com/guariqueteo/image/upload/v1661575255/PFI/attendance_uzmkpm.png",
   },
+  {
+    title: "Admin",
+    image:
+      "https://res.cloudinary.com/guariqueteo/image/upload/v1665458021/PFI/admin_nkwu9c.png",
+  },
 ];

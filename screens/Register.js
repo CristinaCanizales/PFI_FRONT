@@ -66,7 +66,7 @@ export default function Register(props) {
   const [contrasena, setContrasena] = useState("");
   const [contrasena2, setContrasena2] = useState("");
   const [direccion, setDireccion] = useState("");
-  const [telefono, setTelefono] = useState("");
+  const [dni, setDNI] = useState("");
 
   function calcularEdad() {
     var hoy = new Date();
@@ -88,11 +88,11 @@ export default function Register(props) {
       correo: correo,
       contrasena: contrasena,
       direccion: direccion,
-      telefono: telefono,
+      telefono: dni,
       edad: calcularEdad(),
       // foto: foto
     };
-    fetch(url + "usuarios/nuevo", {
+    fetch(url + "usuarios/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -268,21 +268,29 @@ export default function Register(props) {
                         format="dd-mm-yyyy"
                       />
                     </Block>
-                    <Input
-                      style={{
-                        width: 450,
-                        marginRight: 125,
-                        shadowColor: argonTheme.COLORS.BLACK,
-                        shadowOffset: { width: 0, height: 1 },
-                        shadowRadius: 2,
-                        shadowOpacity: 0.05,
-                        elevation: 2,
-                      }}
-                      placeholder="Teléfono"
-                      iconContent={<></>}
-                      value={telefono}
-                      onChangeText={(telefono) => setTelefono(telefono)}
-                    />
+                    <Block>
+                      <Input
+                        style={{
+                          width: 450,
+                          shadowColor: argonTheme.COLORS.BLACK,
+                          shadowOffset: { width: 0, height: 1 },
+                          shadowRadius: 2,
+                          shadowOpacity: 0.05,
+                          elevation: 2,
+                        }}
+                        placeholder="DNI"
+                        iconContent={<></>}
+                        value={dni}
+                        onChangeText={(dni) => setDNI(dni)}
+                      />
+                      {dni === "" && (
+                        <Block>
+                          <Text bold size={14} color={argonTheme.COLORS.ERROR}>
+                            Campo requerido
+                          </Text>
+                        </Block>
+                      )}
+                    </Block>
                   </Block>
                   <Block width={width * 0.8}></Block>
                   <Block width={width * 0.8}>

@@ -4,25 +4,38 @@ export const DataContext = createContext({});
 
 export function DataProvider(props) {
   LogBox.ignoreAllLogs(true);
-  const [currentUser, setCurrentUser] = useState({});
   const [usuarios, setUsuarios] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
   const [jugadores, setJugadores] = useState([]);
-  const [deportes, setDeportes] = useState({});
-  const [partidos, setPartidos] = useState({});
+  const [equipos, setEquipos] = useState([]);
+  const [deportes, setDeportes] = useState([]);
+  const [partidos, setPartidos] = useState([]);
+  const [grabaciones, setGrabaciones] = useState([]);
+  const [jugadorRutinas, setJugadorRutinas] = useState([]);
+  const [jugadorRutinasMap, setJugadorRutinasMap] = useState([]);
+  const [entrenamientos, setEntrenamientos] = useState([]);
+  const [torneos, setTorneos] = useState([]);
   const [accionesHandball, setAccionesHandball] = useState([]);
   const [accionesFutbol, setAccionesFutbol] = useState([]);
   const [accionesVolleyball, setAccionesVolleyball] = useState([]);
   const [testsFisicos, setTestsFisicos] = useState([]);
+  let aux = [];
   const [url, setUrl] = useState("http://192.168.0.182:8000/");
 
   useEffect(() => {
     fetchDeportes();
     fetchJugadores();
+    fetchEquipos();
     fetchAccionesHandball();
     fetchAccionesFutbol();
     fetchAccionesVolleyball();
     fetchTestsFisicos();
     fetchPartidos();
+    fetchTorneos();
+    fetchUsuarios();
+    fetchGrabaciones();
+    fetchEntrenamientos();
+    fetchJugadorRutinas();
     console.log("Bienvenidos a My Team Stats! :)))))");
   }, []);
 
@@ -33,6 +46,8 @@ export function DataProvider(props) {
         setCurrentUser,
         deportes,
         setDeportes,
+        equipos,
+        setEquipos,
         accionesHandball,
         accionesFutbol,
         accionesVolleyball,
@@ -42,6 +57,15 @@ export function DataProvider(props) {
         setTestsFisicos,
         partidos,
         setPartidos,
+        jugadorRutinas,
+        setJugadorRutinas,
+        jugadorRutinasMap,
+        grabaciones,
+        setGrabaciones,
+        entrenamientos,
+        setEntrenamientos,
+        torneos,
+        setTorneos,
         usuarios,
         setUsuarios,
         jugadores,
@@ -88,6 +112,15 @@ export function DataProvider(props) {
       .catch((e) => console.log("Error", e));
   }
 
+  function fetchTorneos() {
+    fetch(url + "torneos")
+      .then((response) => response.json())
+      .then((res) => {
+        setTorneos(res);
+      })
+      .catch((e) => console.log("Error", e));
+  }
+
   function fetchTestsFisicos() {
     fetch(url + "testsFisicos")
       .then((response) => response.json())
@@ -107,7 +140,7 @@ export function DataProvider(props) {
   }
 
   function fetchUsuarios() {
-    fetch(url + "users/")
+    fetch(url + "usuarios")
       .then((response) => response.json())
       .then((res) => {
         setUsuarios(res);
@@ -120,6 +153,46 @@ export function DataProvider(props) {
       .then((response) => response.json())
       .then((res) => {
         setJugadores(res);
+      })
+      .catch((e) => console.log("Error", e));
+  }
+
+  function fetchJugadorRutinas() {
+    fetch(url + "jugadorRutinas")
+      .then((response) => response.json())
+      .then((res) => {
+        setJugadorRutinas(res);
+        res.forEach((item, index) => {
+          if (item.jugadorId === 1) {
+            aux.push(item.entrenamientoId);
+          }
+        });
+        setJugadorRutinasMap(aux);
+      })
+      .catch((e) => console.log("Error", e));
+  }
+
+  function fetchGrabaciones() {
+    fetch(url + "grabaciones")
+      .then((response) => response.json())
+      .then((res) => {
+        setGrabaciones(res);
+      })
+      .catch((e) => console.log("Error", e));
+  }
+  function fetchEntrenamientos() {
+    fetch(url + "entrenamientos")
+      .then((response) => response.json())
+      .then((res) => {
+        setEntrenamientos(res);
+      })
+      .catch((e) => console.log("Error", e));
+  }
+  function fetchEquipos() {
+    fetch(url + "equipos")
+      .then((response) => response.json())
+      .then((res) => {
+        setEquipos(res);
       })
       .catch((e) => console.log("Error", e));
   }

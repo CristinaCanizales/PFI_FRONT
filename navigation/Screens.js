@@ -5,6 +5,7 @@ import { Header } from "../components";
 // drawer
 import CustomDrawerContent from "./Menu";
 // screens
+import Admin from "../screens/Admin";
 import Home from "../screens/Home";
 import Perfil from "../screens/Perfil";
 import Dashboard from "../screens/Dashboard";
@@ -12,7 +13,6 @@ import Grabaciones from "../screens/Grabaciones";
 import Login from "../screens/Login";
 import Register from "../screens/Register";
 import CargaDeDatos from "../screens/CargaDeDatos";
-import DetalleEntrenamiento from "../screens/DetalleEntrenamiento";
 import Presentismo from "../screens/Presentismo";
 import TestsFisicos from "../screens/TestsFisicos";
 import Entrenamientos from "../screens/Entrenamientos";
@@ -78,10 +78,31 @@ function GrabacionesStack(props) {
   );
 }
 
+function AdminStack(props) {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        mode: "card",
+        headerShown: "screen",
+      }}
+    >
+      <Stack.Screen
+        name="Admin"
+        component={Admin}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header back title="Admin" navigation={navigation} scene={scene} />
+          ),
+          cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function ProfileStack(props) {
   return (
     <Stack.Navigator
-      initialRouteName="Perfil"
       screenOptions={{
         mode: "card",
         headerShown: "screen",
@@ -145,33 +166,6 @@ function EntrenamientosStack(props) {
             <Header
               back
               title="Entrenamientos"
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
-          cardStyle: { backgroundColor: "#F8F9FE" },
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function DetalleEntrenamientoStack(props) {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        mode: "card",
-        headerShown: true,
-      }}
-    >
-      <Stack.Screen
-        name="Detalle del entrenamiento"
-        component={DetalleEntrenamiento}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              back
-              title="Detalle del entrenamiento"
               navigation={navigation}
               scene={scene}
             />
@@ -324,6 +318,13 @@ function AppStack(props) {
         }}
       />
       <Drawer.Screen
+        name="Admin"
+        component={AdminStack}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Drawer.Screen
         name="Dashboard"
         component={DashboardStack}
         options={{
@@ -347,13 +348,6 @@ function AppStack(props) {
       <Drawer.Screen
         name="Entrenamientos"
         component={EntrenamientosStack}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Drawer.Screen
-        name="Detalle del entrenamiento"
-        component={DetalleEntrenamientoStack}
         options={{
           headerShown: false,
         }}

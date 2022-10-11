@@ -4,21 +4,24 @@ import { ScrollView, View, StyleSheet, Image } from "react-native";
 import { Button, Input } from "../components";
 import ModalSelector from "react-native-modal-selector";
 import * as ImagePicker from "expo-image-picker";
+import DatePicker from "@dietime/react-native-date-picker";
 import mime from "mime";
 //galio
 import { Block, Text } from "galio-framework";
 // Argon themed components
 import { argonTheme } from "../constants";
+import { DataContext } from "../context";
 
 export default function Videos(props) {
+  const { partidos, url } = useContext(DataContext);
   const [titulo, setTitulo] = useState("");
-  const [tipo, setTipo] = useState("");
-  const [descripcion, setDescripcion] = useState("");
+  const [tipo, setTipo] = useState({});
   const [detalleRutina, setDetalleRutina] = useState("");
-  const [fecha, setFecha] = useState("");
+  const [videoEntrenamiento, setVideoEntrenamiento] = useState("");
+  const [partidoSeleccionado, setPartidoSeleccionado] = useState("");
+  // const [fecha, setFecha] = useState(new Date());
   const [categoria, setCategoria] = useState("");
-  const [videos, setVideos] = useState([]);
-  const [url, setUrl] = useState("");
+  const [videoGrabacion, setVideoGrabacion] = useState({});
   const styles = StyleSheet.create({
     modalSelector: {
       justifyContent: "space-around",
@@ -42,6 +45,9 @@ export default function Videos(props) {
       alignSelf: "center",
       margin: 10,
     },
+  });
+  const partidosMap = partidos.map((item, index) => {
+    return { key: index + 1, label: item.fechaPartido };
   });
   const checkTextInput = (e) => {
     if (!titulo.trim()) {
@@ -73,28 +79,40 @@ export default function Videos(props) {
       .then((response) => response.json())
       .then((data) => {
         console.log("===>" + JSON.stringify(data));
-        setVideos(data.url);
+        setVideoGrabacion(data.url);
       });
   }
 
   function handleButtonClick() {
-    console.log(videos);
-    const nuevoVideo = {
-      tituloVideo: titulo,
-      tipo: tipo,
-      categoria: categoria,
-      detalleRutina: detalleRutina,
-      fecha: fecha,
-      video: videos,
-    };
-    fetch(url + "grabaciones", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-      },
+    let nuevoVideo;
+    if (tipo === "Entrenamiento") {
+      nuevoVideo = {
+        titulo: titulo,
+        detalleRutina: detalleRutina,
+        categoria: categoria,
+        video: videoEntrenamiento,
+      };
+    } else {
+      nuevoVideo = {
+        titulo: titulo,
+        fecha: partidoSeleccionado.label,
+        partidoId: partidoSeleccionado.key,
+        video: videoGrabacion,
+      };
+    }
+    fetch(
+      url + tipo === "Entrenamiento"
+        ? "entrenamientos"
+        : "grabaciones" + "/nuevo",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+        },
 
-      body: JSON.stringify({ ...nuevoVideo }),
-    })
+        body: JSON.stringify({ ...nuevoVideo }),
+      }
+    )
       .then((response) => {
         //console.log(response.status+": "+JSON.stringify(response))
         return response.json();
@@ -123,27 +141,6 @@ export default function Videos(props) {
     <ScrollView>
       <View style={{ marginTop: 20 }}>
         <Block center row style={{ marginBottom: 10 }}>
-          <Text h5 style={{ marginRight: 20 }}>
-            Título:
-          </Text>
-          <Input
-            placeholder="..."
-            style={{
-              borderColor: argonTheme.COLORS.INFO,
-              borderRadius: 5,
-              backgroundColor: "#fff",
-              width: 400,
-              alignSelf: "center",
-            }}
-            iconContent={<Block />}
-            onChangeText={(text) => setTitulo(text)}
-            value={titulo}
-          />
-        </Block>
-        <Block center row style={{ marginBottom: 10 }}>
-          <Text h5 style={{ marginRight: 20 }}>
-            Tipo de video:
-          </Text>
           <ModalSelector
             data={[
               { key: 0, label: "Entrenamiento" },
@@ -178,10 +175,9 @@ export default function Videos(props) {
             cancelText="Cancelar"
           />
         </Block>
-
         <Block center row style={{ marginBottom: 10 }}>
           <Text h5 style={{ marginRight: 20 }}>
-            Categoría:
+            Título:
           </Text>
           <Input
             placeholder="..."
@@ -192,62 +188,141 @@ export default function Videos(props) {
               width: 400,
               alignSelf: "center",
             }}
-            iconContent={<></>}
-            onChangeText={(text) => setCategoria(text)}
-            value={categoria}
+            iconContent={<Block />}
+            onChangeText={(text) => setTitulo(text)}
+            value={titulo}
           />
         </Block>
 
-        <Block center row style={{ marginBottom: 10 }}>
-          <Text h5 style={{ marginRight: 20 }}>
-            Fecha:
-          </Text>
-          <Input
-            placeholder="..."
-            style={{
-              borderColor: argonTheme.COLORS.INFO,
-              borderRadius: 5,
-              backgroundColor: "#fff",
-              width: 400,
-              alignSelf: "center",
-            }}
-            iconContent={<></>}
-            onChangeText={(text) => setFecha(text)}
-            value={fecha}
-          />
-        </Block>
+        {tipo.label === "Entrenamiento" && (
+          <Block center row style={{ marginBottom: 10 }}>
+            <Text h5 style={{ marginRight: 20 }}>
+              Categoría:
+            </Text>
+            <Input
+              placeholder="..."
+              style={{
+                borderColor: argonTheme.COLORS.INFO,
+                borderRadius: 5,
+                backgroundColor: "#fff",
+                width: 400,
+                alignSelf: "center",
+              }}
+              iconContent={<></>}
+              onChangeText={(text) => setCategoria(text)}
+              value={categoria}
+            />
+          </Block>
+        )}
 
-        {tipo === "Entrenamiento" && (
+        {tipo.label === "Grabación" && (
+          <Block>
+            <ModalSelector
+              data={partidosMap}
+              overlayStyle={{ backgroundColor: "transparent" }}
+              initValue={partidoSeleccionado.label || "Seleccionar Partido"}
+              margin="50"
+              style={styles.modalSelector}
+              type="solid"
+              key={partidoSeleccionado}
+              onChange={(partido) => {
+                setPartidoSeleccionado(partido);
+              }}
+              initValueTextStyle={{
+                fontWeight: "500",
+                color: "black",
+              }}
+              optionTextStyle={{ color: "black" }}
+              optionContainerStyle={{
+                backgroundColor: "white",
+                width: 400,
+                alignSelf: "center",
+                borderColor: "#9bdcfa",
+              }}
+              cancelContainerStyle={{
+                backgroundColor: "#9bdcfa",
+                width: 400,
+                alignSelf: "center",
+              }}
+              backdropPressToClose={true}
+              cancelText="Cancelar"
+            />
+            {/* <Block center row style={{ marginBottom: 10 }}>
+              <Text h5 style={{ marginRight: 20 }}>
+                Fecha:
+              </Text>
+              <Block style={{ height: 80 }}>
+                <DatePicker
+                  height={90}
+                  width={300}
+                  value={fecha}
+                  startYear={2000}
+                  endYear={2100}
+                  onChange={(value) => setFecha(value)}
+                  format="dd-mm-yyyy"
+                />
+              </Block>
+            </Block> */}
+          </Block>
+        )}
+
+        {tipo.label === "Entrenamiento" && (
           <>
             <Block center style={{ marginBottom: 10 }}>
               <Text h5>Detalle rutina:</Text>
               <Input
                 placeholder="..."
-                style={{ width: 600, minHeight: 150 }}
+                style={{
+                  width: 600,
+                  minHeight: 100,
+                  borderColor: argonTheme.COLORS.INFO,
+                  borderRadius: 5,
+                }}
                 multiline={true}
-                borderless
                 iconContent={<></>}
                 onChangeText={(text) => setDetalleRutina(text)}
                 value={detalleRutina}
               />
             </Block>
+            <Block center row style={{ marginBottom: 10 }}>
+              <Text h5 style={{ marginRight: 20 }}>
+                Video:
+              </Text>
+              <Input
+                placeholder="..."
+                style={{
+                  borderColor: argonTheme.COLORS.INFO,
+                  borderRadius: 5,
+                  backgroundColor: "#fff",
+                  width: 400,
+                  alignSelf: "center",
+                }}
+                iconContent={<></>}
+                onChangeText={(text) => setVideoEntrenamiento(text)}
+                value={videoEntrenamiento}
+              />
+            </Block>
           </>
         )}
 
-        <Text center h4>
-          Video:
-        </Text>
-        <Button
-          title="+"
-          style={styles.buttonVideo}
-          onPress={pickImage}
-          color="#9FCAF5"
-        >
-          <Image
-            source={require("../assets/icons/yoga.png")}
-            style={styles.buttonVideo}
-          />
-        </Button>
+        {tipo.label === "Grabación" && (
+          <>
+            <Text center h4 style={{ marginTop: 20 }}>
+              Video:
+            </Text>
+            <Button
+              title="+"
+              style={styles.buttonVideo}
+              onPress={pickImage}
+              color="#9FCAF5"
+            >
+              <Image
+                source={require("../assets/icons/yoga.png")}
+                style={styles.buttonVideo}
+              />
+            </Button>
+          </>
+        )}
 
         <Button
           style={styles.button}
