@@ -9,6 +9,7 @@ export function DataProvider(props) {
   const [jugadores, setJugadores] = useState([]);
   const [equipos, setEquipos] = useState([]);
   const [deportes, setDeportes] = useState([]);
+  const [refresh, setRefresh] = useState(0);
   const [partidos, setPartidos] = useState([]);
   const [grabaciones, setGrabaciones] = useState([]);
   const [jugadorRutinas, setJugadorRutinas] = useState([]);
@@ -20,7 +21,8 @@ export function DataProvider(props) {
   const [accionesVolleyball, setAccionesVolleyball] = useState([]);
   const [testsFisicos, setTestsFisicos] = useState([]);
   let aux = [];
-  const [url, setUrl] = useState("http://192.168.0.182:8000/");
+  // const [url, setUrl] = useState("http://192.168.0.182:8000/");
+  const [url, setUrl] = useState("https://myteamstats.up.railway.app/");
 
   useEffect(() => {
     fetchDeportes();
@@ -51,6 +53,8 @@ export function DataProvider(props) {
         accionesHandball,
         accionesFutbol,
         accionesVolleyball,
+        refresh,
+        setRefresh,
         url,
         setUrl,
         testsFisicos,

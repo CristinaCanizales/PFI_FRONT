@@ -93,236 +93,178 @@ export default function Perfil(props) {
       height: thumbMeasure,
     },
   });
-
-  return (
-    <Block flex style={styles.profile}>
-      <Block flex>
-        <ImageBackground
-          source={require("../assets/imgs/bannerHandball.jpeg")}
-          style={styles.profileContainer}
-          imageStyle={styles.profileBackground}
+function handleButtonClick() {
+  const presentismo = {
+    fecha: new Date(),
+    presente: true,
+    usuarioId: 2,
+    equipoId: 1,
+  };
+  fetch(url + "presentismos/nuevo", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(presentismo),
+  })
+    .then((data) => {
+      console.log("Success:", data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+return (
+  <Block flex style={styles.profile}>
+    <Block flex>
+      <ImageBackground
+        source={require("../assets/imgs/bannerHandball.jpeg")}
+        style={styles.profileContainer}
+        imageStyle={styles.profileBackground}
+      >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ width, marginTop: "15%" }}
         >
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{ width, marginTop: "15%" }}
-          >
-            <Block flex style={styles.profileCard}>
-              <Block middle style={styles.avatarContainer}>
-                <Image
-                  source={require("../assets/icons/cristi.jpeg")}
-                  style={styles.avatar}
-                />
+          <Block flex style={styles.profileCard}>
+            <Block middle style={styles.avatarContainer}>
+              <Image
+                source={require("../assets/icons/cristi.jpeg")}
+                style={styles.avatar}
+              />
+            </Block>
+            <Block row space="between">
+              <Block middle style={styles.nameInfo}>
+                <Text bold size={28} color="#32325D">
+                  {jugadores[0].usuario.nombre} {jugadores[0].usuario.apellido},{" "}
+                  {jugadores[0].usuario.edad}
+                </Text>
+                <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
+                  {jugadores[0].equipo.nombre}, {jugadores[0].equipo.genero}
+                </Text>
+                <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
+                  {jugadores[0].usuario.direccion}
+                </Text>
               </Block>
-              {/* <Block style={styles.info}>
-                <Block row space="between" style={{ marginTop: 10 }}>
-                  <Block middle>
-                    <Text
-                      bold
-                      size={18}
-                      color="#525F7F"
-                      style={{ marginBottom: 4 }}
-                    >
-                      15
-                    </Text>
-                    <Text size={12} color={argonTheme.COLORS.TEXT}>
-                      Goles 7m
-                    </Text>
-                  </Block>
-                  <Block middle>
-                    <Text
-                      bold
-                      size={18}
-                      color="#525F7F"
-                      style={{ marginBottom: 4 }}
-                    >
-                      18
-                    </Text>
-                    <Text size={12} color={argonTheme.COLORS.TEXT}>
-                      Goles 6m
-                    </Text>
-                  </Block>
-                  <Block middle>
-                    <Text
-                      bold
-                      size={18}
-                      color="#525F7F"
-                      style={{ marginBottom: 4 }}
-                    >
-                      50
-                    </Text>
-                    <Text size={12} color={argonTheme.COLORS.TEXT}>
-                      Atajadas
-                    </Text>
-                  </Block>
-                  <Block middle>
-                    <Text
-                      bold
-                      size={18}
-                      color="#525F7F"
-                      style={{ marginBottom: 4 }}
-                    >
-                      21
-                    </Text>
-                    <Text size={12} color={argonTheme.COLORS.TEXT}>
-                      Erradas
-                    </Text>
-                  </Block>
-                  <Block middle>
-                    <Text
-                      bold
-                      size={18}
-                      color="#525F7F"
-                      style={{ marginBottom: 4 }}
-                    >
-                      10
-                    </Text>
-                    <Text size={12} color={argonTheme.COLORS.TEXT}>
-                      Robadas
-                    </Text>
-                  </Block>
-                  <Block middle>
-                    <Text
-                      bold
-                      size={18}
-                      color="#525F7F"
-                      style={{ marginBottom: 4 }}
-                    >
-                      7
-                    </Text>
-                    <Text size={12} color={argonTheme.COLORS.TEXT}>
-                      Paradas
-                    </Text>
-                  </Block>
-                </Block>
-              </Block> */}
-              <Block row space="between">
-                <Block middle style={styles.nameInfo}>
-                  <Text bold size={28} color="#32325D">
-                    {jugadores[0].usuario.nombre}{" "}
-                    {jugadores[0].usuario.apellido}, {jugadores[0].usuario.edad}
-                  </Text>
-                  <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
-                    {jugadores[0].equipo.nombre}, {jugadores[0].equipo.genero}
-                  </Text>
-                  <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
-                    {jugadores[0].usuario.direccion}
-                  </Text>
-                </Block>
-                <Block style={{ marginLeft: 10 }}>
+              <Block style={{ marginLeft: 10 }}>
+                <Button
+                  small
+                  style={{
+                    backgroundColor: argonTheme.COLORS.INFO,
+                    marginTop: 40,
+                  }}
+                >
+                  Editar perfil
+                </Button>
+              </Block>
+            </Block>
+            <Block style={styles.divider} />
+            <Block center row>
+              <Block
+                style={{
+                  marginRight: 80,
+                  width: 500,
+                }}
+              >
+                <Block
+                  middle
+                  style={{ marginTop: 20, marginBottom: 16 }}
+                ></Block>
+                <Block middle>
                   <Button
-                    small
-                    style={{
-                      backgroundColor: argonTheme.COLORS.INFO,
-                      marginTop: 40,
+                    style={{ width: 300 }}
+                    textStyle={{
+                      fontSize: 25,
+                      fontWeight: "500",
+                      color: "black",
                     }}
+                    onPress={() => handleButtonClick()}
                   >
-                    Editar perfil
+                    Presente
                   </Button>
                 </Block>
               </Block>
-              <Block style={styles.divider} />
-              <Block center row>
-                <Block
-                  style={{
-                    marginRight: 80,
-                    width: 500,
-                  }}
-                >
-                  <Block
-                    middle
-                    style={{ marginTop: 20, marginBottom: 16 }}
-                  ></Block>
-                  <Block middle>
-                    <Block key="qr" style={styles.shadow}>
-                      <Image
-                        resizeMode="cover"
-                        source={require("../assets/imgs/qr.jpeg")}
-                        style={{ height: 300, width: 300 }}
-                      />
-                    </Block>
-                  </Block>
-                </Block>
-                <Block
-                  style={{
-                    marginTop: 20,
-                    marginBottom: 16,
-                    marginLeft: 80,
-                    width: 400,
-                  }}
-                >
-                  <DataTable>
-                    <DataTable.Header>
-                      <DataTable.Title
-                        textStyle={{ fontSize: 20, fontWeight: "bold" }}
-                      >
-                        Entrenamiento
-                      </DataTable.Title>
-                      <DataTable.Title
-                        textStyle={{ fontSize: 20, fontWeight: "bold" }}
-                      >
-                        Asignado
-                      </DataTable.Title>
-                    </DataTable.Header>
+              <Block
+                style={{
+                  marginTop: 20,
+                  marginBottom: 16,
+                  marginLeft: 80,
+                  width: 400,
+                }}
+              >
+                <DataTable>
+                  <DataTable.Header>
+                    <DataTable.Title
+                      textStyle={{ fontSize: 20, fontWeight: "bold" }}
+                    >
+                      Entrenamiento
+                    </DataTable.Title>
+                    <DataTable.Title
+                      textStyle={{ fontSize: 20, fontWeight: "bold" }}
+                    >
+                      Asignado
+                    </DataTable.Title>
+                  </DataTable.Header>
 
-                    {entrenamientos.map((item, index) => {
-                      return (
-                        <DataTable.Row key={index}>
-                          <DataTable.Cell textStyle={{ fontSize: 18 }}>
-                            {item.titulo}
-                          </DataTable.Cell>
-                          <DataTable.Cell>
-                            <Block
-                              middle
-                              style={{
-                                width: 20,
-                                height: 20,
-                                borderRadius: 10,
-                                backgroundColor: jugadorRutinasMap.includes(
-                                  index + 1
-                                )
-                                  ? argonTheme.COLORS.INPUT_SUCCESS
-                                  : argonTheme.COLORS.INPUT_ERROR,
-                              }}
-                            >
-                              {jugadorRutinasMap.includes(index + 1) ? (
-                                <Icon
-                                  size={11}
-                                  color={argonTheme.COLORS.ICON}
-                                  name="g-check"
-                                  family="ArgonExtra"
-                                />
-                              ) : (
-                                <Icon
-                                  size={11}
-                                  color={argonTheme.COLORS.ICON}
-                                  name="close"
-                                  family="AntDesign"
-                                />
-                              )}
-                            </Block>
-                          </DataTable.Cell>
-                        </DataTable.Row>
-                      );
-                    })}
+                  {entrenamientos.map((item, index) => {
+                    return (
+                      <DataTable.Row key={index}>
+                        <DataTable.Cell textStyle={{ fontSize: 18 }}>
+                          {item.titulo}
+                        </DataTable.Cell>
+                        <DataTable.Cell>
+                          <Block
+                            middle
+                            style={{
+                              width: 20,
+                              height: 20,
+                              borderRadius: 10,
+                              backgroundColor: jugadorRutinasMap.includes(
+                                index + 1
+                              )
+                                ? argonTheme.COLORS.INPUT_SUCCESS
+                                : argonTheme.COLORS.INPUT_ERROR,
+                            }}
+                          >
+                            {jugadorRutinasMap.includes(index + 1) ? (
+                              <Icon
+                                size={11}
+                                color={argonTheme.COLORS.ICON}
+                                name="g-check"
+                                family="ArgonExtra"
+                              />
+                            ) : (
+                              <Icon
+                                size={11}
+                                color={argonTheme.COLORS.ICON}
+                                name="close"
+                                family="AntDesign"
+                              />
+                            )}
+                          </Block>
+                        </DataTable.Cell>
+                      </DataTable.Row>
+                    );
+                  })}
 
-                    <DataTable.Pagination
-                      page={page}
-                      numberOfPages={3}
-                      onPageChange={(page) => setPage(page)}
-                      label="1-2 de 6"
-                      optionsPerPage={optionsPerPage}
-                      itemsPerPage={itemsPerPage}
-                      setItemsPerPage={setItemsPerPage}
-                      showFastPagination
-                      optionsLabel={"Filas por página"}
-                    />
-                  </DataTable>
-                </Block>
+                  <DataTable.Pagination
+                    page={page}
+                    numberOfPages={3}
+                    onPageChange={(page) => setPage(page)}
+                    label="1-2 de 6"
+                    optionsPerPage={optionsPerPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    showFastPagination
+                    optionsLabel={"Filas por página"}
+                  />
+                </DataTable>
               </Block>
             </Block>
-          </ScrollView>
-        </ImageBackground>
-      </Block>
+          </Block>
+        </ScrollView>
+      </ImageBackground>
     </Block>
-  );
+  </Block>
+);
 }

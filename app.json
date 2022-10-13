@@ -8,7 +8,7 @@
       "android"
     ],
     "version": "1.7.1",
-    "orientation": "landscape",
+    "orientation": "default",
     "icon": "./assets/icons/stats.png",
     "splash": {
       "image": "./assets/icons/stats.png",

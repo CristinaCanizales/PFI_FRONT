@@ -81,6 +81,13 @@ export default function TestsFisicos(props) {
     })
       .then((data) => {
         console.log("Success:", data);
+        setJugadorSeleccionado({});
+        setDeporteSeleccionado({});
+        setFecha("");
+        setVelocidad(0);
+        setResistencia(0);
+        setSaltoAlto(0);
+        setSaltoLargo(0);
       })
       .catch((error) => {
         console.error("Error:", error);

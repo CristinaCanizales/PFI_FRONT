@@ -18,11 +18,12 @@ export default function Home(props) {
       // width: width,
       width: width - theme.SIZES.BASE * 2,
       paddingVertical: theme.SIZES.BASE,
+      marginLeft: 30,
     },
     articles: {},
   });
   return (
-    <Block flex center style={styles.home}>
+    <Block flex style={styles.home}>
       <Block
         row
         space="between"
@@ -35,14 +36,14 @@ export default function Home(props) {
           return (
             <TouchableWithoutFeedback
               style={{
-                height: 335,
+                height: 340,
               }}
               key={index}
               onPress={() => navigation.navigate(item.title)}
             >
               <Block
                 style={{
-                  height: 335,
+                  height: 340,
                 }}
               >
                 <Card item={item} style={{ marginRight: theme.SIZES.BASE }} />

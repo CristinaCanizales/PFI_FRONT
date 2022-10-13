@@ -1,5 +1,5 @@
-import React from 'react';
-import { withNavigation } from '@react-navigation/compat';
+import React, { useContext } from "react";
+import { withNavigation } from "@react-navigation/compat";
 import {
   TouchableOpacity,
   StyleSheet,
@@ -12,12 +12,11 @@ import { Button, Block, NavBar, Text, theme } from "galio-framework";
 
 import Input from "./Input";
 import argonTheme from "../constants/Theme";
+import { DataContext } from "../context";
 
 const Header = (props) => {
+  const { refresh, setRefresh } = useContext(DataContext);
   const { height, width } = Dimensions.get("window");
-  const iPhoneX = () =>
-    Platform.OS === "ios" &&
-    (height === 812 || width === 812 || height === 896 || width === 896);
 
   const styles = StyleSheet.create({
     button: {
@@ -81,14 +80,15 @@ const Header = (props) => {
       color: argonTheme.COLORS.HEADER,
     },
     btnIcon: {
-      height: 20,
-      width: 20,
+      height: 30,
+      width: 30,
     },
   });
   const {
     back,
     title,
     white,
+    reload,
     transparent,
     bgColor,
     iconColor,
@@ -121,7 +121,19 @@ const Header = (props) => {
       />
     );
   };
-
+  const renderRight = () => {
+    return (
+      <TouchableOpacity
+        style={[styles.button]}
+        onPress={() => setRefresh(refresh + 1)}
+      >
+        <Image
+          source={require("../assets/icons/refresh.png")}
+          style={styles.btnIcon}
+        />
+      </TouchableOpacity>
+    );
+  };
   const noShadow = ["Search", "Categories", "Deals", "Perfil"].includes(title);
   const headerStyles = [
     !noShadow ? styles.shadow : null,
@@ -135,6 +147,7 @@ const Header = (props) => {
       <NavBar
         back={false}
         title={title}
+        right={reload ? renderRight() : <></>}
         style={navbarStyles}
         transparent={transparent}
         rightStyle={{ alignItems: "center" }}

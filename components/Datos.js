@@ -95,6 +95,8 @@ export default function Datos(props) {
     } else if (deporteSeleccionado.label === "Volleyball") {
       pathAccion = "volleyball/nuevo";
     }
+    console.log(accion);
+    console.log(url + pathAccion);
     fetch(url + pathAccion, {
       method: "POST",
       headers: {

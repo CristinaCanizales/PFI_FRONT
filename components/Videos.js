@@ -19,7 +19,6 @@ export default function Videos(props) {
   const [detalleRutina, setDetalleRutina] = useState("");
   const [videoEntrenamiento, setVideoEntrenamiento] = useState("");
   const [partidoSeleccionado, setPartidoSeleccionado] = useState("");
-  // const [fecha, setFecha] = useState(new Date());
   const [categoria, setCategoria] = useState("");
   const [videoGrabacion, setVideoGrabacion] = useState({});
   const styles = StyleSheet.create({
@@ -67,6 +66,7 @@ export default function Videos(props) {
     const formData = new FormData();
     formData.append("file", video);
     formData.append("upload_preset", "pfi_cloudinary");
+    //video: JPjUmLNQkxI
     formData.append("resource_type", "video");
     console.log(formData);
     fetch("https://api.cloudinary.com/guariqueteo/home/pfi/video/upload", {
@@ -85,7 +85,7 @@ export default function Videos(props) {
 
   function handleButtonClick() {
     let nuevoVideo;
-    if (tipo === "Entrenamiento") {
+    if (tipo.label === "Entrenamiento") {
       nuevoVideo = {
         titulo: titulo,
         detalleRutina: detalleRutina,
@@ -100,25 +100,30 @@ export default function Videos(props) {
         video: videoGrabacion,
       };
     }
-    fetch(
-      url + tipo === "Entrenamiento"
-        ? "entrenamientos"
-        : "grabaciones" + "/nuevo",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=UTF-8",
-        },
+    const path =
+      tipo.label === "Entrenamiento"
+        ? "entrenamientos/nuevo"
+        : "grabaciones/nuevo";
+    fetch(url + path, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
 
-        body: JSON.stringify({ ...nuevoVideo }),
-      }
-    )
-      .then((response) => {
-        //console.log(response.status+": "+JSON.stringify(response))
-        return response.json();
-      })
+      body: JSON.stringify(nuevoVideo),
+    })
       .then((data) => {
-        console.log("cargue el video!" + JSON.stringify(data));
+        console.log("Success:", data);
+        setTitulo("");
+        setTipo({});
+        setDetalleRutina("");
+        setVideoEntrenamiento("");
+        setPartidoSeleccionado("");
+        setCategoria("");
+        setVideoGrabacion({});
+      })
+      .catch((error) => {
+        console.error("Error:", error);
       });
   }
 
@@ -327,7 +332,7 @@ export default function Videos(props) {
         <Button
           style={styles.button}
           textStyle={{ fontSize: 25, fontWeight: "500", color: "black" }}
-          onPress={checkTextInput}
+          onPress={() => handleButtonClick()}
         >
           Subir video
         </Button>

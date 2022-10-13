@@ -3,8 +3,7 @@ import Card from './Card';
 import DrawerItem from './DrawerItem';
 import Icon from './Icon';
 import Header from './Header';
-import Input from './Input';
-import Switch from "./Switch";
+import Input from "./Input";
 import Reloj from "./Reloj";
 import Datos from "./Datos";
 import Videos from "./Videos";
@@ -19,7 +18,6 @@ export {
   Icon,
   Input,
   Reloj,
-  Switch,
   TestsFisicos,
   Videos,
 };

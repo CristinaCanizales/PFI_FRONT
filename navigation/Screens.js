@@ -40,6 +40,7 @@ function DashboardStack(props) {
             <Header
               title="Dashboard"
               back
+              reload
               navigation={navigation}
               scene={scene}
             />
