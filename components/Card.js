@@ -1,12 +1,8 @@
 import React from 'react';
 import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
-import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback } from 'react-native';
-import { Block, Text, theme } from 'galio-framework';
-
-import { argonTheme } from '../constants';
-
-
+import { StyleSheet, Image } from "react-native";
+import { Block, Text, theme } from "galio-framework";
 class Card extends React.Component {
   render() {
     const { navigation, item, horizontal, full, style, imageStyle } =
@@ -20,7 +16,7 @@ class Card extends React.Component {
         <Block center style={styles.imageContainer}>
           <Image source={{ uri: item.image }} style={imageStyles} />
         </Block>
-        <Block flex space="between" style={styles.cardDescription}>
+        <Block flex space="between">
           <Text h4 style={styles.cardTitle}>
             {item.title}
           </Text>
@@ -43,18 +39,16 @@ const styles = StyleSheet.create({
     backgroundColor: theme.COLORS.WHITE,
     marginVertical: theme.SIZES.BASE,
     borderWidth: 2,
-    minHeight: 250,
-    minWidth: 250,
+    minHeight: 320,
+    minWidth: 280,
     marginBottom: 16,
   },
   cardTitle: {
     flex: 1,
     flexWrap: "wrap",
-    paddingBottom: 6,
+    paddingBottom: 5,
     textAlign: "center",
-  },
-  cardDescription: {
-    padding: theme.SIZES.BASE / 2,
+    color: "#4F398D",
   },
   imageContainer: {
     borderBottomWidth: 0.5,
@@ -63,8 +57,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 15,
   },
   image: {
-    height: 230,
-    width: 230,
+    height: 260,
+    width: 260,
     margin: 5,
   },
   shadow: {

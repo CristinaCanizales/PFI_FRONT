@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from "react";
 import {
   TouchableWithoutFeedback,
   StyleSheet,
@@ -9,13 +9,16 @@ import { Block, theme } from "galio-framework";
 
 import { Card } from "../components";
 import articles from "../constants/articles";
+import { DataContext } from "../context";
+
 const { width } = Dimensions.get("screen");
 
 export default function Home(props) {
+  const { currentUser } = useContext(DataContext);
   const { navigation } = props;
   const styles = StyleSheet.create({
     home: {
-      // width: width,
+      width: width,
       width: width - theme.SIZES.BASE * 2,
       paddingVertical: theme.SIZES.BASE,
       marginLeft: 30,
@@ -23,7 +26,7 @@ export default function Home(props) {
     articles: {},
   });
   return (
-    <Block flex style={styles.home}>
+    <Block flex center style={styles.home}>
       <Block
         row
         space="between"
@@ -33,7 +36,12 @@ export default function Home(props) {
         }}
       >
         {articles.map((item, index) => {
-          return (
+          return currentUser?.usuario?.rolId !== 2 &&
+            (item.title === "Admin" ||
+              item.title === "Carga de Datos" ||
+              item.title === "Presentismo") ? (
+            <Block key={index}></Block>
+          ) : (
             <TouchableWithoutFeedback
               style={{
                 height: 340,

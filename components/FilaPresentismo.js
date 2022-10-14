@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, Dimensions, ScrollView } from "react-native";
 import jugadores from "../constants/jugadores";
 import { DataTable } from "react-native-paper";
@@ -10,7 +10,11 @@ import { argonTheme } from "../constants";
 import { DataContext } from "../context";
 
 export default function FilaPresentismo({ item }) {
+  useEffect(() => {
+    fetchPresentismo();
+  }, []);
   const { url } = useContext(DataContext);
+  const [presente, setPresente] = useState(false);
   const styles = StyleSheet.create({
     button: {
       borderRadius: 20,
@@ -22,11 +26,28 @@ export default function FilaPresentismo({ item }) {
       margin: 10,
     },
   });
-  const [presente, setPresente] = useState(false);
 
+  function fetchPresentismo() {
+    fetch(
+      url +
+        "presentismos/find/?fecha=" +
+        new Date().toISOString().slice(0, 10) +
+        "&usuarioId=" +
+        item.usuarioId
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((res) => {
+        if (res.length > 0) {
+          setPresente(res[0].presente);
+        }
+      })
+      .catch((e) => console.log("Error", e));
+  }
   function cargarPresentismo() {
     const presentismo = {
-      fecha: new Date(),
+      fecha: new Date().toISOString().slice(0, 10),
       presente: true,
       usuarioId: item.usuarioId,
       equipoId: item.equipoId,
@@ -60,13 +81,12 @@ export default function FilaPresentismo({ item }) {
             width: 20,
             height: 20,
             borderRadius: 10,
-            backgroundColor:
-              presente === true
-                ? argonTheme.COLORS.INPUT_SUCCESS
-                : argonTheme.COLORS.INPUT_ERROR,
+            backgroundColor: presente
+              ? argonTheme.COLORS.INPUT_SUCCESS
+              : argonTheme.COLORS.INPUT_ERROR,
           }}
         >
-          {presente === true ? (
+          {presente ? (
             <Icon
               size={11}
               color={argonTheme.COLORS.ICON}

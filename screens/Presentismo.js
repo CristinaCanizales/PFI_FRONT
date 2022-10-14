@@ -40,7 +40,7 @@ export default function Presentismo({ route }) {
       marginTop: 15,
     },
   });
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [jugadorSeleccionado, setJugadorSeleccionado] = useState({});
   const optionsPerPage = [2, 3, 4];
   const [page, setPage] = useState(0);
@@ -56,8 +56,8 @@ export default function Presentismo({ route }) {
     const presentismo = {
       fecha: date,
       presente: true,
-      usuarioId: jugadorSeleccionado.key,
-      // equipoId: jugadorSeleccionado.equipoId,
+      usuarioId: jugadorSeleccionado.usuarioId,
+      equipoId: jugadorSeleccionado.equipoId,
     };
     fetch(url + "presentismos/nuevo", {
       method: "POST",

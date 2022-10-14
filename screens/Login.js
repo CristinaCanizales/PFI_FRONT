@@ -17,13 +17,13 @@ const { width, height } = Dimensions.get("screen");
 
 export default function Login(props) {
   const { navigation } = props;
-  const { setCurrentUser, url } = useContext(DataContext);
+  const { currentUser, setCurrentUser, url } = useContext(DataContext);
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
   const styles = StyleSheet.create({
     loginContainer: {
-      width: width * 0.8,
-      height: height * 0.8,
+      width: width * 0.5,
+      height: height * 0.5,
       backgroundColor: "#F4F5F7",
       borderRadius: 10,
       shadowColor: argonTheme.COLORS.BLACK,
@@ -35,7 +35,7 @@ export default function Login(props) {
       shadowOpacity: 0.1,
       elevation: 1,
       overflow: "hidden",
-      paddingTop: 200,
+      paddingTop: 60,
     },
     inputIcons: {
       marginRight: 12,
@@ -83,13 +83,13 @@ export default function Login(props) {
     <Block flex middle>
       <StatusBar hidden />
       <ImageBackground
-        source={Images.RegisterBackground}
+        source={require("../assets/icons/stats.png")}
         style={{ width, height, zIndex: 1 }}
       >
         <Block safe flex middle>
           <Block style={styles.loginContainer}>
             <Block flex={0.17} middle>
-              <Text bold color="#8898AA" size={30}>
+              <Text bold color="#8898AA" size={40}>
                 Iniciá sesión
               </Text>
             </Block>
@@ -99,8 +99,9 @@ export default function Login(props) {
                 behavior="padding"
                 enabled
               >
-                <Block width={width * 0.5} style={{ marginBottom: 15 }}>
+                <Block width={width * 0.3} style={{ marginBottom: 15 }}>
                   <Input
+                    fontSize={40}
                     borderless
                     placeholder="Correo"
                     type="email-address"
@@ -109,7 +110,7 @@ export default function Login(props) {
                     onChangeText={(correo) => setCorreo(correo)}
                   />
                 </Block>
-                <Block width={width * 0.5}>
+                <Block width={width * 0.3}>
                   <Input
                     password
                     viewPass

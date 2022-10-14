@@ -20,13 +20,13 @@ const { width, height } = Dimensions.get("screen");
 const thumbMeasure = (width - 48 - 32) / 3;
 
 export default function Perfil(props) {
-  const { jugadores, jugadorRutinasMap, entrenamientos, url } =
+  const { currentUser, jugadorRutinasMap, entrenamientos, url } =
     useContext(DataContext);
   const [presente, setPresente] = useState(false);
   const [items, setItems] = useState([]);
-  const optionsPerPage = [2, 3, 4];
+  const optionsPerPage = 5;
   const [page, setPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
 
   useEffect(() => {
     setPage(0);
@@ -93,178 +93,170 @@ export default function Perfil(props) {
       height: thumbMeasure,
     },
   });
-function handleButtonClick() {
-  const presentismo = {
-    fecha: new Date(),
-    presente: true,
-    usuarioId: 2,
-    equipoId: 1,
-  };
-  fetch(url + "presentismos/nuevo", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(presentismo),
-  })
-    .then((data) => {
-      console.log("Success:", data);
+  function handleButtonClick() {
+    const presentismo = {
+      fecha: new Date(),
+      presente: true,
+      usuarioId: 2,
+      equipoId: 1,
+    };
+    fetch(url + "presentismos/nuevo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(presentismo),
     })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-}
-return (
-  <Block flex style={styles.profile}>
-    <Block flex>
-      <ImageBackground
-        source={require("../assets/imgs/bannerHandball.jpeg")}
-        style={styles.profileContainer}
-        imageStyle={styles.profileBackground}
-      >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{ width, marginTop: "15%" }}
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+  return (
+    <Block flex style={styles.profile}>
+      <Block flex>
+        <ImageBackground
+          source={require("../assets/imgs/bannerHandball.jpeg")}
+          style={styles.profileContainer}
+          imageStyle={styles.profileBackground}
         >
-          <Block flex style={styles.profileCard}>
-            <Block middle style={styles.avatarContainer}>
-              <Image
-                source={require("../assets/icons/cristi.jpeg")}
-                style={styles.avatar}
-              />
-            </Block>
-            <Block row space="between">
-              <Block middle style={styles.nameInfo}>
-                <Text bold size={28} color="#32325D">
-                  {jugadores[0].usuario.nombre} {jugadores[0].usuario.apellido},{" "}
-                  {jugadores[0].usuario.edad}
-                </Text>
-                <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
-                  {jugadores[0].equipo.nombre}, {jugadores[0].equipo.genero}
-                </Text>
-                <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
-                  {jugadores[0].usuario.direccion}
-                </Text>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{ width, marginTop: "15%" }}
+          >
+            <Block flex style={styles.profileCard}>
+              <Block middle style={styles.avatarContainer}>
+                <Image
+                  source={require("../assets/icons/cristi.jpeg")}
+                  style={styles.avatar}
+                />
               </Block>
-              <Block style={{ marginLeft: 10 }}>
-                <Button
-                  small
-                  style={{
-                    backgroundColor: argonTheme.COLORS.INFO,
-                    marginTop: 40,
-                  }}
-                >
-                  Editar perfil
-                </Button>
-              </Block>
-            </Block>
-            <Block style={styles.divider} />
-            <Block center row>
-              <Block
-                style={{
-                  marginRight: 80,
-                  width: 500,
-                }}
-              >
-                <Block
-                  middle
-                  style={{ marginTop: 20, marginBottom: 16 }}
-                ></Block>
-                <Block middle>
+              <Block row space="between">
+                <Block middle style={styles.nameInfo}>
+                  <Text bold size={28} color="#32325D">
+                    {currentUser.usuario.nombre} {currentUser.usuario.apellido},{" "}
+                    {currentUser.usuario.edad}
+                  </Text>
+                  <Text size={16} color="#32325D" style={{ marginTop: 14 }}>
+                    {currentUser.equipo.nombre}, {currentUser.equipo.genero}
+                  </Text>
+                  <Text size={16} color="#32325D" style={{ marginTop: 14 }}>
+                    {currentUser.usuario.direccion}
+                  </Text>
+                </Block>
+                <Block style={{ marginLeft: 10 }}>
                   <Button
-                    style={{ width: 300 }}
-                    textStyle={{
-                      fontSize: 25,
-                      fontWeight: "500",
-                      color: "black",
+                    small
+                    style={{
+                      backgroundColor: argonTheme.COLORS.INFO,
+                      marginTop: 40,
                     }}
-                    onPress={() => handleButtonClick()}
                   >
-                    Presente
+                    Editar perfil
                   </Button>
                 </Block>
               </Block>
-              <Block
-                style={{
-                  marginTop: 20,
-                  marginBottom: 16,
-                  marginLeft: 80,
-                  width: 400,
-                }}
-              >
-                <DataTable>
-                  <DataTable.Header>
-                    <DataTable.Title
-                      textStyle={{ fontSize: 20, fontWeight: "bold" }}
+              <Block style={styles.divider} />
+              <Block center row>
+                <Block
+                  style={{
+                    marginRight: 80,
+                    width: 500,
+                  }}
+                >
+                  <Block
+                    middle
+                    style={{ marginTop: 20, marginBottom: 16 }}
+                  ></Block>
+                  <Block middle>
+                    <Button
+                      style={{ width: 300 }}
+                      textStyle={{
+                        fontSize: 25,
+                        fontWeight: "500",
+                        color: "black",
+                      }}
+                      onPress={() => handleButtonClick()}
                     >
-                      Entrenamiento
-                    </DataTable.Title>
-                    <DataTable.Title
-                      textStyle={{ fontSize: 20, fontWeight: "bold" }}
-                    >
-                      Asignado
-                    </DataTable.Title>
-                  </DataTable.Header>
+                      Presente
+                    </Button>
+                  </Block>
+                </Block>
+                <Block
+                  style={{
+                    marginTop: 20,
+                    marginBottom: 16,
+                    marginLeft: 0,
+                    width: 400,
+                    height: 300,
+                  }}
+                >
+                  <ScrollView showsVerticalScrollIndicator={true}>
+                    <DataTable>
+                      <DataTable.Header>
+                        <DataTable.Title
+                          textStyle={{ fontSize: 20, fontWeight: "bold" }}
+                        >
+                          Entrenamiento
+                        </DataTable.Title>
+                        <DataTable.Title
+                          style={{ width: 200 }}
+                          textStyle={{ fontSize: 20, fontWeight: "bold" }}
+                        >
+                          Asignado
+                        </DataTable.Title>
+                      </DataTable.Header>
 
-                  {entrenamientos.map((item, index) => {
-                    return (
-                      <DataTable.Row key={index}>
-                        <DataTable.Cell textStyle={{ fontSize: 18 }}>
-                          {item.titulo}
-                        </DataTable.Cell>
-                        <DataTable.Cell>
-                          <Block
-                            middle
-                            style={{
-                              width: 20,
-                              height: 20,
-                              borderRadius: 10,
-                              backgroundColor: jugadorRutinasMap.includes(
-                                index + 1
-                              )
-                                ? argonTheme.COLORS.INPUT_SUCCESS
-                                : argonTheme.COLORS.INPUT_ERROR,
-                            }}
-                          >
-                            {jugadorRutinasMap.includes(index + 1) ? (
-                              <Icon
-                                size={11}
-                                color={argonTheme.COLORS.ICON}
-                                name="g-check"
-                                family="ArgonExtra"
-                              />
-                            ) : (
-                              <Icon
-                                size={11}
-                                color={argonTheme.COLORS.ICON}
-                                name="close"
-                                family="AntDesign"
-                              />
-                            )}
-                          </Block>
-                        </DataTable.Cell>
-                      </DataTable.Row>
-                    );
-                  })}
-
-                  <DataTable.Pagination
-                    page={page}
-                    numberOfPages={3}
-                    onPageChange={(page) => setPage(page)}
-                    label="1-2 de 6"
-                    optionsPerPage={optionsPerPage}
-                    itemsPerPage={itemsPerPage}
-                    setItemsPerPage={setItemsPerPage}
-                    showFastPagination
-                    optionsLabel={"Filas por página"}
-                  />
-                </DataTable>
+                      {entrenamientos.map((item, index) => {
+                        return (
+                          <DataTable.Row key={index}>
+                            <DataTable.Cell textStyle={{ fontSize: 18 }}>
+                              {item.titulo}
+                            </DataTable.Cell>
+                            <DataTable.Cell>
+                              <Block
+                                middle
+                                style={{
+                                  width: 20,
+                                  height: 20,
+                                  borderRadius: 10,
+                                  backgroundColor: jugadorRutinasMap.includes(
+                                    index + 1
+                                  )
+                                    ? argonTheme.COLORS.INPUT_SUCCESS
+                                    : argonTheme.COLORS.INPUT_ERROR,
+                                }}
+                              >
+                                {jugadorRutinasMap.includes(index + 1) ? (
+                                  <Icon
+                                    size={11}
+                                    color={argonTheme.COLORS.ICON}
+                                    name="g-check"
+                                    family="ArgonExtra"
+                                  />
+                                ) : (
+                                  <Icon
+                                    size={11}
+                                    color={argonTheme.COLORS.ICON}
+                                    name="close"
+                                    family="AntDesign"
+                                  />
+                                )}
+                              </Block>
+                            </DataTable.Cell>
+                          </DataTable.Row>
+                        );
+                      })}
+                    </DataTable>
+                  </ScrollView>
+                </Block>
               </Block>
             </Block>
-          </Block>
-        </ScrollView>
-      </ImageBackground>
+          </ScrollView>
+        </ImageBackground>
+      </Block>
     </Block>
-  </Block>
-);
+  );
 }
