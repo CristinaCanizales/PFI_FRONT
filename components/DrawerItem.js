@@ -6,7 +6,7 @@ import argonTheme from "../constants/Theme";
 import { DataContext } from "../context";
 
 export default function DrawerItem(props) {
-  const { setCurrentUser } = useContext(DataContext);
+  const { currentUser, setCurrentUser } = useContext(DataContext);
   const styles = StyleSheet.create({
     defaultStyle: {
       paddingVertical: 16,

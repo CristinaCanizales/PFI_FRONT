@@ -5,7 +5,7 @@ export const DataContext = createContext({});
 export function DataProvider(props) {
   LogBox.ignoreAllLogs(true);
   const [usuarios, setUsuarios] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
   const [jugadores, setJugadores] = useState([]);
   const [equipos, setEquipos] = useState([]);
   const [deportes, setDeportes] = useState([]);

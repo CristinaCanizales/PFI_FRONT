@@ -22,15 +22,7 @@ const thumbMeasure = (width - 48 - 32) / 3;
 export default function Perfil(props) {
   const { currentUser, jugadorRutinasMap, entrenamientos, url } =
     useContext(DataContext);
-  const [presente, setPresente] = useState(false);
-  const [items, setItems] = useState([]);
-  const optionsPerPage = 5;
-  const [page, setPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
 
-  useEffect(() => {
-    setPage(0);
-  }, [itemsPerPage]);
   const styles = StyleSheet.create({
     profile: {
       marginTop: Platform.OS === "android" ? -HeaderHeight : 0,
@@ -136,14 +128,15 @@ export default function Perfil(props) {
               <Block row space="between">
                 <Block middle style={styles.nameInfo}>
                   <Text bold size={28} color="#32325D">
-                    {currentUser.usuario.nombre} {currentUser.usuario.apellido},{" "}
-                    {currentUser.usuario.edad}
+                    {currentUser?.usuario?.nombre}{" "}
+                    {currentUser?.usuario?.apellido},{" "}
+                    {currentUser?.usuario?.edad}
                   </Text>
                   <Text size={16} color="#32325D" style={{ marginTop: 14 }}>
-                    {currentUser.equipo.nombre}, {currentUser.equipo.genero}
+                    {currentUser?.equipo?.nombre}, {currentUser?.equipo?.genero}
                   </Text>
                   <Text size={16} color="#32325D" style={{ marginTop: 14 }}>
-                    {currentUser.usuario.direccion}
+                    {currentUser?.usuario?.direccion}
                   </Text>
                 </Block>
                 <Block style={{ marginLeft: 10 }}>
