@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { Block, Text, theme } from "galio-framework";
 import { Image, ScrollView, StyleSheet } from "react-native";
 
 import { DrawerItem as DrawerCustomItem } from "../components";
 import { argonTheme } from "../constants";
+import { DataContext } from "../context";
 
 export default function CustomDrawerContent({
   drawerPosition,
@@ -29,6 +30,8 @@ export default function CustomDrawerContent({
       marginLeft: 30,
     },
   });
+  const { currentUser } = useContext(DataContext);
+
   const screens = [
     "Home",
     "Perfil",
@@ -61,7 +64,12 @@ export default function CustomDrawerContent({
       <Block flex style={{ paddingLeft: 8, paddingRight: 14 }}>
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
           {screens.map((item, index) => {
-            return (
+            return currentUser?.usuario?.rolId !== 2 &&
+              (item === "Admin" ||
+                item === "Carga de Datos" ||
+                item === "Presentismo") ? (
+              <Block key={index}></Block>
+            ) : (
               <DrawerCustomItem
                 title={item}
                 key={index}
@@ -85,9 +93,18 @@ export default function CustomDrawerContent({
               Ayuda
             </Text> */}
           </Block>
-          <DrawerCustomItem title="Login" navigation={navigation} />
-          <DrawerCustomItem title="Log out" navigation={navigation} />
-          <DrawerCustomItem title="Admin" navigation={navigation} />
+          {!currentUser && (
+            <DrawerCustomItem title="Login" navigation={navigation} />
+          )}
+          {currentUser && (
+            <DrawerCustomItem title="Log out" navigation={navigation} />
+          )}
+          {currentUser && currentUser?.usuario?.rolId === 2 && (
+            <>
+              <DrawerCustomItem title="Log out" navigation={navigation} />
+              <DrawerCustomItem title="Admin" navigation={navigation} />
+            </>
+          )}
         </ScrollView>
       </Block>
     </Block>

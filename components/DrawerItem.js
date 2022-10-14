@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, TouchableOpacity, Linking, Image } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 
 import argonTheme from "../constants/Theme";
+import { DataContext } from "../context";
 
 export default function DrawerItem(props) {
+  const { setCurrentUser } = useContext(DataContext);
   const styles = StyleSheet.create({
     defaultStyle: {
       paddingVertical: 16,
@@ -24,8 +26,8 @@ export default function DrawerItem(props) {
       shadowOpacity: 0.1,
     },
     btnIcon: {
-      height: 25,
-      width: 25,
+      height: 45,
+      width: 45,
     },
   });
 
@@ -129,17 +131,17 @@ export default function DrawerItem(props) {
     styles.defaultStyle,
     focused ? [styles.activeStyle, styles.shadow] : null,
   ];
+  function logOut() {
+    setCurrentUser({});
+    navigation.navigate("Login");
+  }
 
   return (
     <TouchableOpacity
       style={{ height: 60 }}
-      onPress={() =>
-        title == "Getting Started"
-          ? Linking.openURL(
-              "https://demos.creative-tim.com/argon-pro-react-native/docs/"
-            ).catch((err) => console.error("An error occurred", err))
-          : navigation.navigate(title)
-      }
+      onPress={() => {
+        title == "Log out" ? logOut() : navigation.navigate(title);
+      }}
     >
       <Block flex row style={containerStyles}>
         <Block middle flex={0.1} style={{ marginRight: 5 }}>
@@ -147,9 +149,9 @@ export default function DrawerItem(props) {
         </Block>
         <Block row center flex={0.9}>
           <Text
-            size={15}
+            size={22}
             bold={focused ? true : false}
-            color={focused ? "white" : "rgba(0,0,0,0.5)"}
+            color={focused ? "white" : "#4F398D"}
           >
             {title}
           </Text>
