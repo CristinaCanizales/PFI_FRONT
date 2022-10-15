@@ -39,7 +39,7 @@ export function DataProvider(props) {
     fetchEntrenamientos();
     fetchJugadorRutinas();
     console.log("Bienvenidos a My Team Stats! :)))))");
-  }, []);
+  }, [currentUser]);
 
   return (
     <DataContext.Provider

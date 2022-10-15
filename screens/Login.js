@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
   Image,
@@ -7,7 +7,7 @@ import {
   StatusBar,
   KeyboardAvoidingView,
 } from "react-native";
-import { Block, Checkbox, Text, theme } from "galio-framework";
+import { Block, Text } from "galio-framework";
 
 import { Button, Input } from "../components";
 import { Images, argonTheme } from "../constants";
@@ -49,6 +49,11 @@ export default function Login(props) {
       height: 20,
     },
   });
+
+  useEffect(() => {
+    console.log("hola", currentUser);
+  }, [currentUser]);
+
   function handleLogin() {
     const usuario = {
       correo: correo,
@@ -70,6 +75,8 @@ export default function Login(props) {
       .then((res) => {
         if (res) {
           setCurrentUser(res);
+          setCorreo("");
+          setContrasena("");
           navigation.navigate("Home");
         } else {
           setUsuario({ invalid: true });

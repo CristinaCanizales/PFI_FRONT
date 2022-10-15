@@ -101,7 +101,6 @@ export default function CustomDrawerContent({
           )}
           {currentUser && currentUser?.usuario?.rolId === 2 && (
             <>
-              <DrawerCustomItem title="Log out" navigation={navigation} />
               <DrawerCustomItem title="Admin" navigation={navigation} />
             </>
           )}

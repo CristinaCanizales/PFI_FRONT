@@ -121,7 +121,7 @@ export default function Perfil(props) {
             <Block flex style={styles.profileCard}>
               <Block middle style={styles.avatarContainer}>
                 <Image
-                  source={require("../assets/icons/cristi.jpeg")}
+                  source={require("../assets/icons/agos.jpg")}
                   style={styles.avatar}
                 />
               </Block>
