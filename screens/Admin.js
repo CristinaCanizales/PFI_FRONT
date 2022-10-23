@@ -16,7 +16,7 @@ export default function Admin(props) {
     useContext(DataContext);
   const [accionSeleccionada, setAccionSeleccionada] = useState({});
   const [deporteSeleccionado, setDeporteSeleccionado] = useState({});
-  const [jugadorSeleccionado, setJugadorSeleccionado] = useState({});
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState({});
   const [equipoSeleccionado, setEquipoSeleccionado] = useState({});
   const [equipoASeleccionado, setEquipoASeleccionado] = useState({});
   const [equipoBSeleccionado, setEquipoBSeleccionado] = useState({});
@@ -27,7 +27,6 @@ export default function Admin(props) {
   const [nombreTorneo, setNombreTorneo] = useState({});
   const [fechaPartido, setFechaPartido] = useState(new Date());
   const [fechaTorneo, setFechaTorneo] = useState(new Date());
-  const [correo, setCorreo] = useState("");
   const [numero, setNumero] = useState("");
   const [posicion, setPosicion] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -54,13 +53,60 @@ export default function Admin(props) {
       borderColor: "#E9ECEF",
     },
   });
-  // const checkInput = (e) => {
-  //   if (!deporte.trim() || !jugador.trim()) {
-  //     alert("Por favor, ingrese mínimo jugador y deporte");
-  //     return;
-  //   }
-  //   handleButtonClick();
-  // };
+  const checkInput = (e) => {
+    if (accionSeleccionada?.label === "Torneo") {
+      if (!opcionSeleccionada) {
+        if (
+          !nombreTorneo.trim() ||
+          !descripcion ||
+          !fechaTorneo ||
+          !deporteSeleccionado
+        ) {
+          alert("Por favor, ingrese los datos solicitados.");
+        } else {
+          handleCrearTorneo();
+        }
+      } else {
+        if (torneoSeleccionado) {
+          alert("Por favor, seleccione al equipo ganador.");
+        } else {
+          handleCrearTorneo();
+        }
+      }
+    } else if (accionSeleccionada.label === "Partido") {
+      if (!opcionSeleccionada) {
+        if (
+          !fechaPartido.trim() ||
+          !torneoSeleccionado ||
+          !equipoASeleccionado ||
+          !equipoBSeleccionado
+        ) {
+          alert("Por favor, seleccione los datos solicitados.");
+        } else {
+          handleCrearPartido();
+        }
+      } else {
+        if (equipoSeleccionado) {
+          alert("Por favor, seleccione al equipo ganador.");
+        } else {
+          handleCrearPartido();
+        }
+      }
+    } else if (accionSeleccionada.label === "Jugador") {
+      if (
+        !usuarioSeleccionado ||
+        !numero.trim() ||
+        !posicion.trim() ||
+        !equipoSeleccionado
+      ) {
+        alert("Por favor, ingrese los datos solicitados.");
+      } else {
+        handleCrearJugador();
+      }
+    }
+
+    handleButtonClick();
+  };
   useEffect(() => {
     setOpcionSeleccionada({});
   }, [accionSeleccionada]);
@@ -69,7 +115,6 @@ export default function Admin(props) {
     { key: indexOpciones++, label: "Jugador" },
     { key: indexOpciones++, label: "Partido" },
     { key: indexOpciones++, label: "Torneo" },
-    // { key: indexOpciones++, label: "Usuario" },
   ];
   const partidosMap = partidos.map((item, index) => {
     return { key: index + 1, label: item.fechaPartido };
@@ -91,78 +136,88 @@ export default function Admin(props) {
   });
 
   const handleCrearJugador = () => {
-    const test = {
-      // deporteId: deporteSeleccionado.key,
-      jugadorId: jugadorSeleccionado.key,
-      fechaTest: fecha.toISOString().slice(0, 10),
-      velocidad: velocidad,
-      resistencia: 1,
-      saltoAlto: 1,
-      saltoLargo: 1,
+    const jugador = {
+      numero: numero,
+      posicion: posicion,
+      equipoId: equipoSeleccionado.key,
+      usuarioId: usuarioSeleccionado.key,
     };
-    console.log(test);
-    fetch(url + "testsFisicos/nuevo", {
+    console.log(jugador);
+    fetch(url + "jugadores/nuevo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
       },
 
-      body: JSON.stringify(test),
+      body: JSON.stringify(jugador),
     })
       .then((data) => {
         console.log("Success:", data);
+        setNumero(0);
+        setPosicion(0);
+        setEquipoSeleccionado({});
+        setUsuarioSeleccionado({});
+        alert("¡Jugador creado exitosamente!");
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
   const handleCrearPartido = () => {
-    const test = {
-      // deporteId: deporteSeleccionado.key,
-      jugadorId: jugadorSeleccionado.key,
-      fechaTest: fecha.toISOString().slice(0, 10),
-      velocidad: velocidad,
-      resistencia: 1,
-      saltoAlto: 1,
-      saltoLargo: 1,
+    const partido = {
+      equipoAId: equipoASeleccionado.key,
+      equipoBId: equipoBSeleccionado.key,
+      fechaPartido: fechaPartido,
+      ganadorId: ganadorPartido.key,
+      torneoId: torneoSeleccionado.key,
     };
-    console.log(test);
-    fetch(url + "testsFisicos/nuevo", {
+    console.log(partido);
+    fetch(url + "partidos/nuevo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
       },
 
-      body: JSON.stringify(test),
+      body: JSON.stringify(partido),
     })
       .then((data) => {
         console.log("Success:", data);
+        setEquipoASeleccionado({});
+        setEquipoBSeleccionado({});
+        setFechaPartido("");
+        setGanadorPartido({});
+        setTorneoSeleccionado({});
+        alert("¡Partido creado exitosamente!");
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
   const handleCrearTorneo = () => {
-    const test = {
-      // deporteId: deporteSeleccionado.key,
-      jugadorId: jugadorSeleccionado.key,
-      fechaTest: fecha.toISOString().slice(0, 10),
-      velocidad: velocidad,
-      resistencia: 1,
-      saltoAlto: 1,
-      saltoLargo: 1,
+    const torneo = {
+      nombre: nombreTorneo,
+      anioTorneo: fechaTorneo,
+      descripcion: descripcion,
+      ganadorId: ganadorTorneo.key,
+      deporteId: deporteSeleccionado.key,
     };
-    console.log(test);
-    fetch(url + "testsFisicos/nuevo", {
+    console.log(torneo);
+    fetch(url + "torneos/nuevo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
       },
 
-      body: JSON.stringify(test),
+      body: JSON.stringify(torneo),
     })
       .then((data) => {
         console.log("Success:", data);
+        setNombreTorneo("");
+        setFechaTorneo("");
+        setDescripcion("");
+        setGanadorTorneo({});
+        setDeporteSeleccionado({});
+        alert("Torneo creado exitosamente!");
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -229,7 +284,9 @@ export default function Admin(props) {
                 type="solid"
                 key={opcionSeleccionada}
                 onChange={(opcion) => {
-                  setOpcionSeleccionada(opcion);
+                  accionSeleccionada.label === "Jugador"
+                    ? setUsuarioSeleccionado(opcion)
+                    : setOpcionSeleccionada(opcion);
                 }}
                 initValueTextStyle={{
                   fontWeight: "500",
@@ -431,7 +488,7 @@ export default function Admin(props) {
             <Button
               style={styles.button}
               textStyle={{ fontSize: 25, fontWeight: "500", color: "black" }}
-              onPress={handleCrearPartido}
+              onPress={checkInput}
             >
               Crear
             </Button>
@@ -578,7 +635,7 @@ export default function Admin(props) {
             <Button
               style={styles.button}
               textStyle={{ fontSize: 25, fontWeight: "500", color: "black" }}
-              onPress={handleCrearTorneo}
+              onPress={checkInput}
             >
               Crear
             </Button>
@@ -586,24 +643,6 @@ export default function Admin(props) {
         )}
         {accionSeleccionada.label === "Jugador" && (
           <Block>
-            <Block center row style={{ marginBottom: 10 }}>
-              <Text h5 style={{ marginRight: 20 }}>
-                Correo:
-              </Text>
-              <Input
-                placeholder="..."
-                style={{
-                  borderColor: argonTheme.COLORS.INFO,
-                  borderRadius: 5,
-                  backgroundColor: "#fff",
-                  width: 400,
-                  alignSelf: "center",
-                }}
-                iconContent={<></>}
-                onChangeText={(text) => setCorreo(text)}
-                value={correo}
-              />
-            </Block>
             <Block center row style={{ marginBottom: 10 }}>
               <Text h5 style={{ marginRight: 20 }}>
                 Número:
@@ -679,7 +718,7 @@ export default function Admin(props) {
             <Button
               style={styles.button}
               textStyle={{ fontSize: 25, fontWeight: "500", color: "black" }}
-              onPress={handleCrearJugador}
+              onPress={checkInput}
             >
               Crear
             </Button>

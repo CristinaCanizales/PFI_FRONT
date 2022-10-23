@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { ScrollView, View, StyleSheet, Image } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Button, Input } from "../components";
 import ModalSelector from "react-native-modal-selector";
 import DatePicker from "@dietime/react-native-date-picker";
@@ -11,9 +11,8 @@ import { argonTheme } from "../constants";
 import { DataContext } from "../context";
 
 export default function TestsFisicos(props) {
-  const { deportes, jugadores, url } = useContext(DataContext);
+  const { jugadores, url } = useContext(DataContext);
   const [jugadorSeleccionado, setJugadorSeleccionado] = useState({});
-  const [deporteSeleccionado, setDeporteSeleccionado] = useState({});
   const [fecha, setFecha] = useState(new Date());
   const [velocidad, setVelocidad] = useState(0);
   const [resistencia, setResistencia] = useState(0);
@@ -49,20 +48,24 @@ export default function TestsFisicos(props) {
       label: `${item.usuario.nombre} ${item.usuario.apellido}`,
     };
   });
-  const deportesMap = deportes.map((item, index) => {
-    return { key: index + 1, label: item.nombre };
-  });
-  // const checkInput = (e) => {
-  //   if (!deporte.trim() || !jugador.trim()) {
-  //     alert("Por favor, ingrese mínimo jugador y deporte");
-  //     return;
-  //   }
-  //   handleButtonClick();
-  // };
+
+  const checkInput = (e) => {
+    if (
+      !jugadorSeleccionado ||
+      !fecha.trim() ||
+      !velocidad.trim() ||
+      !resistencia.trim() ||
+      !saltoAlto.trim() ||
+      !saltoLargo.trim()
+    ) {
+      alert("Por favor, ingrese los valores solicitados, o 0 si no aplica.");
+      return;
+    }
+    handleButtonClick();
+  };
 
   const handleButtonClick = () => {
     const test = {
-      // deporteId: deporteSeleccionado.key,
       jugadorId: jugadorSeleccionado.key,
       fechaTest: fecha.toISOString().slice(0, 10),
       velocidad: velocidad,
@@ -80,9 +83,9 @@ export default function TestsFisicos(props) {
       body: JSON.stringify(test),
     })
       .then((data) => {
+        alert("Resultado subido exitosamente.");
         console.log("Success:", data);
         setJugadorSeleccionado({});
-        setDeporteSeleccionado({});
         setFecha("");
         setVelocidad(0);
         setResistencia(0);
@@ -97,41 +100,6 @@ export default function TestsFisicos(props) {
   return (
     <ScrollView>
       <Block center style={{ marginTop: 20 }}>
-        <Block center row style={{ marginBottom: 10 }}>
-          <Text h5 style={{ marginRight: 20 }}>
-            Deporte:
-          </Text>
-          <ModalSelector
-            data={deportesMap}
-            overlayStyle={{ backgroundColor: "transparent" }}
-            initValue={deporteSeleccionado.label || "Seleccionar deporte"}
-            margin="50"
-            style={styles.modalSelector}
-            type="solid"
-            key={deporteSeleccionado}
-            onChange={(deporte) => {
-              setDeporteSeleccionado(deporte);
-            }}
-            initValueTextStyle={{
-              fontWeight: "500",
-              color: "black",
-            }}
-            optionTextStyle={{ color: "black" }}
-            optionContainerStyle={{
-              backgroundColor: "white",
-              width: 400,
-              alignSelf: "center",
-              borderColor: "#9bdcfa",
-            }}
-            cancelContainerStyle={{
-              backgroundColor: "#9bdcfa",
-              width: 400,
-              alignSelf: "center",
-            }}
-            backdropPressToClose={true}
-            cancelText="Cancelar"
-          />
-        </Block>
         <Block center row style={{ marginBottom: 10 }}>
           <Text h5 style={{ marginRight: 20 }}>
             Jugador:
@@ -264,7 +232,7 @@ export default function TestsFisicos(props) {
         <Button
           style={styles.button}
           textStyle={{ fontSize: 25, fontWeight: "500", color: "black" }}
-          onPress={handleButtonClick}
+          onPress={checkInput}
         >
           Subir resultados
         </Button>

@@ -50,6 +50,16 @@ export default function Login(props) {
     },
   });
 
+  function checkInput() {
+    if (!correo.trim() || !contrasena.trim()) {
+      alert("Debe ingresar usuario y contraseña para iniciar sesión.");
+      return false;
+    } else {
+      handleLogin();
+    }
+    return true;
+  }
+
   useEffect(() => {
     console.log("hola", currentUser);
   }, [currentUser]);
@@ -68,7 +78,12 @@ export default function Login(props) {
     })
       .then((response) => {
         if (response.status != 404) {
+          alert("¡Bienvenido a My Team Stats!");
           return response.json();
+        } else {
+          alert("Los datos ingresados son incorrectos.");
+          setCorreo("");
+          setContrasena("");
         }
         return;
       })
@@ -78,8 +93,6 @@ export default function Login(props) {
           setCorreo("");
           setContrasena("");
           navigation.navigate("Home");
-        } else {
-          setUsuario({ invalid: true });
         }
       })
       .catch((error) => {
@@ -127,19 +140,19 @@ export default function Login(props) {
                     value={contrasena}
                     onChangeText={(pass) => setContrasena(pass)}
                   />
-                  <Block row style={styles.passwordCheck}>
+                  {/* <Block row style={styles.passwordCheck}>
                     <Button color="input" style={styles.passButton}>
                       <Text bold size={15} color={argonTheme.COLORS.PRIMARY}>
                         Recuperar Contraseña
                       </Text>
                     </Button>
-                  </Block>
+                  </Block> */}
                 </Block>
                 <Block middle>
                   <Button
                     color="primary"
                     style={styles.createButton}
-                    onPress={() => handleLogin()}
+                    onPress={() => checkInput()}
                   >
                     <Text bold size={20} color={argonTheme.COLORS.WHITE}>
                       Iniciar sesión

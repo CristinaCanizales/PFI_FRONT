@@ -101,6 +101,11 @@ export default function Perfil(props) {
     })
       .then((data) => {
         console.log("Success:", data);
+        alert(
+          "Presentismo del día " +
+            new Date().toISOString().slice(0, 10) +
+            " exitosamente cargado!"
+        );
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -138,17 +143,6 @@ export default function Perfil(props) {
                   <Text size={16} color="#32325D" style={{ marginTop: 14 }}>
                     {currentUser?.usuario?.direccion}
                   </Text>
-                </Block>
-                <Block style={{ marginLeft: 10 }}>
-                  <Button
-                    small
-                    style={{
-                      backgroundColor: argonTheme.COLORS.INFO,
-                      marginTop: 40,
-                    }}
-                  >
-                    Editar perfil
-                  </Button>
                 </Block>
               </Block>
               <Block style={styles.divider} />

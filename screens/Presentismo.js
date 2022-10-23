@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { StyleSheet, Dimensions, ScrollView } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import { DataTable } from "react-native-paper";
 import ModalSelector from "react-native-modal-selector";
 // Galio components
@@ -42,9 +42,6 @@ export default function Presentismo({ route }) {
   });
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [jugadorSeleccionado, setJugadorSeleccionado] = useState({});
-  const optionsPerPage = [2, 3, 4];
-  const [page, setPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
 
   const jugadoresMap = jugadores.map((item, index) => {
     return {
@@ -52,6 +49,20 @@ export default function Presentismo({ route }) {
       label: `${item.usuario.nombre} ${item.usuario.apellido}`,
     };
   });
+
+  useEffect(() => {
+    console.log("fecha cambiada");
+  }, [date]);
+  function checkInput() {
+    if (!jugadorSeleccionado) {
+      alert(
+        "Debe seleccionar un jugador y una fecha para cargar el presentismo atrasado."
+      );
+    } else {
+      cargarPresentismoAtrasado();
+    }
+  }
+
   function cargarPresentismoAtrasado() {
     const presentismo = {
       fecha: date,
@@ -68,16 +79,22 @@ export default function Presentismo({ route }) {
     })
       .then((data) => {
         console.log("Success:", data);
+        alert(
+          "¡Presentismo atrasado del día " +
+            date +
+            " para " +
+            jugadorSeleccionado.label +
+            " exitosamente cargado!"
+        );
+        setDate(new Date().toISOString().slice(0, 10));
+        setJugadorSeleccionado({});
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   }
-  useEffect(() => {
-    setPage(0);
-  }, [itemsPerPage]);
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={true}>
       <Block row center>
         <Block style={{ paddingHorizontal: theme.SIZES.BASE }}>
           <ModalSelector
@@ -125,7 +142,7 @@ export default function Presentismo({ route }) {
         <Button
           style={styles.buttonModal}
           textStyle={{ fontSize: 18, color: "black", fontWeight: "500" }}
-          onPress={() => cargarPresentismoAtrasado()}
+          onPress={() => checkInput()}
         >
           Presentismo atrasado
         </Button>
@@ -140,18 +157,6 @@ export default function Presentismo({ route }) {
         {jugadores.map((item, index) => {
           return <FilaPresentismo key={index} item={item}></FilaPresentismo>;
         })}
-
-        <DataTable.Pagination
-          page={page}
-          numberOfPages={2}
-          onPageChange={(page) => setPage(page)}
-          label="1-2 de 6"
-          optionsPerPage={optionsPerPage}
-          itemsPerPage={itemsPerPage}
-          setItemsPerPage={setItemsPerPage}
-          showFastPagination
-          optionsLabel={"Filas por página"}
-        />
       </DataTable>
     </ScrollView>
   );

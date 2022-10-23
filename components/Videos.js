@@ -48,12 +48,25 @@ export default function Videos(props) {
   const partidosMap = partidos.map((item, index) => {
     return { key: index + 1, label: item.fechaPartido };
   });
-  const checkTextInput = (e) => {
-    if (!titulo.trim()) {
-      alert("Por favor, ingrese el titulo del video");
-      return;
+  const checkInput = (e) => {
+    if (tipo.label === "Entrenamiento") {
+      if (
+        !titulo.trim() ||
+        !detalleRutina.trim() ||
+        !categoria.trim() ||
+        !videoEntrenamiento.trim()
+      ) {
+        alert("Por favor, ingrese todos los datos para subir el video.");
+        return;
+      }
+      handleButtonClick();
+    } else {
+      if (!titulo.trim() || !partidoSeleccionado || !videoGrabacion) {
+        alert("Por favor, ingrese todos los datos para subir el video.");
+        return;
+      }
+      handleButtonClick();
     }
-    handleButtonClick();
   };
   async function imageUploader(files) {
     const newUri = "file://" + files.split("file:/").join("");
@@ -252,22 +265,6 @@ export default function Videos(props) {
               backdropPressToClose={true}
               cancelText="Cancelar"
             />
-            {/* <Block center row style={{ marginBottom: 10 }}>
-              <Text h5 style={{ marginRight: 20 }}>
-                Fecha:
-              </Text>
-              <Block style={{ height: 80 }}>
-                <DatePicker
-                  height={90}
-                  width={300}
-                  value={fecha}
-                  startYear={2000}
-                  endYear={2100}
-                  onChange={(value) => setFecha(value)}
-                  format="dd-mm-yyyy"
-                />
-              </Block>
-            </Block> */}
           </Block>
         )}
 
@@ -332,7 +329,7 @@ export default function Videos(props) {
         <Button
           style={styles.button}
           textStyle={{ fontSize: 25, fontWeight: "500", color: "black" }}
-          onPress={() => handleButtonClick()}
+          onPress={() => checkInput()}
         >
           Subir video
         </Button>

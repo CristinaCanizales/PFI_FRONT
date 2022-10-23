@@ -6,21 +6,17 @@ import { DataTable } from "react-native-paper";
 import { DataContext } from "../context";
 
 export default function TestsFisicos({ route }) {
-  const { testsFisicos, jugadores } = useContext(DataContext);
+  const { testsFisicos } = useContext(DataContext);
 
-  const optionsPerPage = [2, 3, 4];
-  const [page, setPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(optionsPerPage[0]);
-
-  useEffect(() => {
-    setPage(0);
-  }, [itemsPerPage]);
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={true}>
       <DataTable>
         <DataTable.Header>
           <DataTable.Title textStyle={{ fontSize: 20, fontWeight: "bold" }}>
             Jugador
+          </DataTable.Title>
+          <DataTable.Title textStyle={{ fontSize: 20, fontWeight: "bold" }}>
+            Fecha
           </DataTable.Title>
           <DataTable.Title
             numeric
@@ -54,6 +50,9 @@ export default function TestsFisicos({ route }) {
               <DataTable.Cell textStyle={{ fontSize: 18 }}>
                 {item.jugador.usuario.nombre} {item.jugador.usuario.apellido}
               </DataTable.Cell>
+              <DataTable.Cell textStyle={{ fontSize: 18 }}>
+                {item.fechaTest}
+              </DataTable.Cell>
               <DataTable.Cell textStyle={{ fontSize: 18 }} numeric>
                 {item.resistencia}
               </DataTable.Cell>
@@ -69,18 +68,6 @@ export default function TestsFisicos({ route }) {
             </DataTable.Row>
           );
         })}
-
-        <DataTable.Pagination
-          page={page}
-          numberOfPages={2}
-          onPageChange={(page) => setPage(page)}
-          label="1-2 de 6"
-          optionsPerPage={optionsPerPage}
-          itemsPerPage={itemsPerPage}
-          setItemsPerPage={setItemsPerPage}
-          showFastPagination
-          optionsLabel={"Filas por página"}
-        />
       </DataTable>
     </ScrollView>
   );
