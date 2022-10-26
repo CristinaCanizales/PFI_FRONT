@@ -22,7 +22,6 @@ const thumbMeasure = (width - 48 - 32) / 3;
 export default function Perfil(props) {
   const { currentUser, jugadorRutinasMap, entrenamientos, url } =
     useContext(DataContext);
-
   const styles = StyleSheet.create({
     profile: {
       marginTop: Platform.OS === "android" ? -HeaderHeight : 0,
@@ -126,7 +125,7 @@ export default function Perfil(props) {
             <Block flex style={styles.profileCard}>
               <Block middle style={styles.avatarContainer}>
                 <Image
-                  source={require("../assets/icons/agos.jpg")}
+                  source={{ uri: currentUser?.usuario?.foto }}
                   style={styles.avatar}
                 />
               </Block>
