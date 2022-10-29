@@ -12,7 +12,7 @@ import { DataContext } from "../context";
 import FilaPresentismo from "../components/FilaPresentismo";
 
 export default function Presentismo({ route }) {
-  const { jugadores, url } = useContext(DataContext);
+  const { currentUser, jugadores, url } = useContext(DataContext);
   const styles = StyleSheet.create({
     button: {
       borderRadius: 20,
@@ -43,13 +43,14 @@ export default function Presentismo({ route }) {
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [jugadorSeleccionado, setJugadorSeleccionado] = useState({});
 
-  const jugadoresMap = jugadores.map((item, index) => {
-    return {
-      key: index + 1,
-      label: `${item.usuario.nombre} ${item.usuario.apellido}`,
-    };
-  });
-
+  const jugadoresMap = jugadores.reduce((acc, item) => {
+    if (item.equipoId === currentUser?.equipoId)
+      acc.push({
+        key: item.id,
+        label: `${item.usuario.nombre} ${item.usuario.apellido}`,
+      });
+    return acc;
+  }, []);
   useEffect(() => {
     console.log("fecha cambiada");
   }, [date]);
@@ -155,7 +156,8 @@ export default function Presentismo({ route }) {
         </DataTable.Header>
 
         {jugadores.map((item, index) => {
-          return <FilaPresentismo key={index} item={item}></FilaPresentismo>;
+          if (item.equipoId == currentUser?.equipoId)
+            return <FilaPresentismo key={index} item={item}></FilaPresentismo>;
         })}
       </DataTable>
     </ScrollView>

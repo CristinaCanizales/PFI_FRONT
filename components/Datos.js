@@ -9,6 +9,7 @@ import { DataContext } from "../context";
 export default function Datos(props) {
   const { navigation } = props;
   const {
+    currentUser,
     accionesHandball,
     accionesFutbol,
     accionesVolleyball,
@@ -62,9 +63,14 @@ export default function Datos(props) {
   const deportesMap = deportes.map((item, index) => {
     return { key: index + 1, label: item.nombre };
   });
-  const partidosMap = partidos.map((item, index) => {
-    return { key: index + 1, label: item.fechaPartido };
-  });
+  const partidosMap = partidos.reduce((acc, item) => {
+    if (
+      item.equipoAId === currentUser?.equipoId ||
+      item.equipoBId === currentUser?.equipoId
+    )
+      acc.push({ key: item.id, label: item.fechaPartido });
+    return acc;
+  }, []);
   const accionesHandballMap = accionesHandball.map((item, index) => {
     return { color: colores[index], label: item.nombre, id: item.id };
   });
@@ -74,12 +80,14 @@ export default function Datos(props) {
   const accionesVolleyballMap = accionesVolleyball.map((item, index) => {
     return { color: colores[index], label: item.nombre, id: item.id };
   });
-  const jugadoresMap = jugadores.map((item, index) => {
-    return {
-      key: index + 1,
-      label: `${item.usuario.nombre} ${item.usuario.apellido}`,
-    };
-  });
+  const jugadoresMap = jugadores.reduce((acc, item) => {
+    if (item.equipoId === currentUser?.equipoId)
+      acc.push({
+        key: item.id,
+        label: `${item.usuario.nombre} ${item.usuario.apellido}`,
+      });
+    return acc;
+  }, []);
   function handleAccion(accionId) {
     const accion = {
       accionId: accionId,
@@ -95,8 +103,6 @@ export default function Datos(props) {
     } else if (deporteSeleccionado.label === "Volleyball") {
       pathAccion = "volleyball/nuevo";
     }
-    console.log(accion);
-    console.log(url + pathAccion);
     fetch(url + pathAccion, {
       method: "POST",
       headers: {

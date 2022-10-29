@@ -18,7 +18,7 @@ const { width, height } = Dimensions.get("screen");
 
 export default function Register(props) {
   const { navigation } = props;
-  const { deportes, jugadores, url } = useContext(DataContext);
+  const { url } = useContext(DataContext);
   const styles = StyleSheet.create({
     registerContainer: {
       width: width * 0.9,

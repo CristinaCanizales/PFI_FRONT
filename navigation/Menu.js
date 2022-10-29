@@ -35,7 +35,6 @@ export default function CustomDrawerContent({
   const screens = [
     "Home",
     "Perfil",
-    "Registro",
     "Dashboard",
     "Grabaciones",
     "Carga de Datos",

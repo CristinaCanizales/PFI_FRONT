@@ -27,39 +27,41 @@ export default function Home(props) {
   });
   return (
     <Block flex center style={styles.home}>
-      <Block
-        row
-        space="between"
-        style={{
-          marginRight: theme.SIZES.BASE,
-          flexWrap: "wrap",
-        }}
-      >
-        {articles.map((item, index) => {
-          return currentUser?.usuario?.rolId !== 2 &&
-            (item.title === "Admin" ||
-              item.title === "Carga de Datos" ||
-              item.title === "Presentismo") ? (
-            <Block key={index}></Block>
-          ) : (
-            <TouchableWithoutFeedback
-              style={{
-                height: 340,
-              }}
-              key={index}
-              onPress={() => navigation.navigate(item.title)}
-            >
-              <Block
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Block
+          row
+          space="between"
+          style={{
+            marginRight: theme.SIZES.BASE,
+            flexWrap: "wrap",
+          }}
+        >
+          {articles.map((item, index) => {
+            return currentUser?.usuario?.rolId !== 2 &&
+              (item.title === "Admin" ||
+                item.title === "Carga de Datos" ||
+                item.title === "Presentismo") ? (
+              <Block key={index}></Block>
+            ) : (
+              <TouchableWithoutFeedback
                 style={{
                   height: 340,
                 }}
+                key={index}
+                onPress={() => navigation.navigate(item.title)}
               >
-                <Card item={item} style={{ marginRight: theme.SIZES.BASE }} />
-              </Block>
-            </TouchableWithoutFeedback>
-          );
-        })}
-      </Block>
+                <Block
+                  style={{
+                    height: 340,
+                  }}
+                >
+                  <Card item={item} style={{ marginRight: theme.SIZES.BASE }} />
+                </Block>
+              </TouchableWithoutFeedback>
+            );
+          })}
+        </Block>
+      </ScrollView>
     </Block>
   );
 }

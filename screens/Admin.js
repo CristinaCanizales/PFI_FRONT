@@ -142,7 +142,6 @@ export default function Admin(props) {
       equipoId: equipoSeleccionado.key,
       usuarioId: usuarioSeleccionado.key,
     };
-    console.log(jugador);
     fetch(url + "jugadores/nuevo", {
       method: "POST",
       headers: {
@@ -171,7 +170,6 @@ export default function Admin(props) {
       ganadorId: ganadorPartido.key,
       torneoId: torneoSeleccionado.key,
     };
-    console.log(partido);
     fetch(url + "partidos/nuevo", {
       method: "POST",
       headers: {
@@ -201,7 +199,6 @@ export default function Admin(props) {
       ganadorId: ganadorTorneo.key,
       deporteId: deporteSeleccionado.key,
     };
-    console.log(torneo);
     fetch(url + "torneos/nuevo", {
       method: "POST",
       headers: {

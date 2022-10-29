@@ -73,7 +73,6 @@ export default function TestsFisicos(props) {
       saltoAlto: saltoAlto,
       saltoLargo: saltoLargo,
     };
-    console.log(test);
     fetch(url + "testsFisicos/nuevo", {
       method: "POST",
       headers: {

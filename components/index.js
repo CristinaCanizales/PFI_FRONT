@@ -8,6 +8,7 @@ import Reloj from "./Reloj";
 import Datos from "./Datos";
 import Videos from "./Videos";
 import TestsFisicos from "./TestsFisicos";
+import RutinaJugador from "./RutinaJugador";
 
 export {
   Button,
@@ -19,5 +20,6 @@ export {
   Input,
   Reloj,
   TestsFisicos,
+  RutinaJugador,
   Videos,
 };

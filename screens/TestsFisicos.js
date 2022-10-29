@@ -1,12 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
-import { StyleSheet, Dimensions, ScrollView } from "react-native";
-import resultadosTests from "../constants/resultadosTests";
-const { width } = Dimensions.get("screen");
+import React, { useContext } from "react";
+import { Dimensions, ScrollView } from "react-native";
 import { DataTable } from "react-native-paper";
 import { DataContext } from "../context";
 
 export default function TestsFisicos({ route }) {
-  const { testsFisicos } = useContext(DataContext);
+  const { testsFisicos, currentUser } = useContext(DataContext);
 
   return (
     <ScrollView showsVerticalScrollIndicator={true}>
@@ -45,28 +43,30 @@ export default function TestsFisicos({ route }) {
         </DataTable.Header>
 
         {testsFisicos.map((item, index) => {
-          return (
-            <DataTable.Row key={index}>
-              <DataTable.Cell textStyle={{ fontSize: 18 }}>
-                {item.jugador.usuario.nombre} {item.jugador.usuario.apellido}
-              </DataTable.Cell>
-              <DataTable.Cell textStyle={{ fontSize: 18 }}>
-                {item.fechaTest}
-              </DataTable.Cell>
-              <DataTable.Cell textStyle={{ fontSize: 18 }} numeric>
-                {item.resistencia}
-              </DataTable.Cell>
-              <DataTable.Cell textStyle={{ fontSize: 18 }} numeric>
-                {item.velocidad}
-              </DataTable.Cell>
-              <DataTable.Cell textStyle={{ fontSize: 18 }} numeric>
-                {item.saltoAlto}
-              </DataTable.Cell>
-              <DataTable.Cell textStyle={{ fontSize: 18 }} numeric>
-                {item.saltoLargo}
-              </DataTable.Cell>
-            </DataTable.Row>
-          );
+          if (item.jugador.equipoId == currentUser?.equipoId) {
+            return (
+              <DataTable.Row key={index}>
+                <DataTable.Cell textStyle={{ fontSize: 18 }}>
+                  {item.jugador.usuario.nombre} {item.jugador.usuario.apellido}
+                </DataTable.Cell>
+                <DataTable.Cell textStyle={{ fontSize: 18 }}>
+                  {item.fechaTest}
+                </DataTable.Cell>
+                <DataTable.Cell textStyle={{ fontSize: 18 }} numeric>
+                  {item.resistencia}
+                </DataTable.Cell>
+                <DataTable.Cell textStyle={{ fontSize: 18 }} numeric>
+                  {item.velocidad}
+                </DataTable.Cell>
+                <DataTable.Cell textStyle={{ fontSize: 18 }} numeric>
+                  {item.saltoAlto}
+                </DataTable.Cell>
+                <DataTable.Cell textStyle={{ fontSize: 18 }} numeric>
+                  {item.saltoLargo}
+                </DataTable.Cell>
+              </DataTable.Row>
+            );
+          }
         })}
       </DataTable>
     </ScrollView>

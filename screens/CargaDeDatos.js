@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 //galio
-import { theme } from "galio-framework";
-import { Datos, TestsFisicos, Videos } from "../components";
-import { Dimensions, StyleSheet } from "react-native";
+import { Datos, TestsFisicos, Videos, RutinaJugador } from "../components";
 //argon
-import { Tab, Text, TabView } from "@rneui/themed";
-
-const { width } = Dimensions.get("screen");
+import { Tab, TabView } from "@rneui/themed";
 
 export default function CargaDeDatos(props) {
   const [index, setIndex] = useState(0);
@@ -43,6 +39,12 @@ export default function CargaDeDatos(props) {
           title="Tests físicos"
           titleStyle={{ fontSize: 15, color: "black" }}
           buttonStyle={{ backgroundColor: "#9bdcfa" }}
+          icon={{ name: "bar-chart", type: "ionicon", color: "black" }}
+        />
+        <Tab.Item
+          title="Jugador - Rutina"
+          titleStyle={{ fontSize: 15, color: "black" }}
+          buttonStyle={{ backgroundColor: "#9bdcfa" }}
           icon={{ name: "barbell", type: "ionicon", color: "black" }}
         />
       </Tab>
@@ -56,6 +58,9 @@ export default function CargaDeDatos(props) {
         </TabView.Item>
         <TabView.Item style={{ width: "100%" }}>
           <TestsFisicos />
+        </TabView.Item>
+        <TabView.Item style={{ width: "100%" }}>
+          <RutinaJugador />
         </TabView.Item>
       </TabView>
     </>
