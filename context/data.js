@@ -21,7 +21,6 @@ export function DataProvider(props) {
   const [accionesVolleyball, setAccionesVolleyball] = useState([]);
   const [testsFisicos, setTestsFisicos] = useState([]);
   let aux = [];
-  // const [url, setUrl] = useState("http://192.168.0.182:8000/");
   const [url, setUrl] = useState("https://myteamstats.up.railway.app/");
 
   useEffect(() => {

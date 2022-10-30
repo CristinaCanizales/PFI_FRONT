@@ -11,13 +11,14 @@ import { argonTheme } from "../constants";
 import { DataContext } from "../context";
 
 export default function TestsFisicos(props) {
-  const { jugadores, url } = useContext(DataContext);
+  const { currentUser, jugadores, url, setTestsFisicos } =
+    useContext(DataContext);
   const [jugadorSeleccionado, setJugadorSeleccionado] = useState({});
   const [fecha, setFecha] = useState(new Date());
-  const [velocidad, setVelocidad] = useState(0);
-  const [resistencia, setResistencia] = useState(0);
-  const [saltoAlto, setSaltoAlto] = useState(0);
-  const [saltoLargo, setSaltoLargo] = useState(0);
+  const [velocidad, setVelocidad] = useState("");
+  const [resistencia, setResistencia] = useState("");
+  const [saltoAlto, setSaltoAlto] = useState("");
+  const [saltoLargo, setSaltoLargo] = useState("");
   const styles = StyleSheet.create({
     modalSelector: {
       justifyContent: "space-around",
@@ -42,21 +43,31 @@ export default function TestsFisicos(props) {
       margin: 10,
     },
   });
-  const jugadoresMap = jugadores.map((item, index) => {
-    return {
-      key: index + 1,
-      label: `${item.usuario.nombre} ${item.usuario.apellido}`,
-    };
-  });
+  const jugadoresMap = jugadores.reduce((acc, item) => {
+    if (item.equipoId === currentUser?.equipoId)
+      acc.push({
+        key: item.id,
+        label: `${item.usuario.nombre} ${item.usuario.apellido}`,
+      });
+    return acc;
+  }, []);
 
+  function fetchTestsFisicos() {
+    fetch(url + "testsFisicos")
+      .then((response) => response.json())
+      .then((res) => {
+        setTestsFisicos(res);
+      })
+      .catch((e) => console.log("Error", e));
+  }
   const checkInput = (e) => {
     if (
       !jugadorSeleccionado ||
-      !fecha.trim() ||
-      !velocidad.trim() ||
-      !resistencia.trim() ||
-      !saltoAlto.trim() ||
-      !saltoLargo.trim()
+      !fecha ||
+      !velocidad ||
+      !resistencia ||
+      !saltoAlto ||
+      !saltoLargo
     ) {
       alert("Por favor, ingrese los valores solicitados, o 0 si no aplica.");
       return;
@@ -68,10 +79,10 @@ export default function TestsFisicos(props) {
     const test = {
       jugadorId: jugadorSeleccionado.key,
       fechaTest: fecha.toISOString().slice(0, 10),
-      velocidad: velocidad,
-      resistencia: resistencia,
-      saltoAlto: saltoAlto,
-      saltoLargo: saltoLargo,
+      velocidad: parseInt(velocidad),
+      resistencia: parseInt(resistencia),
+      saltoAlto: parseInt(saltoAlto),
+      saltoLargo: parseInt(saltoLargo),
     };
     fetch(url + "testsFisicos/nuevo", {
       method: "POST",
@@ -82,14 +93,15 @@ export default function TestsFisicos(props) {
       body: JSON.stringify(test),
     })
       .then((data) => {
-        alert("Resultado subido exitosamente.");
-        console.log("Success:", data);
+        alert("¡Resultado subido exitosamente!");
         setJugadorSeleccionado({});
-        setFecha("");
-        setVelocidad(0);
-        setResistencia(0);
-        setSaltoAlto(0);
-        setSaltoLargo(0);
+        setFecha(new Date());
+        setVelocidad("");
+        setResistencia("");
+        setSaltoAlto("");
+        setSaltoLargo("");
+        console.log("Success:", data);
+        fetchTestsFisicos();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -110,7 +122,7 @@ export default function TestsFisicos(props) {
             margin="50"
             style={styles.modalSelector}
             type="solid"
-            key={jugadorSeleccionado.label}
+            key={jugadorSeleccionado}
             onChange={(jugador) => {
               setJugadorSeleccionado(jugador);
             }}
@@ -166,7 +178,7 @@ export default function TestsFisicos(props) {
               alignSelf: "center",
             }}
             iconContent={<></>}
-            onChangeText={(text) => setVelocidad(parseInt(text))}
+            onChangeText={(text) => setVelocidad(text)}
             value={velocidad}
           />
         </Block>
@@ -185,7 +197,7 @@ export default function TestsFisicos(props) {
               alignSelf: "center",
             }}
             iconContent={<Block />}
-            onChangeText={(text) => setResistencia(parseInt(text))}
+            onChangeText={(text) => setResistencia(text)}
             value={resistencia}
           />
         </Block>
@@ -204,7 +216,7 @@ export default function TestsFisicos(props) {
               alignSelf: "center",
             }}
             iconContent={<></>}
-            onChangeText={(text) => setSaltoAlto(parseInt(text))}
+            onChangeText={(text) => setSaltoAlto(text)}
             value={saltoAlto}
           />
         </Block>
@@ -223,7 +235,7 @@ export default function TestsFisicos(props) {
               alignSelf: "center",
             }}
             iconContent={<></>}
-            onChangeText={(text) => setSaltoLargo(parseInt(text))}
+            onChangeText={(text) => setSaltoLargo(text)}
             value={saltoLargo}
           />
         </Block>

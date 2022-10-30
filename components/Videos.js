@@ -4,7 +4,6 @@ import { ScrollView, View, StyleSheet, Image } from "react-native";
 import { Button, Input } from "../components";
 import ModalSelector from "react-native-modal-selector";
 import * as ImagePicker from "expo-image-picker";
-import DatePicker from "@dietime/react-native-date-picker";
 import mime from "mime";
 //galio
 import { Block, Text } from "galio-framework";
@@ -13,7 +12,8 @@ import { argonTheme } from "../constants";
 import { DataContext } from "../context";
 
 export default function Videos(props) {
-  const { partidos, url } = useContext(DataContext);
+  const { partidos, url, setEntrenamientos, setGrabaciones } =
+    useContext(DataContext);
   const [titulo, setTitulo] = useState("");
   const [tipo, setTipo] = useState({});
   const [detalleRutina, setDetalleRutina] = useState("");
@@ -96,6 +96,23 @@ export default function Videos(props) {
       });
   }
 
+  function fetchEntrenamientos() {
+    fetch(url + "entrenamientos")
+      .then((response) => response.json())
+      .then((res) => {
+        setEntrenamientos(res);
+      })
+      .catch((e) => console.log("Error", e));
+  }
+
+  function fetchGrabaciones() {
+    fetch(url + "grabaciones")
+      .then((response) => response.json())
+      .then((res) => {
+        setGrabaciones(res);
+      })
+      .catch((e) => console.log("Error", e));
+  }
   function handleButtonClick() {
     let nuevoVideo;
     if (tipo.label === "Entrenamiento") {
@@ -126,6 +143,7 @@ export default function Videos(props) {
       body: JSON.stringify(nuevoVideo),
     })
       .then((data) => {
+        alert(`¡${tipo.label} subido exitosamente!`);
         console.log("Success:", data);
         setTitulo("");
         setTipo({});
@@ -134,6 +152,9 @@ export default function Videos(props) {
         setPartidoSeleccionado("");
         setCategoria("");
         setVideoGrabacion({});
+        tipo.label === "Entrenamiento"
+          ? fetchEntrenamientos()
+          : fetchGrabaciones();
       })
       .catch((error) => {
         console.error("Error:", error);

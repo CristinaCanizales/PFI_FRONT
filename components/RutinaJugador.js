@@ -75,7 +75,9 @@ export default function RutinaJugador(props) {
       body: JSON.stringify(jugadorRutina),
     })
       .then((data) => {
-        alert("Resultado subido exitosamente.");
+        alert(
+          `Rutina de ${rutinaSeleccionada.label} asociada al ${jugadorSeleccionado.label} exitosamente.`
+        );
         console.log("Success:", data);
         setRutinaSeleccionada({});
       })
@@ -98,7 +100,7 @@ export default function RutinaJugador(props) {
             margin="50"
             style={styles.modalSelector}
             type="solid"
-            key={jugadorSeleccionado.label}
+            key={jugadorSeleccionado}
             onChange={(jugador) => {
               setJugadorSeleccionado(jugador);
             }}
@@ -133,7 +135,7 @@ export default function RutinaJugador(props) {
             margin="50"
             style={styles.modalSelector}
             type="solid"
-            key={rutinaSeleccionada.label}
+            key={rutinaSeleccionada}
             onChange={(jugador) => {
               setRutinaSeleccionada(jugador);
             }}
@@ -163,7 +165,7 @@ export default function RutinaJugador(props) {
           textStyle={{ fontSize: 25, fontWeight: "500", color: "black" }}
           onPress={checkInput}
         >
-          Subir resultados
+          Cargar
         </Button>
       </Block>
     </ScrollView>

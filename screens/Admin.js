@@ -12,8 +12,18 @@ import { DataContext } from "../context";
 
 export default function Admin(props) {
   const { navigation } = props;
-  const { torneos, partidos, usuarios, deportes, equipos, url } =
-    useContext(DataContext);
+  const {
+    currentUser,
+    torneos,
+    partidos,
+    usuarios,
+    deportes,
+    equipos,
+    url,
+    setPartidos,
+    setTorneos,
+    setJugadores,
+  } = useContext(DataContext);
   const [accionSeleccionada, setAccionSeleccionada] = useState({});
   const [deporteSeleccionado, setDeporteSeleccionado] = useState({});
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState({});
@@ -76,7 +86,7 @@ export default function Admin(props) {
     } else if (accionSeleccionada.label === "Partido") {
       if (!opcionSeleccionada) {
         if (
-          !fechaPartido.trim() ||
+          !fechaPartido ||
           !torneoSeleccionado ||
           !equipoASeleccionado ||
           !equipoBSeleccionado
@@ -95,7 +105,7 @@ export default function Admin(props) {
     } else if (accionSeleccionada.label === "Jugador") {
       if (
         !usuarioSeleccionado ||
-        !numero.trim() ||
+        !numero ||
         !posicion.trim() ||
         !equipoSeleccionado
       ) {
@@ -104,9 +114,32 @@ export default function Admin(props) {
         handleCrearJugador();
       }
     }
-
-    handleButtonClick();
   };
+
+  function fetchPartidos() {
+    fetch(url + "partidos")
+      .then((response) => response.json())
+      .then((res) => {
+        setPartidos(res);
+      })
+      .catch((e) => console.log("Error", e));
+  }
+  function fetchTorneos() {
+    fetch(url + "torneos")
+      .then((response) => response.json())
+      .then((res) => {
+        setTorneos(res);
+      })
+      .catch((e) => console.log("Error", e));
+  }
+  function fetchJugadores() {
+    fetch(url + "jugadores")
+      .then((response) => response.json())
+      .then((res) => {
+        setJugadores(res);
+      })
+      .catch((e) => console.log("Error", e));
+  }
   useEffect(() => {
     setOpcionSeleccionada({});
   }, [accionSeleccionada]);
@@ -116,9 +149,15 @@ export default function Admin(props) {
     { key: indexOpciones++, label: "Partido" },
     { key: indexOpciones++, label: "Torneo" },
   ];
-  const partidosMap = partidos.map((item, index) => {
-    return { key: index + 1, label: item.fechaPartido };
-  });
+
+  const partidosMap = partidos.reduce((acc, item) => {
+    if (
+      item.equipoAId === currentUser?.equipoId ||
+      item.equipoBId === currentUser?.equipoId
+    )
+      acc.push({ key: item.id, label: item.fechaPartido });
+    return acc;
+  }, []);
   const deportesMap = deportes.map((item, index) => {
     return { key: index + 1, label: item.nombre };
   });
@@ -137,7 +176,7 @@ export default function Admin(props) {
 
   const handleCrearJugador = () => {
     const jugador = {
-      numero: numero,
+      numero: parseInt(numero),
       posicion: posicion,
       equipoId: equipoSeleccionado.key,
       usuarioId: usuarioSeleccionado.key,
@@ -153,10 +192,11 @@ export default function Admin(props) {
       .then((data) => {
         console.log("Success:", data);
         setNumero(0);
-        setPosicion(0);
+        setPosicion("");
         setEquipoSeleccionado({});
         setUsuarioSeleccionado({});
         alert("¡Jugador creado exitosamente!");
+        fetchJugadores();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -182,10 +222,11 @@ export default function Admin(props) {
         console.log("Success:", data);
         setEquipoASeleccionado({});
         setEquipoBSeleccionado({});
-        setFechaPartido("");
+        setFechaPartido(new Date());
         setGanadorPartido({});
         setTorneoSeleccionado({});
         alert("¡Partido creado exitosamente!");
+        fetchPartidos();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -210,11 +251,12 @@ export default function Admin(props) {
       .then((data) => {
         console.log("Success:", data);
         setNombreTorneo("");
-        setFechaTorneo("");
+        setFechaTorneo(new Date());
         setDescripcion("");
         setGanadorTorneo({});
         setDeporteSeleccionado({});
         alert("Torneo creado exitosamente!");
+        fetchTorneos();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -654,7 +696,7 @@ export default function Admin(props) {
                   alignSelf: "center",
                 }}
                 iconContent={<></>}
-                onChangeText={(text) => setNumero(parseInt(text))}
+                onChangeText={(text) => setNumero(text)}
                 value={numero}
               />
             </Block>
